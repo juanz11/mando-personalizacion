@@ -1,0 +1,137 @@
+(function () {
+    const paymentMethodLabels = {
+        transferencia: 'Transferencia bancaria',
+        'pago-movil': 'Pago Móvil',
+        paypal: 'PayPal',
+    };
+
+    let orderBtn;
+    let overlay;
+    let modal;
+    let closeBtn;
+    let form;
+    let formView;
+    let successView;
+    let quotePriceEl;
+    let paymentMethodsWrap;
+    let paymentMethodInput;
+    let paymentFieldGroups;
+    let successCloseBtn;
+
+    function getTotalPriceText() {
+        const totalPriceEl = document.getElementById('totalPrice');
+        return totalPriceEl ? totalPriceEl.textContent.trim() : '$ 0,00';
+    }
+
+    function setActivePaymentMethod(method) {
+        paymentMethodInput.value = method;
+
+        paymentMethodsWrap.querySelectorAll('.payment-method-btn').forEach((btn) => {
+            btn.classList.toggle('active', btn.dataset.method === method);
+        });
+
+        paymentFieldGroups.forEach((group) => {
+            const isMatch = group.dataset.fieldsFor === method;
+            group.hidden = !isMatch;
+
+            group.querySelectorAll('input').forEach((input) => {
+                input.required = isMatch;
+                if (!isMatch) {
+                    input.value = '';
+                }
+            });
+        });
+    }
+
+    function openModal() {
+        quotePriceEl.textContent = getTotalPriceText();
+        overlay.classList.add('active');
+        document.body.classList.add('modal-open');
+
+        successView.hidden = true;
+        formView.hidden = false;
+
+        const firstInput = form.querySelector('#orderName');
+        if (firstInput) {
+            window.setTimeout(() => firstInput.focus(), 50);
+        }
+    }
+
+    function closeModal() {
+        overlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    function resetForm() {
+        form.reset();
+        setActivePaymentMethod('transferencia');
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const method = paymentMethodInput.value;
+        const email = form.querySelector('#orderEmail').value;
+
+        document.getElementById('successContact').textContent = email;
+        document.getElementById('successMethod').textContent = paymentMethodLabels[method] || method;
+
+        formView.hidden = true;
+        successView.hidden = false;
+    }
+
+    function init() {
+        orderBtn = document.getElementById('orderBtn');
+        overlay = document.getElementById('orderModalOverlay');
+        modal = document.getElementById('orderModal');
+        closeBtn = document.getElementById('orderModalClose');
+        form = document.getElementById('orderForm');
+        formView = document.getElementById('orderModalForm');
+        successView = document.getElementById('orderSuccess');
+        quotePriceEl = document.getElementById('modalQuotePrice');
+        paymentMethodsWrap = document.getElementById('paymentMethods');
+        paymentMethodInput = document.getElementById('orderPaymentMethod');
+        paymentFieldGroups = document.querySelectorAll('.payment-fields');
+        successCloseBtn = document.getElementById('orderSuccessClose');
+
+        if (!orderBtn || !overlay || !modal) {
+            return;
+        }
+
+        orderBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        successCloseBtn.addEventListener('click', () => {
+            closeModal();
+            resetForm();
+        });
+
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && overlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        paymentMethodsWrap.addEventListener('click', (event) => {
+            const btn = event.target.closest('.payment-method-btn');
+            if (!btn) return;
+            setActivePaymentMethod(btn.dataset.method);
+        });
+
+        form.addEventListener('submit', handleSubmit);
+
+        setActivePaymentMethod('transferencia');
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+})();

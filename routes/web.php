@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{model?}', function ($model = 'ps5') {
-    $model = in_array($model, ['ps5', 'xbox']) ? $model : 'ps5';
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/{model}', function ($model) {
     return view('customizer', ['model' => $model]);
-})->where('model', 'ps5|xbox');
+})->where('model', 'ps5|xbox')->name('customizer');
