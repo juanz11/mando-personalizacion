@@ -12,7 +12,7 @@
     <header class="header">
         <div class="header-content">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="RTE Custom Controller" width="120" height="60">
+                <img src="{{ asset('Recurso 8LOGO BANNER.png') }}" alt="RTE Custom Controller">
             </a>
             <nav class="nav" id="mainNav">
                 <a href="{{ url('/') }}" class="nav-link">INICIO</a>

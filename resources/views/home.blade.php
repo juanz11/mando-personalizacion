@@ -14,7 +14,7 @@
     <header class="site-header">
         <div class="container header-inner">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="RTE Custom Controller Logo">
+                <img src="{{ asset('Recurso 8LOGO BANNER.png') }}" alt="RTE Custom Controller Logo">
             </a>
 
             <nav class="site-nav">

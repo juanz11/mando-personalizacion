@@ -45,12 +45,13 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 120px;
 }
 
 .site-header .logo img {
-    height: 48px;
+    height: 90px;
     width: auto;
+    max-width: 340px;
     object-fit: contain;
 }
 
@@ -98,7 +99,7 @@ img {
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 100px);
     padding: 80px 24px;
     background-color: #000;
     overflow: hidden;
