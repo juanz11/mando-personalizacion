@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIEM GAMING | Personaliza tu Mando {{ $model === 'xbox' ? 'XBOX' : 'PS5' }}</title>
+    <title>RTE Custom Controller | Personaliza tu Mando {{ $model === 'xbox' ? 'XBOX' : 'PS5' }}</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -12,7 +12,7 @@
     <header class="header">
         <div class="header-content">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="DIEM GAMING" width="120" height="60">
+                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="RTE Custom Controller" width="120" height="60">
             </a>
             <nav class="nav" id="mainNav">
                 <a href="{{ url('/') }}" class="nav-link">INICIO</a>
@@ -148,7 +148,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>Copyright {{ date('Y') }} © <strong>DIEM GAMING</strong>. Todos los derechos reservados.</p>
+            <p>Copyright {{ date('Y') }} © <strong>RTE Custom Controller</strong>. Todos los derechos reservados.</p>
             <p>Desarrollado por <a href="#" target="_blank">Daayi</a></p>
         </div>
     </footer>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIEM GAMING | Mandos Personalizados PS5 y Xbox</title>
+    <title>RTE Custom Controller | Mandos Personalizados PS5 y Xbox</title>
     <meta name="description" content="Mandos gaming premium personalizados para PS5 y Xbox, con tecnología anti-drift, gatillos digitales y componentes de nivel competitivo.">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <header class="site-header">
         <div class="container header-inner">
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="DIEM Gaming Logo">
+                <img src="{{ asset('LOGO ROJO/LOGO ROJO.png') }}" alt="RTE Custom Controller Logo">
             </a>
 
             <nav class="site-nav">
@@ -35,8 +35,11 @@
     <main>
         <!-- Hero -->
         <section id="inicio" class="hero">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="{{ asset('0808.mp4') }}" type="video/mp4">
+            </video>
             <div class="hero-inner">
-                <span class="hero-eyebrow">DIEM GAMING: PERSONALIZACIÓN SIN LÍMITES</span>
+                <span class="hero-eyebrow">RTE Custom Controller: PERSONALIZACIÓN SIN LÍMITES</span>
                 <h1>Construí tu Mando Definitivo</h1>
                 <p>Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.</p>
                 <div class="hero-actions">
@@ -183,7 +186,7 @@
                 </div>
 
                 <div class="footer-brand">
-                    <img src="{{ asset('LOGO BLANCO/LOGO BLANCO.png') }}" alt="DIEM Gaming Logo">
+                    <img src="{{ asset('LOGO BLANCO/LOGO BLANCO.png') }}" alt="RTE Custom Controller Logo">
                     <p>Mandos pro totalmente modificados y de alto rendimiento para jugadores exigentes. Elevá tu experiencia de juego con la máxima precisión.</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Instagram">
@@ -207,7 +210,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>Copyright {{ date('Y') }} © <strong>DIEMGAMING.COM.AR</strong></p>
+                <p>Copyright {{ date('Y') }} © <strong>RTE Custom Controller</strong></p>
             </div>
         </div>
     </footer>
