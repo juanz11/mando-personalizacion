@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIEM GAMING | Personaliza tu Mando PS5</title>
+    <title>DIEM GAMING | Personaliza tu Mando {{ $model === 'xbox' ? 'XBOX' : 'PS5' }}</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-model="{{ $model }}">
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -41,15 +41,19 @@
                         </svg>
                         Elegir otro modelo
                     </a>
+                    <div class="model-links" style="margin-top:10px;display:flex;gap:15px;align-items:center;">
+                        <a href="/ps5" class="model-link {{ $model === 'ps5' ? 'active' : '' }}">PS5</a>
+                        <a href="/xbox" class="model-link {{ $model === 'xbox' ? 'active' : '' }}">XBOX</a>
+                    </div>
                 </div>
                 
                 <div class="controller-display">
                     <div class="controller-front">
-                        <div class="controller-layers">
+                        <div class="controller-layers" id="controllerLayers">
                             <!-- Imagen base del mando -->
-                            <img id="baseImage" src="https://customizer.diemgaming.com.ar/ps5/base.png" alt="Base PS5 Controller" class="controller-layer base-layer">
+                            <img id="baseImage" src="https://customizer.diemgaming.com.ar/{{ $model }}/base.png" alt="Base {{ $model === 'xbox' ? 'Xbox' : 'PS5' }} Controller" class="controller-layer base-layer">
                             
-                            <!-- Capas de colores para cada parte -->
+                            <!-- Capas de colores para cada parte (PS5) -->
                             <img id="frontShellLayer" src="" alt="Front Shell" class="controller-layer color-layer" style="display: none;">
                             <img id="trimLayer" src="" alt="Trim" class="controller-layer color-layer" style="display: none;">
                             <img id="actionButtonsLayer" src="" alt="Action Buttons" class="controller-layer color-layer" style="display: none;">
@@ -92,7 +96,7 @@
                 </div>
 
                 <!-- Tabs Navigation -->
-                <div class="tabs-nav">
+                <div class="tabs-nav" id="tabsNav">
                     <button class="tab-btn active" data-tab="frontShell">
                         <img src="https://customizer.diemgaming.com.ar/ps5/front-shell-panel/front.png" alt="Front Shell">
                     </button>
