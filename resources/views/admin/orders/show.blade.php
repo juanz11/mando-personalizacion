@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden #{{ $order->order_number }} - Admin</title>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <style>
+        .admin-page { min-height: 100vh; background: #0b0d10; padding: 120px 24px 60px; }
+        .admin-card { background: #121418; border: 1px solid #26282c; border-radius: 16px; padding: 32px; max-width: 900px; margin: 0 auto; }
+        .admin-card h1 { font-size: 1.75rem; margin-bottom: 8px; }
+        .subtitle { color: #a1a5ab; margin-bottom: 24px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        .section { background: #0b0d10; border-radius: 12px; padding: 20px; }
+        .section h2 { font-size: 1.1rem; margin-bottom: 14px; }
+        .section p { color: #a1a5ab; margin-bottom: 6px; }
+        .form-row { display: flex; gap: 12px; align-items: flex-end; margin-top: 12px; }
+        .form-group { flex: 1; }
+        .form-group label { display: block; font-size: 0.875rem; margin-bottom: 6px; color: #a1a5ab; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #26282c; background: #0b0d10; color: #fff; }
+        .timeline { border-left: 2px solid #26282c; padding-left: 18px; margin-top: 20px; }
+        .timeline-item { position: relative; margin-bottom: 18px; }
+        .timeline-item::before { content: ''; position: absolute; left: -25px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #4ade80; }
+        .timeline-item small { color: #a1a5ab; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-{{ $order->status }} { background: #001a33; color: #60a5fa; }
+    </style>
+</head>
+<body>
+<div class="admin-page">
+    <div class="admin-card">
+        <h1>Orden #{{ $order->order_number }}</h1>
+        <p class="subtitle">Estado: <span class="badge badge-{{ $order->status }}">{{ $order->statusLabel() }}</span></p>
+
+        @if(session('success'))
+            <div style="background:#064e3b; color:#34d399; padding:12px 16px; border-radius:8px; margin-bottom:20px;">{{ session('success') }}</div>
+        @endif
+
+        <div class="grid">
+            <div class="section">
+                <h2>Cliente</h2>
+                <p><strong>{{ $order->customer_name }}</strong></p>
+                <p>{{ $order->customer_email }}</p>
+                <p>{{ $order->customer_phone }}</p>
+            </div>
+            <div class="section">
+                <h2>Envío</h2>
+                <p>{{ $order->shipping_address }}</p>
+                <p>{{ $order->shipping_city }}, {{ $order->shipping_zip }}</p>
+                <p>{{ $order->shipping_country }}</p>
+            </div>
+        </div>
+
+        <div class="section" style="margin-bottom:24px;">
+            <h2>Items</h2>
+            @foreach($order->items as $item)
+                <p>{{ $item->quantity }}x {{ $item->product_name }} ({{ strtoupper($item->model) }}) - ${{ number_format($item->price, 2) }}</p>
+            @endforeach
+            <p style="margin-top:12px; font-weight:700; color:#fff;">Total: ${{ number_format($order->total, 2) }}</p>
+        </div>
+
+        <div class="section" style="margin-bottom:24px;">
+            <h2>Agregar Tracking</h2>
+            <form method="POST" action="{{ route('admin.orders.tracking', $order) }}">
+                @csrf
+                @method('PUT')
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Carrier</label>
+                        <select name="carrier" required>
+                            <option value="">Seleccionar</option>
+                            @foreach(App\Models\Order::$carriers as $key => $label)
+                                <option value="{{ $key }}" {{ $order->carrier == $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de tracking</label>
+                        <input type="text" name="tracking_number" value="{{ $order->tracking_number }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="padding:10px 20px; height:42px;">Guardar y Enviar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="section" style="margin-bottom:24px;">
+            <h2>Actualizar Estado</h2>
+            <form method="POST" action="{{ route('admin.orders.status', $order) }}">
+                @csrf
+                @method('PUT')
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select name="status" required>
+                            @foreach(App\Models\Order::$statuses as $key => $label)
+                                <option value="{{ $key }}" {{ $order->status == $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>Descripción</label>
+                        <input type="text" name="description" placeholder="Ej. Llegó al centro de distribución">
+                    </div>
+                    <button type="submit" class="btn btn-outline" style="padding:10px 20px; height:42px;">Actualizar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Historial de Tracking</h2>
+            @forelse($order->trackingUpdates as $update)
+                <div class="timeline-item">
+                    <strong>{{ ucfirst(str_replace('_', ' ', $update->status)) }}</strong>
+                    <p>{{ $update->description }}</p>
+                    <small>{{ $update->tracked_at->format('M d, Y H:i') }}</small>
+                </div>
+            @empty
+                <p style="color:#a1a5ab;">Sin movimientos aún.</p>
+            @endforelse
+        </div>
+    </div>
+</div>
+</body>
+</html>

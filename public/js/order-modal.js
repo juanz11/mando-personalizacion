@@ -67,7 +67,17 @@
         setActivePaymentMethod('transferencia');
     }
 
-    function handleSubmit(event) {
+    function getConfigurationSummary() {
+        const summary = [];
+        const activeThumbs = document.querySelectorAll('.thumb.active, .color-option.active, .tab-btn.active');
+        activeThumbs.forEach((el) => {
+            const name = el.dataset.name || el.dataset.color || el.dataset.tab || el.textContent.trim();
+            if (name) summary.push(name);
+        });
+        return summary.join(', ');
+    }
+
+    async function handleSubmit(event) {
         event.preventDefault();
 
         if (!form.checkValidity()) {
@@ -75,14 +85,45 @@
             return;
         }
 
-        const method = paymentMethodInput.value;
-        const email = form.querySelector('#orderEmail').value;
+        const token = document.querySelector('meta[name="csrf-token"]')?.content;
+        const model = document.body.dataset.model || 'ps5';
+        const priceText = getTotalPriceText().replace(/[^\d,]/g, '').replace(',', '.');
+        const price = parseFloat(priceText) || 0;
 
-        document.getElementById('successContact').textContent = email;
-        document.getElementById('successMethod').textContent = paymentMethodLabels[method] || method;
+        const payload = new FormData(form);
+        payload.append('_token', token);
+        payload.append('model', model);
+        payload.append('price', price);
+        payload.append('product_name', `Mando personalizado ${model.toUpperCase()}`);
+        payload.append('configuration', getConfigurationSummary());
 
-        formView.hidden = true;
-        successView.hidden = false;
+        const submitBtn = form.querySelector('.btn-submit-order');
+        if (submitBtn) submitBtn.disabled = true;
+
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                body: payload,
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            if (response.ok) {
+                window.location.href = '/checkout';
+            } else {
+                const text = await response.text();
+                alert('No se pudo continuar con la compra. Asegurate de estar registrado.');
+                console.error(text);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Error de conexión. Intentá de nuevo.');
+        } finally {
+            if (submitBtn) submitBtn.disabled = false;
+        }
     }
 
     function init() {

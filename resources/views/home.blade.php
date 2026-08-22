@@ -40,7 +40,7 @@
             </video>
             <div class="hero-inner">
                 <span class="hero-eyebrow">RTE Custom Controller: PERSONALIZACIÓN SIN LÍMITES</span>
-                <h1>Construí tu Mando Definitivo</h1>
+                <h1>Diseñá tu Mando Definitivo</h1>
                 <p>Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.</p>
                 <div class="hero-actions">
                     <a href="/ps5" class="btn btn-primary">PERSONALIZAR AHORA</a>
