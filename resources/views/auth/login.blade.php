@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - RTE Custom Controller</title>
+    <title data-i18n="login_title">Iniciar Sesión - RTE Custom Controller</title>
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
         .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0d10; padding: 24px; }
@@ -25,26 +25,67 @@
 <body>
 <div class="auth-page">
     <div class="auth-card">
-        <a href="{{ url('/') }}" class="back">← Volver al inicio</a>
-        <h1>Iniciar Sesión</h1>
-        <p class="tagline">Accedé a tu cuenta para ver tus órdenes.</p>
+        <a href="{{ url('/') }}" class="back" data-i18n="login_back">← Volver al inicio</a>
+        <h1 data-i18n="login_h1">Iniciar Sesión</h1>
+        <p class="tagline" data-i18n="login_tagline">Accedé a tu cuenta para ver tus órdenes.</p>
         @if($errors->any())
             <div class="error">{{ $errors->first() }}</div>
         @endif
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email" data-i18n="login_email">Email</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required>
             </div>
             <div class="form-group">
-                <label for="password">Contraseña</label>
+                <label for="password" data-i18n="login_password">Contraseña</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+            <button type="submit" class="btn btn-primary btn-block" data-i18n="login_submit">Ingresar</button>
         </form>
-        <a href="{{ route('register') }}" class="auth-link">¿No tenés cuenta? Registrate</a>
+        <a href="{{ route('register') }}" class="auth-link" data-i18n="login_register">¿No tenés cuenta? Registrate</a>
     </div>
 </div>
+<script>
+    const translations = {
+        es: {
+            login_title: 'Iniciar Sesión - RTE Custom Controller',
+            login_back: '← Volver al inicio',
+            login_h1: 'Iniciar Sesión',
+            login_tagline: 'Accedé a tu cuenta para ver tus órdenes.',
+            login_email: 'Email',
+            login_password: 'Contraseña',
+            login_submit: 'Ingresar',
+            login_register: '¿No tenés cuenta? Registrate'
+        },
+        en: {
+            login_title: 'Sign In - RTE Custom Controller',
+            login_back: '← Back to home',
+            login_h1: 'Sign In',
+            login_tagline: 'Access your account to view your orders.',
+            login_email: 'Email',
+            login_password: 'Password',
+            login_submit: 'Sign In',
+            login_register: "Don't have an account? Register"
+        }
+    };
+
+    function setLang(lang) {
+        document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName.toLowerCase() === 'title') {
+                    document.title = translations[lang][key];
+                } else {
+                    el.textContent = translations[lang][key];
+                }
+            }
+        });
+    }
+
+    const country = localStorage.getItem('rte_country') || 'VE';
+    setLang(country === 'US' ? 'en' : 'es');
+</script>
 </body>
 </html>

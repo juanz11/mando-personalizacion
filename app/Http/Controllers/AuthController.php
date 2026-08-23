@@ -49,14 +49,26 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
+            'country' => ['required', 'in:VE,US'],
             'phone' => ['required', 'string', 'max:50'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
+        $digits = preg_replace('/\D/', '', $data['phone']);
+        $digits = ltrim($digits, '0');
+
+        if ($data['country'] === 'VE' && !str_starts_with($digits, '58')) {
+            $digits = '58' . $digits;
+        } elseif ($data['country'] === 'US' && strlen($digits) === 10) {
+            $digits = '1' . $digits;
+        }
+
+        $formattedPhone = '+' . $digits;
+
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'phone' => $data['phone'],
+            'phone' => $formattedPhone,
             'password' => Hash::make($data['password']),
             'role' => 'user',
         ]);

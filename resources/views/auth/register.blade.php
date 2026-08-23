@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - RTE Custom Controller</title>
+    <title data-i18n="register_title">Crear Cuenta - RTE Custom Controller</title>
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <style>
         .auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0d10; padding: 24px; }
@@ -12,8 +12,8 @@
         .auth-card .tagline { text-align: center; color: #a1a5ab; margin-bottom: 32px; font-size: 0.9rem; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 0.85rem; margin-bottom: 8px; color: #a1a5ab; font-weight: 500; }
-        .form-group input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #33363c; background: #0b0d10; color: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
-        .form-group input:focus { border-color: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12); }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #33363c; background: #0b0d10; color: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-group input:focus, .form-group select:focus { border-color: #4ade80; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12); }
         .btn-block { width: 100%; margin-top: 10px; padding: 14px; font-size: 1rem; border-radius: 12px; }
         .auth-link { text-align: center; display: block; margin-top: 20px; color: #a1a5ab; font-size: 0.9rem; text-decoration: none; }
         .auth-link:hover { color: #4ade80; }
@@ -25,38 +25,140 @@
 <body>
 <div class="auth-page">
     <div class="auth-card">
-        <a href="{{ url('/') }}" class="back">← Volver al inicio</a>
-        <h1>Crear Cuenta</h1>
-        <p class="tagline">Registrate para guardar tus diseños y órdenes.</p>
+        <a href="{{ url('/') }}" class="back" data-i18n="register_back">← Volver al inicio</a>
+        <h1 data-i18n="register_h1">Crear Cuenta</h1>
+        <p class="tagline" data-i18n="register_tagline">Registrate para guardar tus diseños y órdenes.</p>
         @if($errors->any())
             <div class="error">{{ $errors->first() }}</div>
         @endif
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="form-group">
-                <label for="name">Nombre completo</label>
+                <label for="name" data-i18n="register_name">Nombre completo</label>
                 <input type="text" id="name" name="name" value="{{ old('name') }}" required>
             </div>
             <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email" data-i18n="register_email">Email</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required>
             </div>
             <div class="form-group">
-                <label for="phone">Teléfono</label>
-                <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required>
+                <label for="register-country" data-i18n="register_country">País</label>
+                <select id="register-country" name="country" required>
+                    <option value="VE" {{ old('country', 'VE') === 'VE' ? 'selected' : '' }}>Venezuela (+58)</option>
+                    <option value="US" {{ old('country') === 'US' ? 'selected' : '' }}>United States (+1)</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="password">Contraseña</label>
+                <label for="phone" data-i18n="register_phone">Teléfono</label>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <select id="phone-prefix" style="width:90px; padding:14px 12px; border-radius:12px; border:1px solid #33363c; background:#0b0d10; color:#fff; cursor:pointer;">
+                        <option value="0412">0412</option>
+                        <option value="0414">0414</option>
+                        <option value="0416">0416</option>
+                        <option value="0424">0424</option>
+                        <option value="0426">0426</option>
+                        <option value="0421">0421</option>
+                        <option value="0411">0411</option>
+                    </select>
+                    <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required style="flex:1;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" data-i18n="register_password">Contraseña</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="password_confirmation">Confirmar Contraseña</label>
+                <label for="password_confirmation" data-i18n="register_password_confirmation">Confirmar Contraseña</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Registrarme</button>
+            <button type="submit" class="btn btn-primary btn-block" data-i18n="register_submit">Registrarme</button>
         </form>
-        <a href="{{ route('login') }}" class="auth-link">¿Ya tenés cuenta? Iniciar sesión</a>
+        <a href="{{ route('login') }}" class="auth-link" data-i18n="register_login">¿Ya tenés cuenta? Iniciar sesión</a>
     </div>
 </div>
+<script>
+    const phoneInput = document.getElementById('phone');
+    const countrySelect = document.getElementById('register-country');
+    const phonePrefix = document.getElementById('phone-prefix');
+    const vePrefixes = /^(0412|0414|0416|0424|0426|0421|0411)/;
+
+    function syncPrefixSelect() {
+        const match = phoneInput.value.match(vePrefixes);
+        if (match) phonePrefix.value = match[1];
+    }
+
+    function updatePhone() {
+        const country = countrySelect.value;
+        if (country === 'VE') {
+            phonePrefix.style.display = 'block';
+            if (!vePrefixes.test(phoneInput.value)) {
+                phoneInput.value = phonePrefix.value;
+            } else {
+                syncPrefixSelect();
+            }
+        } else {
+            phonePrefix.style.display = 'none';
+            phoneInput.value = phoneInput.value.replace(/^0\d{3}/, '');
+        }
+    }
+
+    phonePrefix.addEventListener('change', () => {
+        phoneInput.value = phonePrefix.value + phoneInput.value.replace(vePrefixes, '');
+        phoneInput.focus();
+    });
+
+    phoneInput.addEventListener('input', syncPrefixSelect);
+    countrySelect.addEventListener('change', updatePhone);
+    updatePhone();
+</script>
+<script>
+    const translations = {
+        es: {
+            register_title: 'Crear Cuenta - RTE Custom Controller',
+            register_back: '← Volver al inicio',
+            register_h1: 'Crear Cuenta',
+            register_tagline: 'Registrate para guardar tus diseños y órdenes.',
+            register_name: 'Nombre completo',
+            register_email: 'Email',
+            register_country: 'País',
+            register_phone: 'Teléfono',
+            register_password: 'Contraseña',
+            register_password_confirmation: 'Confirmar Contraseña',
+            register_submit: 'Registrarme',
+            register_login: '¿Ya tenés cuenta? Iniciar sesión'
+        },
+        en: {
+            register_title: 'Create Account - RTE Custom Controller',
+            register_back: '← Back to home',
+            register_h1: 'Create Account',
+            register_tagline: 'Sign up to save your designs and orders.',
+            register_name: 'Full name',
+            register_email: 'Email',
+            register_country: 'Country',
+            register_phone: 'Phone',
+            register_password: 'Password',
+            register_password_confirmation: 'Confirm Password',
+            register_submit: 'Sign Up',
+            register_login: 'Already have an account? Sign In'
+        }
+    };
+
+    function setLang(lang) {
+        document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (translations[lang] && translations[lang][key]) {
+                if (el.tagName.toLowerCase() === 'title') {
+                    document.title = translations[lang][key];
+                } else {
+                    el.textContent = translations[lang][key];
+                }
+            }
+        });
+    }
+
+    const country = localStorage.getItem('rte_country') || 'VE';
+    setLang(country === 'US' ? 'en' : 'es');
+</script>
 </body>
 </html>
