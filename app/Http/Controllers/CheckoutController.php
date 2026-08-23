@@ -56,14 +56,13 @@ class CheckoutController extends Controller
         $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
 
         $order = Order::create([
+            ...$data,
             'user_id' => Auth::id(),
             'order_number' => 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid()),
             'status' => 'paid',
             'total' => $total,
             'items_json' => $cart,
-            'payment_method' => $data['payment_method'],
             'payment_receipt' => $receiptPath,
-            ...$data,
         ]);
 
         foreach ($cart as $item) {
@@ -80,5 +79,18 @@ class CheckoutController extends Controller
         session()->forget('cart');
 
         return redirect()->route('orders.show', $order)->with('success', 'Compra realizada correctamente.');
+    }
+
+    public function receipt(string $path)
+    {
+        if (!str_starts_with($path, 'receipts/')) {
+            abort(404);
+        }
+
+        if (!Storage::disk('public')->exists($path)) {
+            abort(404);
+        }
+
+        return Storage::disk('public')->response($path);
     }
 }

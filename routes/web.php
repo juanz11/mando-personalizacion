@@ -25,6 +25,8 @@ Route::middleware('guest')->group(function () {
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+Route::get('comprobantes/{path}', [CheckoutController::class, 'receipt'])->where('path', '.*')->name('receipts.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout.index');
     Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');

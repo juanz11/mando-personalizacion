@@ -86,7 +86,7 @@
         </div>
         <div class="stat-card">
             <div class="label">Ingresos</div>
-            <div class="value">${{ number_format($stats['revenue'], 2) }}</div>
+            <div class="value">${{ number_format($stats['revenue'], 2, ',', '.') }}</div>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
                         <td>{{ $order->order_number }}</td>
                         <td>{{ $order->customer_name }}</td>
                         <td>{{ $order->customer_email }}</td>
-                        <td>${{ number_format($order->total, 2) }}</td>
+                        <td>${{ number_format($order->total, 2, ',', '.') }}</td>
                         <td><span class="badge badge-{{ $order->status }}">{{ $order->statusLabel() }}</span></td>
                         <td>{{ $order->tracking_number ?? '-' }}</td>
                         <td><a href="{{ route('admin.orders.show', $order) }}" class="btn-view">Ver</a></td>

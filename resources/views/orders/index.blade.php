@@ -42,7 +42,7 @@
                 <tr>
                     <td>{{ $order->order_number }}</td>
                     <td>{{ $order->created_at->format('M d, Y') }}</td>
-                    <td>${{ number_format($order->total, 2) }}</td>
+                    <td>${{ number_format($order->total, 2, ',', '.') }}</td>
                     <td><span class="badge" style="background:#001a33; color:#60a5fa;">{{ $order->statusLabel() }}</span></td>
                     <td>{{ $order->tracking_number ?? '-' }}</td>
                     <td><a href="{{ route('orders.show', $order) }}" class="btn btn-outline" style="padding:6px 14px; font-size:0.8rem;">Ver</a></td>

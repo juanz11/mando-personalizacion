@@ -20,7 +20,7 @@ class AdminOrderController extends Controller
             'paid' => Order::where('status', 'paid')->count(),
             'shipped' => Order::where('status', 'shipped')->count(),
             'delivered' => Order::where('status', 'delivered')->count(),
-            'revenue' => Order::sum('total'),
+            'revenue' => round(Order::sum('total'), 2),
         ];
 
         return view('admin.orders.index', compact('orders', 'stats'));

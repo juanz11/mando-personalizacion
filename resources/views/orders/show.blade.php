@@ -28,6 +28,7 @@
 <body>
 <div class="order-page">
     <div class="order-card">
+        <a href="{{ url('/') }}" class="btn btn-outline" style="display:inline-block; padding:10px 20px; margin-bottom:20px;">← Volver al menú</a>
         <h1>Orden #{{ $order->order_number }}</h1>
         <p class="subtitle">Estado: {{ $order->statusLabel() }}</p>
 
@@ -42,9 +43,9 @@
             <div class="section">
                 <h2>Resumen</h2>
                 @foreach($order->items as $item)
-                    <p>{{ $item->quantity }}x {{ $item->product_name }} - ${{ number_format($item->price, 2) }}</p>
+                    <p>{{ $item->quantity }}x {{ $item->product_name }} - ${{ number_format($item->price, 2, ',', '.') }}</p>
                 @endforeach
-                <p style="margin-top:12px; font-weight:700; color:#fff;">Total: ${{ number_format($order->total, 2) }}</p>
+                <p style="margin-top:12px; font-weight:700; color:#fff;">Total: ${{ number_format($order->total, 2, ',', '.') }}</p>
             </div>
         </div>
 
@@ -66,12 +67,12 @@
                     <button type="button" class="copy-btn" data-copy="J-508086635">Copiar</button>
                 </div>
                 <div class="pay-row">
-                    <span>País: <code id="pagomovil-country">Venezuela</code></span>
-                    <button type="button" class="copy-btn" data-copy="Venezuela">Copiar</button>
+                    <span>Banco: <code id="pagomovil-bank">Banco de Venezuela</code></span>
+                    <button type="button" class="copy-btn" data-copy="Banco de Venezuela">Copiar</button>
                 </div>
             @endif
             @if($order->payment_receipt)
-                <p style="margin-top:14px;"><a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
+                <p style="margin-top:14px;"><a href="{{ route('receipts.show', ['path' => $order->payment_receipt]) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
             @endif
         </div>
 

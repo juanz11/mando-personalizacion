@@ -47,12 +47,12 @@
             @foreach($cart as $item)
                 <div class="summary-row">
                     <span>{{ $item['product_name'] }} (x{{ $item['quantity'] ?? 1 }})</span>
-                    <span>${{ number_format($item['price'] * ($item['quantity'] ?? 1), 2) }}</span>
+                    <span>${{ number_format($item['price'] * ($item['quantity'] ?? 1), 2, ',', '.') }}</span>
                 </div>
             @endforeach
             <div class="summary-row summary-total">
                 <span>Total</span>
-                <span>${{ number_format($total, 2) }}</span>
+                <span>${{ number_format($total, 2, ',', '.') }}</span>
             </div>
         </div>
         <form method="POST" action="{{ route('checkout.store') }}" enctype="multipart/form-data">
@@ -124,8 +124,8 @@
                                 <button type="button" class="copy-btn" data-copy="J-508086635">Copiar</button>
                             </div>
                             <div class="pay-row">
-                                <span>País: <code>Venezuela</code></span>
-                                <button type="button" class="copy-btn" data-copy="Venezuela">Copiar</button>
+                                <span>Banco: <code>Banco de Venezuela</code></span>
+                                <button type="button" class="copy-btn" data-copy="Banco de Venezuela">Copiar</button>
                             </div>
                         </div>
                     </div>
