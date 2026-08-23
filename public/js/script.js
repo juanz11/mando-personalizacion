@@ -407,7 +407,7 @@ function createColorButton(color, part, partConfig) {
                 <img src="${imageUrl}" alt="${color.name}" onerror="this.style.background='#333'">
             </span>
             <span class="color-name">${color.name}</span>
-            <span class="color-price">+ $${color.price.toLocaleString('es-AR')},00</span>
+            <span class="color-price">+ $${(color.price / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </button>
     `;
 }
@@ -461,7 +461,7 @@ function updatePrice() {
     });
 
     totalPrice = controllerModels[currentModel].basePrice + additionalPrice;
-    totalPriceElement.textContent = `$ ${totalPrice.toLocaleString('es-AR')},00`;
+    totalPriceElement.textContent = `$ ${(totalPrice / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function setupMobileMenu() {
