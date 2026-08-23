@@ -20,6 +20,9 @@
                 <a href="{{ url('/#plataformas') }}" class="nav-link">PLATAFORMAS</a>
                 <a href="{{ url('/#features') }}" class="nav-link">CARACTERÍSTICAS</a>
                 @if(auth()->check())
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.orders.index') }}" class="nav-link" style="color:#4ade80;">ADMIN</a>
+                    @endif
                     <a href="{{ route('orders.index') }}" class="nav-link">MIS ÓRDENES</a>
                     <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                         @csrf

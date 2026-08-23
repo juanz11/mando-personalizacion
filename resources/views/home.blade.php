@@ -23,6 +23,9 @@
                 <a href="#features">Características</a>
                 <a href="/ps5" class="btn btn-primary" style="padding: 10px 24px;">Personalizar Ahora</a>
                 @if(auth()->check())
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.orders.index') }}" class="btn btn-primary" style="padding: 10px 24px;">Admin</a>
+                    @endif
                     <a href="{{ route('orders.index') }}" class="btn btn-outline" style="padding: 10px 24px;">Mis Órdenes</a>
                     <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                         @csrf

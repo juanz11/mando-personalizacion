@@ -20,14 +20,16 @@
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; color: #a1a5ab; }
         .summary-total { font-weight: 700; color: #fff; border-top: 1px solid #26282c; padding-top: 14px; margin-top: 14px; font-size: 1.1rem; }
         .payment-methods { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 10px; }
-        .payment-method { display: flex; align-items: flex-start; gap: 12px; border: 1px solid #33363c; border-radius: 16px; padding: 18px; cursor: pointer; background: #0b0d10; transition: all 0.2s; }
+        .payment-method { border: 1px solid #33363c; border-radius: 16px; padding: 18px; background: #0b0d10; transition: all 0.2s; }
         .payment-method:hover { border-color: #4ade80; }
-        .payment-method input { margin-top: 4px; accent-color: #4ade80; }
-        .payment-method .pm-body { flex: 1; }
-        .payment-method strong { display: block; margin-bottom: 4px; color: #fff; }
-        .payment-method small { color: #a1a5ab; display: block; margin-bottom: 4px; }
-        .payment-details { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .pay-row { display: flex; justify-content: space-between; align-items: center; background: #14161a; border-radius: 10px; padding: 10px 12px; border: 1px solid #26282c; }
+        .pm-header { display: flex; align-items: flex-start; gap: 14px; cursor: pointer; margin-bottom: 12px; }
+        .pm-header input[type="radio"] { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; min-width: 24px; margin: 2px 0 0; border: 2px solid #4ade80; border-radius: 50%; background: transparent; cursor: pointer; position: relative; outline: none; transition: all 0.2s; }
+        .pm-header input[type="radio"]:checked { background: #4ade80; }
+        .pm-header input[type="radio"]:checked::after { content: ''; position: absolute; top: 50%; left: 50%; width: 10px; height: 10px; background: #0b0d10; border-radius: 50%; transform: translate(-50%, -50%); }
+        .pm-header strong { display: block; margin-bottom: 4px; color: #fff; font-size: 1rem; }
+        .pm-header small { color: #a1a5ab; display: block; }
+        .payment-details { display: flex; flex-direction: column; gap: 10px; }
+        .pay-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #14161a; border-radius: 12px; padding: 12px 14px; border: 1px solid #26282c; }
         .pay-row span { color: #e5e7eb; font-size: 0.9rem; word-break: break-all; }
         .pay-row code { color: #4ade80; font-family: inherit; }
         .copy-btn { background: #1f2937; color: #fff; border: 1px solid #374151; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
@@ -89,40 +91,44 @@
             <div class="form-group wide">
                 <label>Método de pago</label>
                 <div class="payment-methods">
-                    <label class="payment-method" for="payment_binance">
-                        <input type="radio" id="payment_binance" name="payment_method" value="binance" required {{ old('payment_method') == 'binance' ? 'checked' : '' }}>
-                        <div class="pm-body">
-                            <strong>Binance Pay</strong>
-                            <small>Realizá el pago a este correo y subí el comprobante.</small>
-                            <div class="payment-details">
-                                <div class="pay-row">
-                                    <span>Correo: <code id="binance-email">Javierjbd13@gmail.com</code></span>
-                                    <button type="button" class="copy-btn" data-copy="Javierjbd13@gmail.com" data-label="Correo">Copiar</button>
-                                </div>
+                    <div class="payment-method">
+                        <label class="pm-header" for="payment_binance">
+                            <input type="radio" id="payment_binance" name="payment_method" value="binance" required {{ old('payment_method') == 'binance' ? 'checked' : '' }}>
+                            <div>
+                                <strong>Binance Pay</strong>
+                                <small>Realizá el pago a este correo y subí el comprobante.</small>
+                            </div>
+                        </label>
+                        <div class="payment-details">
+                            <div class="pay-row">
+                                <span>Correo: <code>Javierjbd13@gmail.com</code></span>
+                                <button type="button" class="copy-btn" data-copy="Javierjbd13@gmail.com">Copiar</button>
                             </div>
                         </div>
-                    </label>
-                    <label class="payment-method" for="payment_pagomovil">
-                        <input type="radio" id="payment_pagomovil" name="payment_method" value="pago_movil" required {{ old('payment_method') == 'pago_movil' ? 'checked' : '' }}>
-                        <div class="pm-body">
-                            <strong>Pago Móvil Venezuela</strong>
-                            <small>Usá los siguientes datos y subí el capture del pago.</small>
-                            <div class="payment-details">
-                                <div class="pay-row">
-                                    <span>Teléfono: <code id="pagomovil-phone">04127141909</code></span>
-                                    <button type="button" class="copy-btn" data-copy="04127141909" data-label="Teléfono">Copiar</button>
-                                </div>
-                                <div class="pay-row">
-                                    <span>CI / RIF: <code id="pagomovil-ci">J-508086635</code></span>
-                                    <button type="button" class="copy-btn" data-copy="J-508086635" data-label="CI">Copiar</button>
-                                </div>
-                                <div class="pay-row">
-                                    <span>País: <code id="pagomovil-country">Venezuela</code></span>
-                                    <button type="button" class="copy-btn" data-copy="Venezuela" data-label="País">Copiar</button>
-                                </div>
+                    </div>
+                    <div class="payment-method">
+                        <label class="pm-header" for="payment_pagomovil">
+                            <input type="radio" id="payment_pagomovil" name="payment_method" value="pago_movil" required {{ old('payment_method') == 'pago_movil' ? 'checked' : '' }}>
+                            <div>
+                                <strong>Pago Móvil Venezuela</strong>
+                                <small>Usá estos datos y subí el capture del pago.</small>
+                            </div>
+                        </label>
+                        <div class="payment-details">
+                            <div class="pay-row">
+                                <span>Teléfono: <code>04127141909</code></span>
+                                <button type="button" class="copy-btn" data-copy="04127141909">Copiar</button>
+                            </div>
+                            <div class="pay-row">
+                                <span>CI / RIF: <code>J-508086635</code></span>
+                                <button type="button" class="copy-btn" data-copy="J-508086635">Copiar</button>
+                            </div>
+                            <div class="pay-row">
+                                <span>País: <code>Venezuela</code></span>
+                                <button type="button" class="copy-btn" data-copy="Venezuela">Copiar</button>
                             </div>
                         </div>
-                    </label>
+                    </div>
                 </div>
             </div>
 
@@ -139,7 +145,9 @@
 
 <script>
     document.querySelectorAll('.copy-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
+        btn.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
             const text = btn.dataset.copy;
             try {
                 await navigator.clipboard.writeText(text);
