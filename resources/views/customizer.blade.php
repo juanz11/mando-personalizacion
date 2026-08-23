@@ -152,6 +152,9 @@
                     <button class="tab-btn" data-tab="logo">
                         <img src="https://customizer.diemgaming.com.ar/ps5/logo/front.png" alt="Logo">
                     </button>
+                    <button class="tab-btn" data-tab="backPanel">
+                        <img src="https://customizer.diemgaming.com.ar/ps5/back-shell/back.png" alt="Back Shell">
+                    </button>
                 </div>
 
                 <!-- Tab Content -->

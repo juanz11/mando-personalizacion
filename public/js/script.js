@@ -109,6 +109,21 @@ const controllerModels = {
                     { name: "Cromo", color: "cromo", price: 5000, type: "mate" },
                     { name: "Dorado", color: "dorado", price: 5000, type: "mate" }
                 ]
+            },
+            backPanel: {
+                title: "Back Shell",
+                layerId: "backPanelLayer",
+                side: "back",
+                basePath: "https://customizer.diemgaming.com.ar/ps5/back-shell",
+                previewImage: "back.png",
+                colors: [
+                    { name: "Default", color: "default", price: 0, type: "mate", typeLabel: "Mate" },
+                    { name: "Negro", color: "negro", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
+                    { name: "Azul", color: "azul", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
+                    { name: "Verde", color: "verde", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
+                    { name: "Rojo", color: "rojo", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
+                    { name: "Blanco", color: "blanco", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" }
+                ]
             }
         }
     },
@@ -207,6 +222,7 @@ const controllerModels = {
             backShell: {
                 title: "Back Shell",
                 layerId: "backShellLayer",
+                side: "back",
                 basePath: "https://customizer.diemgaming.com.ar/xbox/back-shell",
                 previewImage: "back.png",
                 colors: [
@@ -221,6 +237,7 @@ const controllerModels = {
             digitalTriggers: {
                 title: "Digital Triggers",
                 layerId: "digitalTriggersLayer",
+                side: "back",
                 basePath: "https://customizer.diemgaming.com.ar/xbox/digital-triggers",
                 previewImage: "triggers_xbox.png",
                 colors: [
@@ -233,6 +250,7 @@ const controllerModels = {
             halfEffect: {
                 title: "Análogos Magnéticos TMR",
                 layerId: "halfEffectLayer",
+                side: "back",
                 basePath: "https://customizer.diemgaming.com.ar/xbox/half-effect",
                 previewImage: "front.jpg",
                 colors: [
@@ -245,6 +263,7 @@ const controllerModels = {
             backButtons: {
                 title: "Back Buttons",
                 layerId: "backButtonsLayer",
+                side: "back",
                 basePath: "https://customizer.diemgaming.com.ar/xbox/back-buttons",
                 previewImage: "back.png",
                 colors: [
@@ -263,6 +282,8 @@ let currentPart = 'frontShell';
 let selectedColors = {};
 let totalPrice = 298000;
 let tabButtons = [];
+let isBack = false;
+let baseImage = null;
 let controllerParts = controllerModels.ps5.parts;
 
 const tabTitle = document.getElementById('tabTitle');
@@ -278,6 +299,7 @@ function init() {
     if (!controllerModels[currentModel]) currentModel = 'ps5';
 
     controllerParts = controllerModels[currentModel].parts;
+    baseImage = document.getElementById('baseImage');
     totalPrice = controllerModels[currentModel].basePrice;
 
     if (currentModel === 'xbox') {
@@ -289,6 +311,7 @@ function init() {
     });
 
     setupTabs();
+    setupRotate();
     setupMobileMenu();
 
     currentPart = Object.keys(controllerParts)[0];
@@ -440,6 +463,17 @@ function updateController() {
         const layer = document.getElementById(partConfig.layerId);
         if (!layer) return;
 
+        if (partConfig.side === 'back' && !isBack) {
+            layer.style.display = 'none';
+            layer.classList.remove('active');
+            return;
+        }
+        if (partConfig.side !== 'back' && isBack) {
+            layer.style.display = 'none';
+            layer.classList.remove('active');
+            return;
+        }
+
         const imageUrl = getImageUrl(partConfig, colorObj);
         layer.src = imageUrl;
 
@@ -462,6 +496,24 @@ function updatePrice() {
 
     totalPrice = controllerModels[currentModel].basePrice + additionalPrice;
     totalPriceElement.textContent = `$ ${(totalPrice / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function setupRotate() {
+    const rotateBtn = document.getElementById('rotateBtn');
+    if (!rotateBtn) return;
+    rotateBtn.addEventListener('click', toggleFlip);
+}
+
+function toggleFlip() {
+    isBack = !isBack;
+    if (baseImage) {
+        baseImage.src = `https://customizer.diemgaming.com.ar/${currentModel}/base${isBack ? '_back' : ''}.png`;
+    }
+    updateController();
+    const targetPart = isBack
+        ? Object.keys(controllerParts).find(p => controllerParts[p].side === 'back')
+        : Object.keys(controllerParts)[0];
+    if (targetPart) switchTab(targetPart);
 }
 
 function setupMobileMenu() {
