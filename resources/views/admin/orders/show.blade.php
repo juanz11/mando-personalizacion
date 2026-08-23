@@ -24,6 +24,11 @@
         .timeline-item small { color: #a1a5ab; }
         .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
         .badge-{{ $order->status }} { background: #001a33; color: #60a5fa; }
+        .pay-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #14161a; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; border: 1px solid #26282c; }
+        .pay-row span { color: #e5e7eb; font-size: 0.9rem; word-break: break-all; }
+        .copy-btn { background: #1f2937; color: #fff; border: 1px solid #374151; border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+        .copy-btn:hover { background: #374151; }
+        .copy-btn.copied { background: #064e3b; border-color: #4ade80; color: #4ade80; }
     </style>
 </head>
 <body>
@@ -45,9 +50,28 @@
             </div>
             <div class="section">
                 <h2>Pago</h2>
-                <p><strong>Método:</strong> {{ $order->payment_method == 'binance' ? 'Binance Pay' : 'Pago Móvil Venezuela' }}</p>
+                <p style="margin-bottom:12px;"><strong>Método:</strong> {{ $order->payment_method == 'binance' ? 'Binance Pay' : 'Pago Móvil Venezuela' }}</p>
+                @if($order->payment_method == 'binance')
+                    <div class="pay-row">
+                        <span>Correo: <code>Javierjbd13@gmail.com</code></span>
+                        <button type="button" class="copy-btn" data-copy="Javierjbd13@gmail.com">Copiar</button>
+                    </div>
+                @else
+                    <div class="pay-row">
+                        <span>Teléfono: <code>04127141909</code></span>
+                        <button type="button" class="copy-btn" data-copy="04127141909">Copiar</button>
+                    </div>
+                    <div class="pay-row">
+                        <span>CI / RIF: <code>J-508086635</code></span>
+                        <button type="button" class="copy-btn" data-copy="J-508086635">Copiar</button>
+                    </div>
+                    <div class="pay-row">
+                        <span>País: <code>Venezuela</code></span>
+                        <button type="button" class="copy-btn" data-copy="Venezuela">Copiar</button>
+                    </div>
+                @endif
                 @if($order->payment_receipt)
-                    <p><a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
+                    <p style="margin-top:14px;"><a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
                 @endif
             </div>
 
@@ -128,5 +152,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const text = btn.dataset.copy;
+            try {
+                await navigator.clipboard.writeText(text);
+                const original = btn.textContent;
+                btn.textContent = '¡Copiado!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = original;
+                    btn.classList.remove('copied');
+                }, 1500);
+            } catch (err) {
+                console.error('No se pudo copiar', err);
+            }
+        });
+    });
+</script>
 </body>
 </html>
