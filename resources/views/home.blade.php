@@ -18,23 +18,28 @@
             </a>
 
             <nav class="site-nav">
-                <a href="#inicio">Inicio</a>
-                <a href="#plataformas">Personalizar</a>
-                <a href="#features">Características</a>
-                <a href="/ps5" class="btn btn-primary" style="padding: 10px 24px;">Personalizar Ahora</a>
+                <a href="#inicio" data-i18n="home_nav_inicio">Inicio</a>
+                <a href="#plataformas" data-i18n="home_nav_personalize">Personalizar</a>
+                <a href="#features" data-i18n="home_nav_features">Características</a>
+                <a href="/ps5" class="btn btn-primary" style="padding: 10px 24px;" data-i18n="home_nav_cta">Personalizar Ahora</a>
                 @if(auth()->check())
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.orders.index') }}" class="btn btn-primary" style="padding: 10px 24px;">Admin</a>
                     @endif
-                    <a href="{{ route('orders.index') }}" class="btn btn-outline" style="padding: 10px 24px;">Mis Órdenes</a>
+                    <a href="{{ route('orders.index') }}" class="btn btn-outline" style="padding: 10px 24px;" data-i18n="home_nav_orders">Mis Órdenes</a>
                     <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                         @csrf
-                        <button type="submit" class="btn btn-outline" style="padding: 10px 24px;">Cerrar Sesión</button>
+                        <button type="submit" class="btn btn-outline" style="padding: 10px 24px;" data-i18n="home_nav_logout">Cerrar Sesión</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline" style="padding: 10px 24px;">Iniciar Sesión</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline" style="padding: 10px 24px;" data-i18n="home_nav_login">Iniciar Sesión</a>
                 @endif
             </nav>
+
+            <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
+                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇻🇪</button>
+                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇺🇸</button>
+            </div>
 
             <button class="menu-toggle" aria-label="Abrir menú">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -51,12 +56,12 @@
                 <source src="{{ asset('0808.mp4') }}" type="video/mp4">
             </video>
             <div class="hero-inner">
-                <span class="hero-eyebrow">RTE Custom Controller: PERSONALIZACIÓN SIN LÍMITES</span>
-                <h1>Diseñá tu Mando Definitivo</h1>
-                <p>Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.</p>
+                <span class="hero-eyebrow" data-i18n="home_hero_eyebrow">RTE Custom Controller: PERSONALIZACIÓN SIN LÍMITES</span>
+                <h1 data-i18n="home_hero_title">Diseñá tu Mando Definitivo</h1>
+                <p data-i18n="home_hero_desc">Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.</p>
                 <div class="hero-actions">
-                    <a href="/ps5" class="btn btn-primary">PERSONALIZAR AHORA</a>
-                    <a href="#plataformas" class="btn btn-outline">VER PLATAFORMAS</a>
+                    <a href="/ps5" class="btn btn-primary" data-i18n="home_hero_btn1">PERSONALIZAR AHORA</a>
+                    <a href="#plataformas" class="btn btn-outline" data-i18n="home_hero_btn2">VER PLATAFORMAS</a>
                 </div>
             </div>
         </section>
@@ -227,5 +232,65 @@
         </div>
     </footer>
 
+<script>
+    (function() {
+        const translations = {
+            es: {
+                home_nav_inicio: 'Inicio',
+                home_nav_personalize: 'Personalizar',
+                home_nav_features: 'Características',
+                home_nav_cta: 'Personalizar Ahora',
+                home_nav_orders: 'Mis Órdenes',
+                home_nav_logout: 'Cerrar Sesión',
+                home_nav_login: 'Iniciar Sesión',
+                home_hero_eyebrow: 'RTE Custom Controller: PERSONALIZACIÓN SIN LÍMITES',
+                home_hero_title: 'Diseñá tu Mando Definitivo',
+                home_hero_desc: 'Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.',
+                home_hero_btn1: 'PERSONALIZAR AHORA',
+                home_hero_btn2: 'VER PLATAFORMAS'
+            },
+            en: {
+                home_nav_inicio: 'Home',
+                home_nav_personalize: 'Customize',
+                home_nav_features: 'Features',
+                home_nav_cta: 'Customize Now',
+                home_nav_orders: 'My Orders',
+                home_nav_logout: 'Log out',
+                home_nav_login: 'Log in',
+                home_hero_eyebrow: 'RTE Custom Controller: CUSTOMIZATION WITHOUT LIMITS',
+                home_hero_title: 'Design Your Ultimate Controller',
+                home_hero_desc: 'Premium custom controllers for PS5 and Xbox, designed for competitive play. Choose every color, every texture, every detail.',
+                home_hero_btn1: 'CUSTOMIZE NOW',
+                home_hero_btn2: 'SEE PLATFORMS'
+            }
+        };
+
+        function setLang(lang) {
+            document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        const saved = localStorage.getItem('rte_country') || 'VE';
+        const lang = saved === 'US' ? 'en' : 'es';
+        document.querySelectorAll('.site-country-btn').forEach(btn => {
+            if (btn.dataset.country === saved) {
+                btn.style.borderColor = '#4ade80';
+            }
+            btn.addEventListener('click', function() {
+                const selected = this.dataset.country;
+                localStorage.setItem('rte_country', selected);
+                document.querySelectorAll('.site-country-btn').forEach(b => b.style.borderColor = 'transparent');
+                this.style.borderColor = '#4ade80';
+                setLang(selected === 'US' ? 'en' : 'es');
+            });
+        });
+        setLang(lang);
+    })();
+</script>
 </body>
 </html>

@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
@@ -28,6 +29,7 @@ class CheckoutController extends Controller
             'total' => $total,
             'prefill' => $prefill,
             'user' => $user,
+            'stripeKey' => config('services.stripe.key'),
         ]);
     }
 
@@ -39,26 +41,66 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'El carrito está vacío.');
         }
 
-        $data = $request->validate([
+        $base = $request->validate([
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'email', 'max:255'],
             'customer_phone' => ['required', 'string', 'max:50'],
             'shipping_address' => ['required', 'string'],
             'shipping_city' => ['required', 'string', 'max:255'],
+            'shipping_state' => ['required', 'string', 'max:255'],
             'shipping_zip' => ['required', 'string', 'max:20'],
-            'shipping_country' => ['required', 'string', 'max:100'],
-            'payment_method' => ['required', 'in:binance,pago_movil'],
-            'payment_receipt' => ['required', 'image', 'max:5120'],
+            'shipping_country' => ['required', 'in:VE,US'],
         ]);
+
+        $country = $base['shipping_country'];
+        $base['shipping_address'] = $base['shipping_state'] . ' - ' . $base['shipping_address'];
+        unset($base['shipping_state']);
 
         $total = collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1));
 
-        $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
+        $paymentRules = $country === 'VE'
+            ? [
+                'payment_method' => ['required', 'in:binance,pago_movil'],
+                'payment_receipt' => ['required', 'image', 'max:5120'],
+            ]
+            : [
+                'payment_method' => ['required', 'in:stripe'],
+                'stripe_token' => ['required', 'string', 'max:255'],
+            ];
+
+        $payment = $request->validate($paymentRules);
+
+        $receiptPath = null;
+        if ($request->hasFile('payment_receipt')) {
+            $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
+        }
+
+        $orderNumber = 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid());
+
+        if ($country === 'US') {
+            $amount = (int) round($total / 10);
+            $currency = config('services.stripe.currency', 'usd');
+
+            $response = Http::withBasicAuth(config('services.stripe.secret'), '')
+                ->asForm()
+                ->post('https://api.stripe.com/v1/charges', [
+                    'amount' => $amount,
+                    'currency' => $currency,
+                    'source' => $payment['stripe_token'],
+                    'description' => 'RTE Order ' . $orderNumber,
+                ]);
+
+            if ($response->failed()) {
+                $error = $response->json()['error']['message'] ?? 'No se pudo procesar el pago con Stripe.';
+                return back()->withInput()->with('error', $error);
+            }
+        }
 
         $order = Order::create([
-            ...$data,
+            ...$base,
+            'payment_method' => $payment['payment_method'],
             'user_id' => Auth::id(),
-            'order_number' => 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid()),
+            'order_number' => $orderNumber,
             'status' => 'paid',
             'total' => $total,
             'items_json' => $cart,

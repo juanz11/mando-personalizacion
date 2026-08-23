@@ -16,22 +16,28 @@
                 <img src="{{ asset('Recurso 8LOGO BANNER.png') }}" alt="RTE Custom Controller">
             </a>
             <nav class="nav" id="mainNav">
-                <a href="{{ url('/') }}" class="nav-link">INICIO</a>
-                <a href="{{ url('/#plataformas') }}" class="nav-link">PLATAFORMAS</a>
-                <a href="{{ url('/#features') }}" class="nav-link">CARACTERÍSTICAS</a>
+                <a href="{{ url('/') }}" class="nav-link" data-i18n="custom_nav_home">INICIO</a>
+                <a href="{{ url('/#plataformas') }}" class="nav-link" data-i18n="custom_nav_platforms">PLATAFORMAS</a>
+                <a href="{{ url('/#features') }}" class="nav-link" data-i18n="custom_nav_features">CARACTERÍSTICAS</a>
                 @if(auth()->check())
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.orders.index') }}" class="nav-link" style="color:#4ade80;">ADMIN</a>
                     @endif
-                    <a href="{{ route('orders.index') }}" class="nav-link">MIS ÓRDENES</a>
+                    <a href="{{ route('orders.index') }}" class="nav-link" data-i18n="custom_nav_orders">MIS ÓRDENES</a>
                     <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                         @csrf
-                        <button type="submit" class="nav-link" style="background:none;border:none;cursor:pointer;">CERRAR SESIÓN</button>
+                        <button type="submit" class="nav-link" style="background:none;border:none;cursor:pointer;" data-i18n="custom_nav_logout">CERRAR SESIÓN</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="nav-link">INICIAR SESIÓN</a>
+                    <a href="{{ route('login') }}" class="nav-link" data-i18n="custom_nav_login">INICIAR SESIÓN</a>
                 @endif
             </nav>
+
+            <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
+                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇻🇪</button>
+                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇺🇸</button>
+            </div>
+
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
                 <svg viewBox="0 0 24 24" width="24" height="24">
                     <path fill="currentColor" d="M3 18h18v-2H3zm0-5h18v-2H3zm0-7v2h18V6z"/>
@@ -50,7 +56,7 @@
                         <svg viewBox="0 0 24 24" width="20" height="20">
                             <path fill="currentColor" d="M11.67 3.87 9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z"/>
                         </svg>
-                        Elegir otro modelo
+                        <span data-i18n="custom_back">Elegir otro modelo</span>
                     </a>
                     <div class="platform-switch">
                         <a href="/ps5" class="platform-switch-btn {{ $model === 'ps5' ? 'active' : '' }}">
@@ -110,14 +116,14 @@
                 <div class="price-section">
                     <h3 class="price" id="totalPrice">$ 298.000,00</h3>
                     @if(auth()->check())
-                        <button type="button" class="order-btn" id="orderBtn">
+                        <button type="button" class="order-btn" id="orderBtn" data-i18n="custom_quote">
                             Cotizar
                             <svg viewBox="0 0 24 24" width="20" height="20">
                                 <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
                             </svg>
                         </button>
                     @else
-                        <a href="{{ route('register') }}" class="order-btn" style="text-decoration: none;">
+                        <a href="{{ route('register') }}" class="order-btn" style="text-decoration: none;" data-i18n="custom_quote">
                             Cotizar
                             <svg viewBox="0 0 24 24" width="20" height="20">
                                 <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
@@ -173,8 +179,8 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>Copyright {{ date('Y') }} © <strong>RTE Custom Controller</strong>. Todos los derechos reservados.</p>
-            <p>Desarrollado por <a href="#" target="_blank">Daayi</a></p>
+            <p data-i18n="custom_footer_copy">Copyright {{ date('Y') }}  RTE Custom Controller. Todos los derechos reservados.</p>
+            <p data-i18n="custom_footer_dev">Desarrollado por <a href="#" target="_blank">Daayi</a></p>
         </div>
     </footer>
 
@@ -189,18 +195,18 @@
 
             <!-- Form view -->
             <div class="modal-body" id="orderModalForm">
-                <span class="modal-eyebrow">Resumen de tu pedido</span>
-                <h3 id="orderModalTitle">Confirmá tu cotización</h3>
+                <span class="modal-eyebrow" data-i18n="custom_modal_eyebrow">Resumen de tu pedido</span>
+                <h3 id="orderModalTitle" data-i18n="custom_modal_title">Confirmá tu cotización</h3>
 
                 <div class="modal-quote">
-                    <span>Total estimado</span>
+                    <span data-i18n="custom_modal_total">Total estimado</span>
                     <strong id="modalQuotePrice">$ 0,00</strong>
                 </div>
 
                 <form id="orderForm" class="order-form" novalidate>
-                    <p class="form-note" style="margin-bottom: 18px;">Usaremos los datos de tu cuenta (nombre, email y teléfono) para el pedido.</p>
+                    <p class="form-note" style="margin-bottom: 18px;" data-i18n="custom_modal_note">Usaremos los datos de tu cuenta (nombre, email y teléfono) para el pedido.</p>
 
-                    <button type="submit" class="btn-submit-order">Confirmar pedido</button>
+                    <button type="submit" class="btn-submit-order" data-i18n="custom_modal_submit">Confirmar pedido</button>
                 </form>
             </div>
 
@@ -211,14 +217,95 @@
                         <path d="M20 6 9 17l-5-5"/>
                     </svg>
                 </div>
-                <h3>¡Pedido recibido!</h3>
+                <h3 data-i18n="custom_modal_success_title">¡Pedido recibido!</h3>
                 <p>Vamos a contactarte a <strong id="successContact"></strong> para validar el pago por <strong id="successMethod"></strong> y coordinar tu mando <strong id="successModel">{{ $model === 'xbox' ? 'Xbox' : 'PS5' }}</strong>.</p>
-                <button type="button" class="btn-outline-modal" id="orderSuccessClose">Cerrar</button>
+                <button type="button" class="btn-outline-modal" id="orderSuccessClose" data-i18n="custom_modal_close">Cerrar</button>
             </div>
         </div>
     </div>
 
     <script src="{{ asset('js/script.js') }}"></script>
     <script src="{{ asset('js/order-modal.js') }}"></script>
+    <script>
+        (function() {
+            const translations = {
+                es: {
+                    custom_nav_home: 'INICIO',
+                    custom_nav_platforms: 'PLATAFORMAS',
+                    custom_nav_features: 'CARACTERÍSTICAS',
+                    custom_nav_orders: 'MIS ÓRDENES',
+                    custom_nav_logout: 'CERRAR SESIÓN',
+                    custom_nav_login: 'INICIAR SESIÓN',
+                    custom_back: 'Elegir otro modelo',
+                    custom_quote: 'Cotizar',
+                    custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. Todos los derechos reservados.',
+                    custom_footer_dev: 'Desarrollado por ',
+                    custom_modal_eyebrow: 'Resumen de tu pedido',
+                    custom_modal_title: 'Confirmá tu cotización',
+                    custom_modal_total: 'Total estimado',
+                    custom_modal_note: 'Usaremos los datos de tu cuenta (nombre, email y teléfono) para el pedido.',
+                    custom_modal_submit: 'Confirmar pedido',
+                    custom_modal_success_title: '¡Pedido recibido!',
+                    custom_modal_close: 'Cerrar'
+                },
+                en: {
+                    custom_nav_home: 'HOME',
+                    custom_nav_platforms: 'PLATFORMS',
+                    custom_nav_features: 'FEATURES',
+                    custom_nav_orders: 'MY ORDERS',
+                    custom_nav_logout: 'LOG OUT',
+                    custom_nav_login: 'LOG IN',
+                    custom_back: 'Choose another model',
+                    custom_quote: 'Quote',
+                    custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. All rights reserved.',
+                    custom_footer_dev: 'Developed by ',
+                    custom_modal_eyebrow: 'Order summary',
+                    custom_modal_title: 'Confirm your quote',
+                    custom_modal_total: 'Estimated total',
+                    custom_modal_note: 'We will use your account details (name, email and phone) for the order.',
+                    custom_modal_submit: 'Confirm order',
+                    custom_modal_success_title: 'Order received!',
+                    custom_modal_close: 'Close'
+                }
+            };
+
+            function setLang(lang) {
+                document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (translations[lang] && translations[lang][key]) {
+                        if (key === 'custom_footer_dev') {
+                            const link = el.querySelector('a');
+                            const devText = translations[lang][key];
+                            if (link) {
+                                el.textContent = devText;
+                                el.appendChild(link);
+                            } else {
+                                el.textContent = devText;
+                            }
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+            }
+
+            const saved = localStorage.getItem('rte_country') || 'VE';
+            const lang = saved === 'US' ? 'en' : 'es';
+            document.querySelectorAll('.site-country-btn').forEach(btn => {
+                if (btn.dataset.country === saved) {
+                    btn.style.borderColor = '#4ade80';
+                }
+                btn.addEventListener('click', function() {
+                    const selected = this.dataset.country;
+                    localStorage.setItem('rte_country', selected);
+                    document.querySelectorAll('.site-country-btn').forEach(b => b.style.borderColor = 'transparent');
+                    this.style.borderColor = '#4ade80';
+                    setLang(selected === 'US' ? 'en' : 'es');
+                });
+            });
+            setLang(lang);
+        })();
+    </script>
 </body>
 </html>
