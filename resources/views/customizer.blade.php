@@ -19,6 +19,15 @@
                 <a href="{{ url('/') }}" class="nav-link">INICIO</a>
                 <a href="{{ url('/#plataformas') }}" class="nav-link">PLATAFORMAS</a>
                 <a href="{{ url('/#features') }}" class="nav-link">CARACTERÍSTICAS</a>
+                @if(auth()->check())
+                    <a href="{{ route('orders.index') }}" class="nav-link">MIS ÓRDENES</a>
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="nav-link" style="background:none;border:none;cursor:pointer;">CERRAR SESIÓN</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link">INICIAR SESIÓN</a>
+                @endif
             </nav>
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
                 <svg viewBox="0 0 24 24" width="24" height="24">

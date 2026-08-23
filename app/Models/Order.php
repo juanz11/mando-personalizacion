@@ -23,6 +23,8 @@ class Order extends Model
         'shipping_city',
         'shipping_zip',
         'shipping_country',
+        'payment_method',
+        'payment_receipt',
         'carrier',
         'tracking_number',
         'shipped_at',

@@ -44,6 +44,14 @@
                 <p>{{ $order->customer_phone }}</p>
             </div>
             <div class="section">
+                <h2>Pago</h2>
+                <p><strong>Método:</strong> {{ $order->payment_method == 'binance' ? 'Binance Pay' : 'Pago Móvil Venezuela' }}</p>
+                @if($order->payment_receipt)
+                    <p><a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
+                @endif
+            </div>
+
+            <div class="section">
                 <h2>Envío</h2>
                 <p>{{ $order->shipping_address }}</p>
                 <p>{{ $order->shipping_city }}, {{ $order->shipping_zip }}</p>

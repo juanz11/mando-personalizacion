@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CheckoutController extends Controller
 {
@@ -46,9 +47,13 @@ class CheckoutController extends Controller
             'shipping_city' => ['required', 'string', 'max:255'],
             'shipping_zip' => ['required', 'string', 'max:20'],
             'shipping_country' => ['required', 'string', 'max:100'],
+            'payment_method' => ['required', 'in:binance,pago_movil'],
+            'payment_receipt' => ['required', 'image', 'max:5120'],
         ]);
 
         $total = collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1));
+
+        $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
 
         $order = Order::create([
             'user_id' => Auth::id(),
@@ -56,6 +61,8 @@ class CheckoutController extends Controller
             'status' => 'paid',
             'total' => $total,
             'items_json' => $cart,
+            'payment_method' => $data['payment_method'],
+            'payment_receipt' => $receiptPath,
             ...$data,
         ]);
 

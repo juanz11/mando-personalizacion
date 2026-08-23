@@ -18,6 +18,12 @@
         .summary { background: #0b0d10; border-radius: 12px; padding: 16px; margin-bottom: 24px; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .summary-total { font-weight: 700; color: #fff; border-top: 1px solid #26282c; padding-top: 12px; margin-top: 12px; }
+        .payment-methods { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+        .payment-method { border: 1px solid #26282c; border-radius: 12px; padding: 14px; cursor: pointer; background: #0b0d10; }
+        .payment-method input { margin-right: 10px; }
+        .payment-method strong { display: block; margin-bottom: 4px; }
+        .payment-method small { color: #a1a5ab; }
+        .receipt-note { color: #a1a5ab; font-size: 0.8rem; margin-top: 6px; }
     </style>
 </head>
 <body>
@@ -36,7 +42,7 @@
                 <span>${{ number_format($total, 2) }}</span>
             </div>
         </div>
-        <form method="POST" action="{{ route('checkout.store') }}">
+        <form method="POST" action="{{ route('checkout.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-grid">
                 <div class="form-group wide">
@@ -68,6 +74,29 @@
                     <input type="text" id="shipping_country" name="shipping_country" value="US" required>
                 </div>
             </div>
+
+            <div class="form-group wide">
+                <label>Método de pago</label>
+                <div class="payment-methods">
+                    <label class="payment-method" for="payment_binance">
+                        <input type="radio" id="payment_binance" name="payment_method" value="binance" required {{ old('payment_method') == 'binance' ? 'checked' : '' }}>
+                        <strong>Binance Pay</strong>
+                        <small>Correo: Javierjbd13@gmail.com</small>
+                    </label>
+                    <label class="payment-method" for="payment_pagomovil">
+                        <input type="radio" id="payment_pagomovil" name="payment_method" value="pago_movil" required {{ old('payment_method') == 'pago_movil' ? 'checked' : '' }}>
+                        <strong>Pago Móvil Venezuela</strong>
+                        <small>Teléfono: 04127141909 · CI: J-508086635 · País: Venezuela</small>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group wide">
+                <label for="payment_receipt">Comprobante de pago (captura)</label>
+                <input type="file" id="payment_receipt" name="payment_receipt" accept="image/*,.pdf" required>
+                <p class="receipt-note">Subí el capture o comprobante del pago realizado.</p>
+            </div>
+
             <button type="submit" class="btn btn-primary" style="width:100%">Confirmar Compra</button>
         </form>
     </div>

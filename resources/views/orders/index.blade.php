@@ -17,6 +17,13 @@
 </head>
 <body>
 <div class="orders-page">
+    <div style="max-width:900px; margin:0 auto 16px; display:flex; justify-content:space-between; align-items:center;">
+        <a href="{{ url('/') }}" class="btn btn-outline" style="padding:10px 20px;">← Volver al inicio</a>
+        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+            @csrf
+            <button type="submit" class="btn btn-outline" style="padding:10px 20px;">Cerrar sesión</button>
+        </form>
+    </div>
     <div class="orders-card">
         <h1>Mis Órdenes</h1>
         <table>

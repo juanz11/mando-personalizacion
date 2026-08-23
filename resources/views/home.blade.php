@@ -22,6 +22,15 @@
                 <a href="#plataformas">Personalizar</a>
                 <a href="#features">Características</a>
                 <a href="/ps5" class="btn btn-primary" style="padding: 10px 24px;">Personalizar Ahora</a>
+                @if(auth()->check())
+                    <a href="{{ route('orders.index') }}" class="btn btn-outline" style="padding: 10px 24px;">Mis Órdenes</a>
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-outline" style="padding: 10px 24px;">Cerrar Sesión</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline" style="padding: 10px 24px;">Iniciar Sesión</a>
+                @endif
             </nav>
 
             <button class="menu-toggle" aria-label="Abrir menú">
