@@ -13,19 +13,7 @@ const controllerModels = {
                     { name: "Rojo", color: "rojo", price: 30000, type: "mate" },
                     { name: "Naranja Fluor", color: "naranja-fluor", price: 30000, type: "mate" },
                     { name: "Gris", color: "gris", price: 30000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 30000, type: "mate" },
-                    { name: "Verde", color: "verde", price: 38000, type: "textura" },
-                    { name: "Payaso", color: "payaso", price: 38000, type: "textura" },
-                    { name: "Glow Dark", color: "glow-dark", price: 38000, type: "textura" },
-                    { name: "Octopus", color: "octopus", price: 38000, type: "textura" },
-                    { name: "Galaxia", color: "galaxia", price: 38000, type: "textura" },
-                    { name: "Oro", color: "gold", price: 38000, type: "textura" },
-                    { name: "Plata", color: "silver", price: 38000, type: "textura" },
-                    { name: "Dollar", color: "dollar", price: 38000, type: "textura" },
-                    { name: "Flores", color: "flowers", price: 38000, type: "textura" },
-                    { name: "Carbono", color: "carbon", price: 38000, type: "textura" },
-                    { name: "Olas", color: "olas", price: 38000, type: "textura" },
-                    { name: "Hojas", color: "hojas", price: 38000, type: "textura" }
+                    { name: "Blanco", color: "blanco", price: 30000, type: "mate" }
                 ]
             },
             trim: {
@@ -121,13 +109,8 @@ const controllerModels = {
                 basePath: "https://customizer.diemgaming.com.ar/ps5/back-shell",
                 previewImage: "back.png",
                 colors: [
-                    { name: "Default", color: "default", price: 0, type: "mate", typeLabel: "Mate" },
-                    { name: "Negro", color: "negro", price: 0, type: "mate", typeLabel: "Mate" },
-                    { name: "Negro", color: "negro", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
-                    { name: "Azul", color: "azul", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
-                    { name: "Verde", color: "verde", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
-                    { name: "Rojo", color: "rojo", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
-                    { name: "Blanco", color: "blanco", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" }
+                    { name: "Default", color: "default", price: 0, type: "mate" },
+                    { name: "Negro", color: "negro", price: 0, type: "mate" }
                 ]
             }
         }
@@ -282,6 +265,41 @@ const controllerModels = {
     }
 };
 
+const colorSwatches = {
+    'default': '#f5f7fa',
+    'negro': '#111111',
+    'rojo': '#d32f2f',
+    'azul': '#1976d2',
+    'azul-mar-claro': '#4fc3f7',
+    'verde': '#388e3c',
+    'verde-manzana': '#7cb342',
+    'blanco': '#f5f7fa',
+    'gris': '#9e9e9e',
+    'naranja-fluor': '#ff9800',
+    'naranja': '#ff9800',
+    'rosa': '#e91e63',
+    'rosas': '#e91e63',
+    'amarillo': '#ffeb3b',
+    'violeta': '#7b1fa2',
+    'cromo': '#c0c0c0',
+    'dorado': '#ffd700',
+    'oro': '#ffd700',
+    'gold': '#ffd700',
+    'golden': '#ffd700',
+    'silver': '#c0c0c0',
+    'plata': '#c0c0c0',
+    'carbon': '#333333',
+    'transparente': 'rgba(255,255,255,0.3)',
+    'bicolor': 'linear-gradient(90deg, #d32f2f 0%, #1976d2 100%)',
+    'palmeras': 'linear-gradient(45deg, #388e3c 0%, #ff9800 100%)',
+    'joker': 'linear-gradient(135deg, #7b1fa2 0%, #22d3ee 100%)'
+};
+
+function getSwatchColor(color) {
+    const nameKey = color.name.toLowerCase().replace(/\s+/g, '-');
+    return colorSwatches[nameKey] || colorSwatches[color.color] || 'linear-gradient(135deg, #555 0%, #777 100%)';
+}
+
 let currentModel = 'ps5';
 let currentPart = 'frontShell';
 let selectedColors = {};
@@ -423,16 +441,14 @@ function renderColorOptions(part) {
 function createColorButton(color, part, partConfig) {
     const isSelected = selectedColors[part].color === color.color;
     const activeClass = isSelected ? 'active' : '';
-    const imageUrl = getImageUrl(partConfig, color);
 
     return `
         <button class="color-btn ${activeClass}"
                 data-color="${color.color}"
                 data-price="${color.price}"
-                data-part="${part}"
-                data-image="${imageUrl}">
+                data-part="${part}">
             <span class="color-preview">
-                <img src="${imageUrl}" alt="${color.name}" onerror="this.style.background='#333'">
+                <span class="color-dot" style="background: ${getSwatchColor(color)}"></span>
             </span>
             <span class="color-name">${color.name}</span>
             <span class="color-price">+ $${(color.price / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>

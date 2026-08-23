@@ -448,6 +448,13 @@ a {
     object-fit: cover;
 }
 
+.color-dot {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+}
+
 .color-btn:hover .color-preview {
     transform: scale(1.1);
 }
