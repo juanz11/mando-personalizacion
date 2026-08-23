@@ -7,6 +7,7 @@ const controllerModels = {
                 layerId: "frontShellLayer",
                 basePath: "https://customizer.diemgaming.com.ar/ps5/front-shell-panel",
                 colors: [
+                    { name: "Default", color: "default", price: 0, type: "mate" },
                     { name: "Negro", color: "negro", price: 0, type: "mate" },
                     { name: "Azul Mar Claro", color: "azul-mar-claro", price: 30000, type: "mate" },
                     { name: "Rojo", color: "rojo", price: 30000, type: "mate" },
@@ -82,11 +83,14 @@ const controllerModels = {
                 layerId: "sticksLayer",
                 basePath: "https://customizer.diemgaming.com.ar/ps5/sticks",
                 colors: [
-                    { name: "Negro", color: "default", price: 0, type: "mate" },
-                    { name: "Rojo", color: "rojo", price: 8000, type: "mate" },
-                    { name: "Azul", color: "azul", price: 8000, type: "mate" },
-                    { name: "Verde", color: "verde", price: 8000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 8000, type: "mate" }
+                    { name: "Default", color: "default", price: 0, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate" },
+                    { name: "Rojo", color: "rojo", price: 5000, type: "mate" },
+                    { name: "Naranja Fluor", color: "naranja-fluor", price: 5000, type: "mate" },
+                    { name: "Rosa", color: "rosa", price: 5000, type: "mate" },
+                    { name: "Violeta", color: "violeta", price: 5000, type: "mate" },
+                    { name: "Blanco", color: "blanco", price: 5000, type: "mate" },
+                    { name: "Amarillo", color: "amarillo", price: 5000, type: "mate" }
                 ]
             },
             rings: {
@@ -118,6 +122,7 @@ const controllerModels = {
                 previewImage: "back.png",
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate", typeLabel: "Mate" },
+                    { name: "Negro", color: "negro", price: 0, type: "mate", typeLabel: "Mate" },
                     { name: "Negro", color: "negro", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
                     { name: "Azul", color: "azul", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
                     { name: "Verde", color: "verde", price: 42000, type: "textura", typeLabel: "Grip Antideslizante" },
