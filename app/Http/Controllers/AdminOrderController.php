@@ -56,7 +56,7 @@ class AdminOrderController extends Controller
 
         Mail::to($order->customer_email)->send(new OrderShipped($order));
 
-        return back()->with('success', 'Tracking agregado y email enviado.');
+        return back()->with('success', 'Tracking agregado y email enviado.')->with('tracking_added', true);
     }
 
     public function updateStatus(Request $request, Order $order)

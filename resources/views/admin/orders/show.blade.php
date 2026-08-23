@@ -42,6 +42,35 @@
             <div style="background:#064e3b; color:#34d399; padding:12px 16px; border-radius:8px; margin-bottom:20px;">{{ session('success') }}</div>
         @endif
 
+        @php
+            $waMessage = null;
+            $waLink = null;
+            if ($order->tracking_number) {
+                $waMessage = $order->shipping_country === 'US'
+                    ? "Hello {$order->customer_name}, your purchase at RTE Custom Controller (Order #{$order->order_number}) has been shipped. You can track it here: " . ($order->trackingUrl() ?? '')
+                    : "Hola {$order->customer_name}, tu compra en RTE Custom Controller (Orden #{$order->order_number}) ha sido enviada. Podés verificar el tracking aquí: " . ($order->trackingUrl() ?? '');
+
+                $phone = preg_replace('/\D/', '', $order->customer_phone);
+                $phone = ltrim($phone, '0');
+                if ($order->shipping_country === 'VE' && !str_starts_with($phone, '58')) {
+                    $phone = '58' . $phone;
+                } elseif ($order->shipping_country === 'US' && strlen($phone) === 10) {
+                    $phone = '1' . $phone;
+                }
+                $waLink = $phone ? "https://wa.me/{$phone}?text=" . urlencode($waMessage) : "https://wa.me/?text=" . urlencode($waMessage);
+            }
+        @endphp
+
+        @if(session('tracking_added'))
+            <div style="background:#064e3b; color:#34d399; padding:16px; border-radius:8px; margin-bottom:20px;">
+                <p style="margin-bottom:12px;"><strong>¡Envío confirmado!</strong> Se envió un correo al cliente. También podés notificarlo por WhatsApp.</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <a href="{{ $waLink }}" target="_blank" class="btn btn-primary" style="background:#25D366; color:#fff; border:none;">📱 Notificar por WhatsApp</a>
+                    <button type="button" class="copy-btn" data-copy="{{ $waMessage }}">Copiar mensaje</button>
+                </div>
+            </div>
+        @endif
+
         <div class="grid">
             <div class="section">
                 <h2>Cliente</h2>
@@ -81,6 +110,10 @@
                 <p>{{ $order->shipping_address }}</p>
                 <p>{{ $order->shipping_city }}, {{ $order->shipping_zip }}</p>
                 <p>{{ $order->shipping_country }}</p>
+                @if($waLink)
+                    <p style="margin-top:14px;"><strong>Tracking:</strong> {{ $order->tracking_number }} ({{ App\Models\Order::$carriers[$order->carrier] ?? $order->carrier }})</p>
+                    <p style="margin-top:8px;"><a href="{{ $waLink }}" target="_blank" class="btn btn-primary" style="background:#25D366; color:#fff; border:none;">📱 Notificar por WhatsApp</a></p>
+                @endif
             </div>
         </div>
 
