@@ -290,21 +290,35 @@
                 });
             }
 
-            const saved = localStorage.getItem('rte_country') || 'VE';
-            const lang = saved === 'US' ? 'en' : 'es';
-            document.querySelectorAll('.site-country-btn').forEach(btn => {
-                if (btn.dataset.country === saved) {
-                    btn.style.borderColor = '#4ade80';
-                }
-                btn.addEventListener('click', function() {
-                    const selected = this.dataset.country;
-                    localStorage.setItem('rte_country', selected);
-                    document.querySelectorAll('.site-country-btn').forEach(b => b.style.borderColor = 'transparent');
-                    this.style.borderColor = '#4ade80';
-                    setLang(selected === 'US' ? 'en' : 'es');
+            function detectCountry() {
+                const stored = localStorage.getItem('rte_country');
+                if (stored) return Promise.resolve(stored);
+                return Promise.race([
+                    fetch('https://ipapi.co/json/').then(r => { if (!r.ok) throw new Error(); return r.json(); }),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error()), 2000))
+                ]).then(data => data.country_code === 'US' ? 'US' : 'VE').catch(() => {
+                    const langs = navigator.languages || [navigator.language || 'es'];
+                    return langs.some(l => (l || '').toLowerCase().startsWith('en')) ? 'US' : 'VE';
                 });
+            }
+
+            detectCountry().then(saved => {
+                localStorage.setItem('rte_country', saved);
+                const lang = saved === 'US' ? 'en' : 'es';
+                document.querySelectorAll('.site-country-btn').forEach(btn => {
+                    if (btn.dataset.country === saved) {
+                        btn.style.borderColor = '#4ade80';
+                    }
+                    btn.addEventListener('click', function() {
+                        const selected = this.dataset.country;
+                        localStorage.setItem('rte_country', selected);
+                        document.querySelectorAll('.site-country-btn').forEach(b => b.style.borderColor = 'transparent');
+                        this.style.borderColor = '#4ade80';
+                        setLang(selected === 'US' ? 'en' : 'es');
+                    });
+                });
+                setLang(lang);
             });
-            setLang(lang);
         })();
     </script>
 </body>

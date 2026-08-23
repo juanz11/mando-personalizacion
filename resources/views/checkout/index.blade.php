@@ -42,12 +42,31 @@
         .country-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; border: 2px solid #33363c; background: #0b0d10; color: #a1a5ab; cursor: pointer; transition: all 0.2s; }
         .country-btn.active { border-color: #4ade80; color: #fff; background: rgba(74, 222, 128, 0.1); }
         .country-btn .flag { font-size: 1.25rem; }
+        .stripe-field { display: flex; align-items: center; color: #000; }
+        .stripe-field .__PrivateStripeElement,
+        .stripe-field .StripeElement { width: 100% !important; }
+        .alert { border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 0.9rem; }
+        .alert-error { background: rgba(220, 38, 38, 0.15); border: 1px solid #dc2626; color: #fca5a5; }
+        .alert ul { margin: 0; padding-left: 20px; }
     </style>
 </head>
 <body>
 <div class="checkout-page">
     <div class="checkout-card">
         <h1 data-i18n="checkout_title">Finalizar Compra</h1>
+
+        @if(session('error'))
+            <div class="alert alert-error" role="alert">{{ session('error') }}</div>
+        @endif
+
+        @if($errors->any())
+            <ul class="alert alert-error">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
         <div class="summary">
             @foreach($cart as $item)
                 <div class="summary-row">
@@ -81,7 +100,8 @@
                 </div>
                 <div class="form-group">
                     <label for="shipping_city" data-i18n="city_label">Ciudad</label>
-                    <input type="text" id="shipping_city" name="shipping_city" required>
+                    <input type="text" id="shipping_city" name="shipping_city" list="city-list" value="{{ old('shipping_city') }}" required>
+                    <datalist id="city-list"></datalist>
                 </div>
                 <div class="form-group">
                     <label for="shipping_state" data-i18n="state_label">Estado / Provincia</label>
@@ -154,12 +174,27 @@
                     <div class="payment-method">
                         <div class="pm-header">
                             <div>
-                                <strong data-i18n="stripe_title">Stripe (tarjeta de prueba)</strong>
-                                <small data-i18n="stripe_desc">Pagá con tarjeta usando Stripe en modo prueba.</small>
+                                <strong data-i18n="stripe_title">Stripe (test card)</strong>
+                                <small data-i18n="stripe_desc">Pay by card using Stripe test mode.</small>
                             </div>
                         </div>
                         <div class="payment-details">
-                            <div id="card-element" class="pay-row" style="background:#fff; color:#000; padding:10px 14px; border-radius:8px; min-height:40px;"></div>
+                            <div style="display: flex; flex-direction: column; gap: 14px;">
+                                <div>
+                                    <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_number">Número de tarjeta</label>
+                                    <div id="card-number" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
+                                </div>
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                                    <div>
+                                        <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_expiry">Fecha de expiración</label>
+                                        <div id="card-expiry" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
+                                    </div>
+                                    <div>
+                                        <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_cvc">CVC</label>
+                                        <div id="card-cvc" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="card-errors" role="alert" style="color:#ff6b6b; font-size:0.85rem; margin-top:6px;"></div>
                             <input type="hidden" name="payment_method" value="stripe" disabled>
                             <input type="hidden" name="stripe_token" id="stripe_token" disabled>
@@ -198,6 +233,9 @@
             pagomovil_desc: 'Usá estos datos y subí el capture del pago.',
             stripe_title: 'Stripe (tarjeta de prueba)',
             stripe_desc: 'Pagá con tarjeta usando Stripe en modo prueba.',
+            card_number: 'Número de tarjeta',
+            card_expiry: 'Fecha de expiración',
+            card_cvc: 'CVC',
             receipt_label: 'Comprobante de pago (captura)',
             receipt_note: 'Subí el capture o comprobante del pago realizado. Sin él no podremos procesar tu orden.',
             submit_button: 'Confirmar Compra',
@@ -222,6 +260,9 @@
             pagomovil_desc: 'Use these details and upload the payment screenshot.',
             stripe_title: 'Stripe (test card)',
             stripe_desc: 'Pay by card using Stripe test mode.',
+            card_number: 'Card number',
+            card_expiry: 'Expiry date',
+            card_cvc: 'CVC',
             receipt_label: 'Payment receipt (screenshot)',
             receipt_note: 'Upload the payment screenshot or receipt. We cannot process your order without it.',
             submit_button: 'Confirm Purchase',
@@ -259,6 +300,8 @@
     const receiptGroup = document.getElementById('receipt-group');
     const receiptInput = document.getElementById('payment_receipt');
     const stateSelect = document.getElementById('shipping_state');
+    const cityList = document.getElementById('city-list');
+    const oldState = @json(old('shipping_state'));
     const storedCountry = localStorage.getItem('rte_country') || 'VE';
 
     function setCountry(country) {
@@ -297,7 +340,37 @@
             receiptInput.disabled = false;
             receiptInput.required = true;
         }
+
+        if (oldState && states[country].includes(oldState)) {
+            stateSelect.value = oldState;
+        }
+        updateCities();
     }
+
+    function updateCities() {
+        cityList.innerHTML = '';
+        const state = stateSelect.value;
+        const country = countrySelect.value;
+        if (!state) return;
+        const apiCountry = country === 'US' ? 'United States' : 'Venezuela';
+        fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ country: apiCountry, state: state })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.error || !Array.isArray(data.data)) return;
+            data.data.slice(0, 100).forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city;
+                cityList.appendChild(opt);
+            });
+        })
+        .catch(() => {});
+    }
+
+    stateSelect.addEventListener('change', updateCities);
 
     countryBtns.forEach(btn => {
         btn.addEventListener('click', () => setCountry(btn.dataset.country));
@@ -327,22 +400,39 @@
     });
 
     @if($stripeKey)
+    const stripeLang = countrySelect.value === 'US' ? 'en' : 'es';
     const stripe = Stripe('{{ $stripeKey }}');
-    const elements = stripe.elements();
-    const card = elements.create('card');
-    card.mount('#card-element');
+    const elements = stripe.elements({ locale: stripeLang });
+    const stripeStyle = {
+        base: {
+            fontSize: '16px',
+            color: '#000',
+            fontFamily: '"Poppins", sans-serif',
+            '::placeholder': { color: '#6b7280' }
+        },
+        invalid: { color: '#dc2626' }
+    };
 
-    card.addEventListener('change', function(event) {
+    const cardNumber = elements.create('cardNumber', { style: stripeStyle, showIcon: true });
+    const cardExpiry = elements.create('cardExpiry', { style: stripeStyle });
+    const cardCvc = elements.create('cardCvc', { style: stripeStyle });
+
+    cardNumber.mount('#card-number');
+    cardExpiry.mount('#card-expiry');
+    cardCvc.mount('#card-cvc');
+
+    function showStripeError(event) {
         const displayError = document.getElementById('card-errors');
         displayError.textContent = event.error ? event.error.message : '';
-    });
+    }
+    [cardNumber, cardExpiry, cardCvc].forEach(el => el.addEventListener('change', showStripeError));
 
     const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
         if (countrySelect.value !== 'US') return;
         event.preventDefault();
 
-        stripe.createToken(card).then(function(result) {
+        stripe.createToken(cardNumber).then(function(result) {
             if (result.error) {
                 document.getElementById('card-errors').textContent = result.error.message;
             } else {

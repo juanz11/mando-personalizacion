@@ -28,36 +28,44 @@
 <body>
 <div class="order-page">
     <div class="order-card">
-        <a href="{{ url('/') }}" class="btn btn-outline" style="display:inline-block; padding:10px 20px; margin-bottom:20px;">← Volver al menú</a>
+        <a href="{{ url('/') }}" class="btn btn-outline" style="display:inline-block; padding:10px 20px; margin-bottom:20px;" data-i18n="order_back">← Volver al menú</a>
         <h1>Orden #{{ $order->order_number }}</h1>
-        <p class="subtitle">Estado: {{ $order->statusLabel() }}</p>
+        <p class="subtitle"><span data-i18n="order_status">Estado:</span> {{ $order->statusLabel() }}</p>
 
         <div class="grid">
             <div class="section">
-                <h2>Detalles de Envío</h2>
+                <h2 data-i18n="order_shipping">Detalles de Envío</h2>
                 <p>{{ $order->customer_name }}</p>
                 <p>{{ $order->shipping_address }}</p>
                 <p>{{ $order->shipping_city }}, {{ $order->shipping_zip }}</p>
                 <p>{{ $order->shipping_country }}</p>
             </div>
             <div class="section">
-                <h2>Resumen</h2>
+                <h2 data-i18n="order_summary">Resumen</h2>
                 @foreach($order->items as $item)
                     <p>{{ $item->quantity }}x {{ $item->product_name }} - ${{ number_format($item->price, 2, ',', '.') }}</p>
                 @endforeach
-                <p style="margin-top:12px; font-weight:700; color:#fff;">Total: ${{ number_format($order->total, 2, ',', '.') }}</p>
+                <p style="margin-top:12px; font-weight:700; color:#fff;"><span data-i18n="order_total">Total:</span> ${{ number_format($order->total, 2, ',', '.') }}</p>
             </div>
         </div>
 
         <div class="section" style="margin-bottom:24px;">
-            <h2>Pago</h2>
-            <p style="margin-bottom:12px;"><strong>Método:</strong> {{ $order->payment_method == 'binance' ? 'Binance Pay' : 'Pago Móvil Venezuela' }}</p>
+            <h2 data-i18n="order_payment">Pago</h2>
+            <p style="margin-bottom:12px;"><strong data-i18n="order_method">Método:</strong>
+                @if($order->payment_method == 'binance')
+                    Binance Pay
+                @elseif($order->payment_method == 'stripe')
+                    Stripe
+                @else
+                    Pago Móvil Venezuela
+                @endif
+            </p>
             @if($order->payment_method == 'binance')
                 <div class="pay-row">
                     <span>Correo: <code id="binance-email">Javierjbd13@gmail.com</code></span>
                     <button type="button" class="copy-btn" data-copy="Javierjbd13@gmail.com">Copiar</button>
                 </div>
-            @else
+            @elseif($order->payment_method == 'pago_movil')
                 <div class="pay-row">
                     <span>Teléfono: <code id="pagomovil-phone">04127141909</code></span>
                     <button type="button" class="copy-btn" data-copy="04127141909">Copiar</button>
@@ -70,14 +78,16 @@
                     <span>Banco: <code id="pagomovil-bank">Banco de Venezuela</code></span>
                     <button type="button" class="copy-btn" data-copy="Banco de Venezuela">Copiar</button>
                 </div>
+            @elseif($order->payment_method == 'stripe')
+                <p style="color:#a1a5ab; font-size:0.9rem;" data-i18n="stripe_test_message">Pago procesado con Stripe en modo prueba.</p>
             @endif
             @if($order->payment_receipt)
-                <p style="margin-top:14px;"><a href="{{ route('receipts.show', ['path' => $order->payment_receipt]) }}" target="_blank" class="track-btn" style="background:#60a5fa;">Ver comprobante</a></p>
+                <p style="margin-top:14px;"><a href="{{ route('receipts.show', ['path' => $order->payment_receipt]) }}" target="_blank" class="track-btn" style="background:#60a5fa;" data-i18n="order_view_receipt">Ver comprobante</a></p>
             @endif
         </div>
 
         <div class="section" style="margin-bottom:24px;">
-            <h2>Envío</h2>
+            <h2 data-i18n="order_shipping_title">Envío</h2>
             @if($order->tracking_number)
                 <p style="color:#4ade80; font-weight:600; margin-bottom:12px;">¡Envío listo!</p>
                 <p style="margin-bottom:6px;"><strong>Carrier:</strong> {{ App\Models\Order::$carriers[$order->carrier] ?? $order->carrier }}</p>
@@ -90,12 +100,12 @@
                     </p>
                 @endif
             @else
-                <p style="color:#a1a5ab;">Todavía no hay un número de tracking asignado.</p>
+                <p style="color:#a1a5ab;" data-i18n="order_no_tracking">Todavía no hay un número de tracking asignado.</p>
             @endif
         </div>
 
         <div class="section">
-            <h2>Historial</h2>
+            <h2 data-i18n="order_history">Historial</h2>
             @forelse($order->trackingUpdates as $update)
                 <div class="timeline-item">
                     <strong>{{ ucfirst(str_replace('_', ' ', $update->status)) }}</strong>
@@ -103,7 +113,7 @@
                     <small style="color:#a1a5ab;">{{ $update->tracked_at->format('M d, Y H:i') }}</small>
                 </div>
             @empty
-                <p style="color:#a1a5ab;">Sin movimientos aún.</p>
+                <p style="color:#a1a5ab;" data-i18n="order_no_history">Sin movimientos aún.</p>
             @endforelse
         </div>
     </div>
@@ -127,6 +137,63 @@
             }
         });
     });
+</script>
+<script>
+    const translations = {
+        es: {
+            order_back: '← Volver al menú',
+            order_status: 'Estado:',
+            order_shipping: 'Detalles de Envío',
+            order_summary: 'Resumen',
+            order_total: 'Total:',
+            order_payment: 'Pago',
+            order_method: 'Método:',
+            stripe_test_message: 'Pago procesado con Stripe en modo prueba.',
+            order_shipping_title: 'Envío',
+            order_no_tracking: 'Todavía no hay un número de tracking asignado.',
+            order_history: 'Historial',
+            order_no_history: 'Sin movimientos aún.',
+            order_tracking_ready: '¡Envío listo!',
+            order_carrier: 'Carrier:',
+            order_guide: 'Número de guía:',
+            order_check_arrival: 'Verifica su llegada aquí:',
+            order_follow: 'Seguir mi envío',
+            order_view_receipt: 'Ver comprobante'
+        },
+        en: {
+            order_back: '← Back to menu',
+            order_status: 'Status:',
+            order_shipping: 'Shipping Details',
+            order_summary: 'Summary',
+            order_total: 'Total:',
+            order_payment: 'Payment',
+            order_method: 'Method:',
+            stripe_test_message: 'Payment processed with Stripe test mode.',
+            order_shipping_title: 'Shipping',
+            order_no_tracking: 'No tracking number assigned yet.',
+            order_history: 'History',
+            order_no_history: 'No updates yet.',
+            order_tracking_ready: 'Shipment ready!',
+            order_carrier: 'Carrier:',
+            order_guide: 'Tracking number:',
+            order_check_arrival: 'Check its arrival here:',
+            order_follow: 'Track my shipment',
+            order_view_receipt: 'View receipt'
+        }
+    };
+
+    function setLang(lang) {
+        document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+    }
+
+    const orderCountry = '{{ $order->shipping_country }}';
+    setLang(orderCountry === 'US' ? 'en' : 'es');
 </script>
 </body>
 </html>

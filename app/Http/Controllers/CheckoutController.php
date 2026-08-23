@@ -78,17 +78,23 @@ class CheckoutController extends Controller
         $orderNumber = 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid());
 
         if ($country === 'US') {
-            $amount = (int) round($total / 10);
+            $amount = (int) round($total * 100);
             $currency = config('services.stripe.currency', 'usd');
 
-            $response = Http::withBasicAuth(config('services.stripe.secret'), '')
-                ->asForm()
-                ->post('https://api.stripe.com/v1/charges', [
-                    'amount' => $amount,
-                    'currency' => $currency,
-                    'source' => $payment['stripe_token'],
-                    'description' => 'RTE Order ' . $orderNumber,
-                ]);
+            try {
+                $response = Http::withToken(config('services.stripe.secret'))
+                    ->asForm()
+                    ->timeout(15)
+                    ->withOptions(['connect_timeout' => 10])
+                    ->post('https://api.stripe.com/v1/charges', [
+                        'amount' => $amount,
+                        'currency' => $currency,
+                        'source' => $payment['stripe_token'],
+                        'description' => 'RTE Order ' . $orderNumber,
+                    ]);
+            } catch (\Exception $e) {
+                return back()->withInput()->with('error', 'No se pudo conectar con Stripe. Verificá tu conexión e intentá de nuevo.');
+            }
 
             if ($response->failed()) {
                 $error = $response->json()['error']['message'] ?? 'No se pudo procesar el pago con Stripe.';
