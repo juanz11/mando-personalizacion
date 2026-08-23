@@ -97,12 +97,21 @@
             <div class="customization-panel">
                 <div class="price-section">
                     <h3 class="price" id="totalPrice">$ 298.000,00</h3>
-                    <button type="button" class="order-btn" id="orderBtn">
-                        Cotizar
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
-                        </svg>
-                    </button>
+                    @if(auth()->check())
+                        <button type="button" class="order-btn" id="orderBtn">
+                            Cotizar
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
+                            </svg>
+                        </button>
+                    @else
+                        <a href="{{ route('register') }}" class="order-btn" style="text-decoration: none;">
+                            Cotizar
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
+                            </svg>
+                        </a>
+                    @endif
                 </div>
 
                 <!-- Tabs Navigation -->
@@ -174,88 +183,7 @@
                 </div>
 
                 <form id="orderForm" class="order-form" novalidate>
-                    <div class="form-row">
-                        <label for="orderName">Nombre completo</label>
-                        <input type="text" id="orderName" name="name" required placeholder="Tu nombre y apellido">
-                    </div>
-
-                    <div class="form-row-group">
-                        <div class="form-row">
-                            <label for="orderEmail">Correo electrónico</label>
-                            <input type="email" id="orderEmail" name="email" required placeholder="tu@email.com">
-                        </div>
-                        <div class="form-row">
-                            <label for="orderPhone">Teléfono</label>
-                            <input type="tel" id="orderPhone" name="phone" required placeholder="+54 9 11 1234 5678">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <label>Método de pago</label>
-                        <div class="payment-methods" id="paymentMethods">
-                            <button type="button" class="payment-method-btn active" data-method="transferencia">
-                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M3 10h18M5 10V7l7-3 7 3v3M5 10v9M19 10v9M9 14v3M15 14v3M3 21h18"/>
-                                </svg>
-                                <span>Transferencia</span>
-                            </button>
-                            <button type="button" class="payment-method-btn" data-method="pago-movil">
-                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>
-                                </svg>
-                                <span>Pago Móvil</span>
-                            </button>
-                            <button type="button" class="payment-method-btn" data-method="paypal">
-                                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 15h4.5a4 4 0 0 0 0-8H8L6 19"/><path d="M11 11h4.5a4 4 0 0 1 0 8H10"/>
-                                </svg>
-                                <span>PayPal</span>
-                            </button>
-                        </div>
-                        <input type="hidden" id="orderPaymentMethod" name="payment_method" value="transferencia">
-                    </div>
-
-                    <!-- Dynamic fields per payment method -->
-                    <div class="payment-fields" data-fields-for="transferencia">
-                        <div class="form-row-group">
-                            <div class="form-row">
-                                <label for="bankName">Banco emisor</label>
-                                <input type="text" id="bankName" name="bank_name" placeholder="Ej: Banco Galicia">
-                            </div>
-                            <div class="form-row">
-                                <label for="transferRef">N° de comprobante</label>
-                                <input type="text" id="transferRef" name="transfer_reference" placeholder="Número de operación">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="payment-fields" data-fields-for="pago-movil" hidden>
-                        <div class="form-row-group">
-                            <div class="form-row">
-                                <label for="movilPhone">Teléfono asociado</label>
-                                <input type="tel" id="movilPhone" name="movil_phone" placeholder="04XX-XXXXXXX">
-                            </div>
-                            <div class="form-row">
-                                <label for="movilRef">N° de referencia</label>
-                                <input type="text" id="movilRef" name="movil_reference" placeholder="Número de referencia">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="payment-fields" data-fields-for="paypal" hidden>
-                        <div class="form-row-group">
-                            <div class="form-row">
-                                <label for="paypalEmail">Email de PayPal</label>
-                                <input type="email" id="paypalEmail" name="paypal_email" placeholder="tu-cuenta@paypal.com">
-                            </div>
-                            <div class="form-row">
-                                <label for="paypalTx">ID de transacción</label>
-                                <input type="text" id="paypalTx" name="paypal_transaction" placeholder="ID de transacción">
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="form-note">* Te vamos a contactar para validar el pago y coordinar la entrega de tu mando personalizado.</p>
+                    <p class="form-note" style="margin-bottom: 18px;">Usaremos los datos de tu cuenta (nombre, email y teléfono) para el pedido.</p>
 
                     <button type="submit" class="btn-submit-order">Confirmar pedido</button>
                 </form>

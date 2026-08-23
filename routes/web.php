@@ -14,7 +14,7 @@ Route::get('/{model}', function ($model) {
     return view('customizer', ['model' => $model]);
 })->where('model', 'ps5|xbox')->name('customizer');
 
-Route::post('cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::post('cart/add', [\App\Http\Controllers\CartController::class, 'add'])->middleware('auth')->name('cart.add');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');

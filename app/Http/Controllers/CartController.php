@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function add(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['required', 'string', 'max:50'],
             'product_name' => ['required', 'string', 'max:255'],
             'model' => ['required', 'in:ps5,xbox'],
             'price' => ['required', 'numeric', 'min:0'],
             'configuration' => ['nullable', 'string'],
         ]);
 
+        $user = Auth::user();
         $price = (float) $data['price'];
 
         $cart = [
@@ -33,9 +32,9 @@ class CartController extends Controller
         session([
             'cart' => $cart,
             'checkout_prefill' => [
-                'customer_name' => $data['name'],
-                'customer_email' => $data['email'],
-                'customer_phone' => $data['phone'],
+                'customer_name' => $user->name,
+                'customer_email' => $user->email,
+                'customer_phone' => $user->phone,
             ],
         ]);
 

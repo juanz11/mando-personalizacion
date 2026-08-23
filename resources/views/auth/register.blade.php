@@ -35,6 +35,10 @@
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required>
             </div>
             <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="text" id="phone" name="phone" value="{{ old('phone') }}" required>
+            </div>
+            <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required>
             </div>

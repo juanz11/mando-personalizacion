@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label for="customer_phone">Teléfono</label>
-                    <input type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $prefill['customer_phone'] ?? '') }}" required>
+                    <input type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $prefill['customer_phone'] ?? $user->phone ?? '') }}" required>
                 </div>
                 <div class="form-group wide">
                     <label for="shipping_address">Dirección de envío</label>
