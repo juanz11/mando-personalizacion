@@ -21,7 +21,7 @@ class OrderShipped extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Tu pedido de RTE Custom Controller fue enviado',
+            subject: 'Tu compra ha sido confirmada y enviada - RTE Custom Controller',
         );
     }
 

@@ -76,12 +76,17 @@
         </div>
 
         <div class="section" style="margin-bottom:24px;">
-            <h2>Tracking</h2>
+            <h2>Envío</h2>
             @if($order->tracking_number)
-                <p>Carrier: {{ App\Models\Order::$carriers[$order->carrier] ?? $order->carrier }}</p>
-                <p>Número: {{ $order->tracking_number }}</p>
+                <p style="color:#4ade80; font-weight:600; margin-bottom:12px;">¡Envío listo!</p>
+                <p style="margin-bottom:6px;"><strong>Carrier:</strong> {{ App\Models\Order::$carriers[$order->carrier] ?? $order->carrier }}</p>
+                <p style="margin-bottom:12px;"><strong>Número de guía:</strong> {{ $order->tracking_number }}</p>
                 @if($order->trackingUrl())
-                    <a href="{{ $order->trackingUrl() }}" target="_blank" class="track-btn">Seguir Envío</a>
+                    <p style="margin-bottom:8px; color:#a1a5ab;">Verifica su llegada aquí:</p>
+                    <a href="{{ $order->trackingUrl() }}" target="_blank" class="track-btn">Seguir mi envío</a>
+                    <p style="margin-top:10px; word-break:break-all;">
+                        <a href="{{ $order->trackingUrl() }}" target="_blank" style="color:#60a5fa; text-decoration:underline;">{{ $order->trackingUrl() }}</a>
+                    </p>
                 @endif
             @else
                 <p style="color:#a1a5ab;">Todavía no hay un número de tracking asignado.</p>
