@@ -70,9 +70,9 @@
         <section id="plataformas">
             <div class="container">
                 <div class="section-head">
-                    <span class="section-eyebrow">// ELEGÍ TU PLATAFORMA</span>
-                    <h2>Creá un mando 100% personalizado</h2>
-                    <p>Personalizá cada pieza de tu control y mejorá tu experiencia de juego.</p>
+                    <span class="section-eyebrow" data-i18n="home_platforms_eyebrow">// ELEGÍ TU PLATAFORMA</span>
+                    <h2 data-i18n="home_platforms_title">Creá un mando 100% personalizado</h2>
+                    <p data-i18n="home_platforms_desc">Personalizá cada pieza de tu control y mejorá tu experiencia de juego.</p>
                 </div>
 
                 <div class="platform-grid">
@@ -82,9 +82,9 @@
                                 <path d="M6 12h.01M6 15h.01M17.5 9h.01M14.5 12h.01M2 12c0-3.5 1-6 3-6h14c2 0 3 2.5 3 6s-1 8-4 8c-1.5 0-2-1.5-3-3H9c-1 1.5-1.5 3-3 3-3 0-4-4.5-4-8Z"/>
                             </svg>
                         </div>
-                        <h3>Mandos PS5</h3>
-                        <p>Diseñá tu DualSense con la combinación de colores y texturas que quieras.</p>
-                        <span class="btn btn-primary">PERSONALIZAR</span>
+                        <h3 data-i18n="home_ps5_title">Mandos PS5</h3>
+                        <p data-i18n="home_ps5_desc">Diseñá tu DualSense con la combinación de colores y texturas que quieras.</p>
+                        <span class="btn btn-primary" data-i18n="home_ps5_btn">PERSONALIZAR</span>
                     </a>
 
                     <a href="/xbox" class="platform-card">
@@ -94,9 +94,9 @@
                                 <path d="M8 9c1.5 2 2.5 3 4 3s2.5-1 4-3M6 18c1.5-2.5 3.5-4 6-4s4.5 1.5 6 4"/>
                             </svg>
                         </div>
-                        <h3>Mandos Xbox</h3>
-                        <p>Armá tu control Xbox a medida, con la estética y el rendimiento que buscás.</p>
-                        <span class="btn btn-primary">PERSONALIZAR</span>
+                        <h3 data-i18n="home_xbox_title">Mandos Xbox</h3>
+                        <p data-i18n="home_xbox_desc">Armá tu control Xbox a medida, con la estética y el rendimiento que buscás.</p>
+                        <span class="btn btn-primary" data-i18n="home_xbox_btn">PERSONALIZAR</span>
                     </a>
                 </div>
             </div>
@@ -106,9 +106,9 @@
         <section id="features" class="features-section">
             <div class="container">
                 <div class="section-head">
-                    <span class="section-eyebrow">VENTAJA COMPETITIVA</span>
-                    <h2>Hechos para profesionales</h2>
-                    <p>Cada mando incluye componentes de nivel competitivo pensados para la victoria.</p>
+                    <span class="section-eyebrow" data-i18n="home_features_eyebrow">VENTAJA COMPETITIVA</span>
+                    <h2 data-i18n="home_features_title">Hechos para profesionales</h2>
+                    <p data-i18n="home_features_desc">Cada mando incluye componentes de nivel competitivo pensados para la victoria.</p>
                 </div>
 
                 <div class="features-grid">
@@ -118,8 +118,8 @@
                                 <circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
                             </svg>
                         </div>
-                        <h3>Joysticks Anti-Drift TMR</h3>
-                        <p>Sticks analógicos magnéticos de alta precisión, diseñados para un juego más suave y sin drift.</p>
+                        <h3 data-i18n="home_feature_1_title">Joysticks Anti-Drift TMR</h3>
+                        <p data-i18n="home_feature_1_desc">Sticks analógicos magnéticos de alta precisión, diseñados para un juego más suave y sin drift.</p>
                     </div>
 
                     <div class="feature-card">
@@ -128,8 +128,8 @@
                                 <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/>
                             </svg>
                         </div>
-                        <h3>Gatillos de Respuesta Instantánea</h3>
-                        <p>L1, R1, L2 y R2 con switches estilo mouse para una activación instantánea y precisa.</p>
+                        <h3 data-i18n="home_feature_2_title">Gatillos de Respuesta Instantánea</h3>
+                        <p data-i18n="home_feature_2_desc">L1, R1, L2 y R2 con switches estilo mouse para una activación instantánea y precisa.</p>
                     </div>
 
                     <div class="feature-card">
@@ -138,8 +138,8 @@
                                 <rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01"/>
                             </svg>
                         </div>
-                        <h3>Botones Digitales Mecánicos</h3>
-                        <p>Botones frontales y D-pad clicky para una respuesta más rápida y precisa.</p>
+                        <h3 data-i18n="home_feature_3_title">Botones Digitales Mecánicos</h3>
+                        <p data-i18n="home_feature_3_desc">Botones frontales y D-pad clicky para una respuesta más rápida y precisa.</p>
                     </div>
 
                     <div class="feature-card">
@@ -148,8 +148,8 @@
                                 <path d="M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8"/><path d="M4 12c0 2.2.9 4.2 2.3 5.7M9 20a8 8 0 0 1-3-2"/>
                             </svg>
                         </div>
-                        <h3>Grip Texturizado de Alto Rendimiento</h3>
-                        <p>Parte trasera antideslizante y texturizada para mejor agarre, comodidad y control.</p>
+                        <h3 data-i18n="home_feature_4_title">Grip Texturizado de Alto Rendimiento</h3>
+                        <p data-i18n="home_feature_4_desc">Parte trasera antideslizante y texturizada para mejor agarre, comodidad y control.</p>
                     </div>
 
                     <div class="feature-card">
@@ -158,8 +158,8 @@
                                 <circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
                             </svg>
                         </div>
-                        <h3>Sticks Intercambiables</h3>
-                        <p>Sticks removibles con 3 alturas diferentes para adaptar los controles a tu estilo de juego.</p>
+                        <h3 data-i18n="home_feature_5_title">Sticks Intercambiables</h3>
+                        <p data-i18n="home_feature_5_desc">Sticks removibles con 3 alturas diferentes para adaptar los controles a tu estilo de juego.</p>
                     </div>
 
                     <div class="feature-card">
@@ -168,8 +168,8 @@
                                 <rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M11 10v4M15 10v4"/>
                             </svg>
                         </div>
-                        <h3>4 Paletas Traseras Remapeables</h3>
-                        <p>Botones traseros configurables para ejecutar acciones clave sin soltar los sticks.</p>
+                        <h3 data-i18n="home_feature_6_title">4 Paletas Traseras Remapeables</h3>
+                        <p data-i18n="home_feature_6_desc">Botones traseros configurables para ejecutar acciones clave sin soltar los sticks.</p>
                     </div>
                 </div>
             </div>
@@ -178,11 +178,11 @@
         <!-- CTA final -->
         <section class="cta-section">
             <div class="container">
-                <h2>¿Listo para armar tu mando?</h2>
-                <p>Elegí tu plataforma y personalizá cada detalle con nuestro configurador online.</p>
+                <h2 data-i18n="home_cta_title">¿Listo para armar tu mando?</h2>
+                <p data-i18n="home_cta_desc">Elegí tu plataforma y personalizá cada detalle con nuestro configurador online.</p>
                 <div class="hero-actions">
-                    <a href="/ps5" class="btn btn-primary">PERSONALIZAR PS5</a>
-                    <a href="/xbox" class="btn btn-outline">PERSONALIZAR XBOX</a>
+                    <a href="/ps5" class="btn btn-primary" data-i18n="home_cta_ps5">PERSONALIZAR PS5</a>
+                    <a href="/xbox" class="btn btn-outline" data-i18n="home_cta_xbox">PERSONALIZAR XBOX</a>
                 </div>
             </div>
         </section>
@@ -193,18 +193,18 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Información</h4>
+                    <h4 data-i18n="home_footer_info">Información</h4>
                     <ul>
-                        <li><a href="#">Contacto</a></li>
-                        <li><a href="#">Preguntas Frecuentes</a></li>
-                        <li><a href="/ps5">Personalizar PS5</a></li>
-                        <li><a href="/xbox">Personalizar Xbox</a></li>
+                        <li><a href="#" data-i18n="home_footer_contact">Contacto</a></li>
+                        <li><a href="#" data-i18n="home_footer_faq">Preguntas Frecuentes</a></li>
+                        <li><a href="/ps5" data-i18n="home_footer_ps5">Personalizar PS5</a></li>
+                        <li><a href="/xbox" data-i18n="home_footer_xbox">Personalizar Xbox</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-brand">
-                    <img src="{{ asset('LOGO BLANCO/LOGO BLANCO.png') }}" alt="RTE Custom Controller Logo">
-                    <p>Mandos pro totalmente modificados y de alto rendimiento para jugadores exigentes. Elevá tu experiencia de juego con la máxima precisión.</p>
+                    <img src="{{ asset('LOGO BLANCO/LOGO BLANCO.png') }}" alt="RTE Custom Controller Logo" data-i18n="home_footer_logo_alt">
+                    <p data-i18n="home_footer_brand_desc">Mandos pro totalmente modificados y de alto rendimiento para jugadores exigentes. Elevá tu experiencia de juego con la máxima precisión.</p>
                     <div class="footer-social">
                         <a href="#" aria-label="Instagram">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
@@ -219,8 +219,8 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4>Nuestra Garantía</h4>
-                    <p style="font-size: 0.85rem; color: #9aa0aa; line-height: 1.6;">
+                    <h4 data-i18n="home_footer_warranty">Nuestra Garantía</h4>
+                    <p style="font-size: 0.85rem; color: #9aa0aa; line-height: 1.6;" data-i18n="home_footer_warranty_desc">
                         Todos nuestros controles personalizados incluyen componentes premium, como sticks analógicos magnéticos TMR para evitar el drift por completo.
                     </p>
                 </div>
@@ -247,7 +247,44 @@
                 home_hero_title: 'Diseñá tu Mando Definitivo',
                 home_hero_desc: 'Mandos premium personalizados para PS5 y Xbox, diseñados para el juego competitivo. Elegí cada color, cada textura y cada detalle.',
                 home_hero_btn1: 'PERSONALIZAR AHORA',
-                home_hero_btn2: 'VER PLATAFORMAS'
+                home_hero_btn2: 'VER PLATAFORMAS',
+                home_platforms_eyebrow: '// ELEGÍ TU PLATAFORMA',
+                home_platforms_title: 'Creá un mando 100% personalizado',
+                home_platforms_desc: 'Personalizá cada pieza de tu control y mejorá tu experiencia de juego.',
+                home_ps5_title: 'Mandos PS5',
+                home_ps5_desc: 'Diseñá tu DualSense con la combinación de colores y texturas que quieras.',
+                home_ps5_btn: 'PERSONALIZAR',
+                home_xbox_title: 'Mandos Xbox',
+                home_xbox_desc: 'Armá tu control Xbox a medida, con la estética y el rendimiento que buscás.',
+                home_xbox_btn: 'PERSONALIZAR',
+                home_features_eyebrow: 'VENTAJA COMPETITIVA',
+                home_features_title: 'Hechos para profesionales',
+                home_features_desc: 'Cada mando incluye componentes de nivel competitivo pensados para la victoria.',
+                home_feature_1_title: 'Joysticks Anti-Drift TMR',
+                home_feature_1_desc: 'Sticks analógicos magnéticos de alta precisión, diseñados para un juego más suave y sin drift.',
+                home_feature_2_title: 'Gatillos de Respuesta Instantánea',
+                home_feature_2_desc: 'L1, R1, L2 y R2 con switches estilo mouse para una activación instantánea y precisa.',
+                home_feature_3_title: 'Botones Digitales Mecánicos',
+                home_feature_3_desc: 'Botones frontales y D-pad clicky para una respuesta más rápida y precisa.',
+                home_feature_4_title: 'Grip Texturizado de Alto Rendimiento',
+                home_feature_4_desc: 'Parte trasera antideslizante y texturizada para mejor agarre, comodidad y control.',
+                home_feature_5_title: 'Sticks Intercambiables',
+                home_feature_5_desc: 'Sticks removibles con 3 alturas diferentes para adaptar los controles a tu estilo de juego.',
+                home_feature_6_title: '4 Paletas Traseras Remapeables',
+                home_feature_6_desc: 'Botones traseros configurables para ejecutar acciones clave sin soltar los sticks.',
+                home_cta_title: '¿Listo para armar tu mando?',
+                home_cta_desc: 'Elegí tu plataforma y personalizá cada detalle con nuestro configurador online.',
+                home_cta_ps5: 'PERSONALIZAR PS5',
+                home_cta_xbox: 'PERSONALIZAR XBOX',
+                home_footer_info: 'Información',
+                home_footer_contact: 'Contacto',
+                home_footer_faq: 'Preguntas Frecuentes',
+                home_footer_ps5: 'Personalizar PS5',
+                home_footer_xbox: 'Personalizar Xbox',
+                home_footer_logo_alt: 'RTE Custom Controller Logo',
+                home_footer_brand_desc: 'Mandos pro totalmente modificados y de alto rendimiento para jugadores exigentes. Elevá tu experiencia de juego con la máxima precisión.',
+                home_footer_warranty: 'Nuestra Garantía',
+                home_footer_warranty_desc: 'Todos nuestros controles personalizados incluyen componentes premium, como sticks analógicos magnéticos TMR para evitar el drift por completo.'
             },
             en: {
                 home_nav_inicio: 'Home',
@@ -261,7 +298,44 @@
                 home_hero_title: 'Design Your Ultimate Controller',
                 home_hero_desc: 'Premium custom controllers for PS5 and Xbox, designed for competitive play. Choose every color, every texture, every detail.',
                 home_hero_btn1: 'CUSTOMIZE NOW',
-                home_hero_btn2: 'SEE PLATFORMS'
+                home_hero_btn2: 'SEE PLATFORMS',
+                home_platforms_eyebrow: '// CHOOSE YOUR PLATFORM',
+                home_platforms_title: 'Create a 100% custom controller',
+                home_platforms_desc: 'Personalize every piece of your controller and improve your gaming experience.',
+                home_ps5_title: 'PS5 Controllers',
+                home_ps5_desc: 'Design your DualSense with the colors and textures you want.',
+                home_ps5_btn: 'CUSTOMIZE',
+                home_xbox_title: 'Xbox Controllers',
+                home_xbox_desc: 'Build your custom Xbox controller, with the look and performance you want.',
+                home_xbox_btn: 'CUSTOMIZE',
+                home_features_eyebrow: 'COMPETITIVE ADVANTAGE',
+                home_features_title: 'Built for professionals',
+                home_features_desc: 'Every controller includes competitive-grade components designed for victory.',
+                home_feature_1_title: 'Anti-Drift TMR Joysticks',
+                home_feature_1_desc: 'High-precision magnetic analog sticks, designed for smoother, drift-free gameplay.',
+                home_feature_2_title: 'Instant Response Triggers',
+                home_feature_2_desc: 'L1, R1, L2 and R2 with mouse-style switches for instant and precise activation.',
+                home_feature_3_title: 'Mechanical Digital Buttons',
+                home_feature_3_desc: 'Clicky front buttons and D-pad for faster and more precise response.',
+                home_feature_4_title: 'High-Performance Textured Grip',
+                home_feature_4_desc: 'Non-slip, textured back for better grip, comfort and control.',
+                home_feature_5_title: 'Swappable Sticks',
+                home_feature_5_desc: 'Removable sticks with 3 different heights to adapt the controller to your playstyle.',
+                home_feature_6_title: '4 Remappable Back Paddles',
+                home_feature_6_desc: 'Configurable rear buttons to execute key actions without letting go of the sticks.',
+                home_cta_title: 'Ready to build your controller?',
+                home_cta_desc: 'Choose your platform and customize every detail with our online configurator.',
+                home_cta_ps5: 'CUSTOMIZE PS5',
+                home_cta_xbox: 'CUSTOMIZE XBOX',
+                home_footer_info: 'Information',
+                home_footer_contact: 'Contact',
+                home_footer_faq: 'FAQ',
+                home_footer_ps5: 'Customize PS5',
+                home_footer_xbox: 'Customize Xbox',
+                home_footer_logo_alt: 'RTE Custom Controller Logo',
+                home_footer_brand_desc: 'Pro controllers fully modified and high-performance for demanding players. Elevate your gaming experience with maximum precision.',
+                home_footer_warranty: 'Our Warranty',
+                home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.'
             }
         };
 
@@ -269,7 +343,10 @@
             document.documentElement.lang = lang === 'en' ? 'en' : 'es';
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
-                if (translations[lang] && translations[lang][key]) {
+                if (!translations[lang] || !translations[lang][key]) return;
+                if (el.tagName === 'IMG') {
+                    el.alt = translations[lang][key];
+                } else {
                     el.textContent = translations[lang][key];
                 }
             });

@@ -91,14 +91,16 @@
         const country = countrySelect.value;
         if (country === 'VE') {
             phonePrefix.style.display = 'block';
+            const num = phoneInput.value.replace(/^\+?1/, '').replace(/^0\d{3}/, '');
             if (!vePrefixes.test(phoneInput.value)) {
-                phoneInput.value = phonePrefix.value;
+                phoneInput.value = phonePrefix.value + num;
             } else {
                 syncPrefixSelect();
             }
         } else {
             phonePrefix.style.display = 'none';
-            phoneInput.value = phoneInput.value.replace(/^0\d{3}/, '');
+            const num = phoneInput.value.replace(/^0\d{3}/, '').replace(/^\+?1/, '');
+            phoneInput.value = '+1' + num;
         }
     }
 
@@ -108,7 +110,11 @@
     });
 
     phoneInput.addEventListener('input', syncPrefixSelect);
-    countrySelect.addEventListener('change', updatePhone);
+    countrySelect.addEventListener('change', () => {
+        localStorage.setItem('rte_country', countrySelect.value);
+        setLang(countrySelect.value === 'US' ? 'en' : 'es');
+        updatePhone();
+    });
     updatePhone();
 </script>
 <script>
@@ -158,7 +164,9 @@
     }
 
     const country = localStorage.getItem('rte_country') || 'VE';
-    setLang(country === 'US' ? 'en' : 'es');
+    countrySelect.value = country;
+    setLang(countrySelect.value === 'US' ? 'en' : 'es');
+    updatePhone();
 </script>
 </body>
 </html>
