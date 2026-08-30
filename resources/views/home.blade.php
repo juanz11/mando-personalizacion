@@ -102,6 +102,50 @@
             </div>
         </section>
 
+        <!-- Support -->
+        <section class='support-section' style='padding: 80px 0; background: #0b0d10; border-top: 1px solid #26282c;'>
+            <div class='container'>
+                <div class='section-head' style='text-align: center; margin-bottom: 40px;'>
+                    <div style='width: 56px; height: 56px; margin: 0 auto 16px; color: #4ade80;'>
+                        <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' style='width: 100%; height: 100%;' aria-hidden='true'>
+                            <path d='M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.3-3.3a6 6 0 0 1-7.4 7.4l-9.4 9.4a2.12 2.12 0 0 1-3-3l9.4-9.4a6 6 0 0 1 7.4-7.4l-2.4 2.4-1.6-1.6a1 1 0 0 0-1.4 0z'/>
+                        </svg>
+                    </div>
+                    <span class='section-eyebrow' data-i18n='home_support_eyebrow'>// ¿EQUIPO PREVIO?</span>
+                    <h2 data-i18n='home_support_title'>Reparación y personalización</h2>
+                    <p data-i18n='home_support_desc'>Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o pedí una reunión por Zoom.</p>
+                </div>
+
+                <div class='features-grid' style='grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); max-width: 820px; margin: 0 auto;'>
+                    <div class='feature-card' style='text-align: center;'>
+                        <div class='feature-icon' style='margin-bottom: 16px;'>
+                            <svg viewBox='0 0 24 24' fill='none' style='width: 44px; height: 44px; color: #25D366;' aria-hidden='true'>
+                                <path d='M17.5 14.25c-.25-.12-1.55-.76-1.79-.85-.24-.09-.41-.14-.58.14-.17.28-.65.85-.79 1.02-.15.17-.29.19-.54.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.39.11-.51.12-.12.25-.29.37-.44.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.58-1.4-.8-1.91-.21-.5-.42-.43-.58-.44l-.49-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.78 2.72 4.31 3.82.6.26 1.07.42 1.43.54.6.19 1.15.16 1.58.1.48-.07 1.55-.64 1.77-1.25.22-.62.22-1.15.15-1.25-.06-.11-.23-.17-.48-.29zM12.2 2.004c-5.52 0-10 4.48-10 10 0 1.76.46 3.43 1.33 4.9L2 22l5.27-1.51A9.96 9.96 0 0012.2 22c5.52 0 10-4.48 10-10s-4.48-10-10-10z' fill='currentColor'/>
+                            </svg>
+                        </div>
+                        <h3 data-i18n='home_support_whatsapp_title'>WhatsApp</h3>
+                        <p style='font-size: 1.1rem; color: #fff; margin-bottom: 16px;'>+58 4127141909</p>
+                        <a href='https://wa.me/584127141909' target='_blank' rel='noopener' class='btn btn-primary' data-i18n='home_support_whatsapp_btn'>Contactar por WhatsApp</a>
+                    </div>
+
+                    <div class='feature-card' style='text-align: center;'>
+                        <div class='feature-icon' style='margin-bottom: 16px;'>
+                            <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' style='width: 44px; height: 44px; color: #4ade80;' aria-hidden='true'>
+                            <path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/>
+                            <polyline points='3.27 6.96 12 12.01 20.73 6.96'/>
+                            <line x1='12' y1='22.08' x2='12' y2='12'/>
+                        </svg>
+                        </div>
+                        <h3 data-i18n='home_support_zoom_title'>Envíos Zoom</h3>
+                        <p data-i18n='home_support_zoom_label' style='margin-bottom: 8px; color: #a1a5ab;'>Dirección de recepción:</p>
+                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px;'>Av. Principal, Edificio Centro Ejecutivo, Piso 3, Oficina 305, Chacao, Caracas - Venezuela</code>
+                        <button type='button' class='btn btn-outline' style='margin-bottom: 12px; padding: 6px 14px; font-size: 0.85rem;' data-i18n='home_support_copy_address' onclick='copyAddress(this)'>Copiar dirección</button>
+                        <a href='#' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por Zoom</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Features -->
         <section id="features" class="features-section">
             <div class="container">
@@ -155,7 +199,7 @@
                     <div class="feature-card">
                         <div class="feature-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
+                                <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>
                             </svg>
                         </div>
                         <h3 data-i18n="home_feature_5_title">Sticks Intercambiables</h3>
@@ -213,7 +257,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.01 1.62 4.14.94 1.07 2.27 1.77 3.66 2.02v3.74c-1.74-.03-3.41-.65-4.75-1.76-.08-.07-.15-.15-.22-.22V14.5c0 2.3-.92 4.51-2.58 6.12-1.8 1.76-4.32 2.62-6.83 2.34-2.88-.32-5.46-2.39-6.27-5.17C.32 14.58.84 11.08 2.87 8.64c1.83-2.2 4.67-3.37 7.5-3.08v3.74c-1.45-.16-2.95.29-3.95 1.34-.96 1.01-1.36 2.47-1.07 3.86.35 1.68 1.83 2.94 3.55 3.01 1.77.07 3.39-1.06 3.82-2.77.15-.59.18-1.21.18-1.82V.02h-.18z"/></svg>
                         </a>
                         <a href="#" aria-label="YouTube">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 002.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -227,7 +271,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>Copyright {{ date('Y') }} © <strong>RTE Custom Controller</strong></p>
+                <p>Copyright {{ date('Y') }} &copy; <strong>RTE Custom Controller</strong></p>
             </div>
         </div>
     </footer>
@@ -284,7 +328,16 @@
                 home_footer_logo_alt: 'RTE Custom Controller Logo',
                 home_footer_brand_desc: 'Mandos pro totalmente modificados y de alto rendimiento para jugadores exigentes. Elevá tu experiencia de juego con la máxima precisión.',
                 home_footer_warranty: 'Nuestra Garantía',
-                home_footer_warranty_desc: 'Todos nuestros controles personalizados incluyen componentes premium, como sticks analógicos magnéticos TMR para evitar el drift por completo.'
+                home_footer_warranty_desc: 'Todos nuestros controles personalizados incluyen componentes premium, como sticks analógicos magnéticos TMR para evitar el drift por completo.',
+                home_support_eyebrow: '// ¿EQUIPO PREVIO?',
+                home_support_title: 'Reparación y personalización',
+                home_support_desc: 'Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por Zoom.',
+                home_support_whatsapp_title: 'WhatsApp',
+                home_support_whatsapp_btn: 'Contactar por WhatsApp',
+                home_support_zoom_title: 'Envíos Zoom',
+                home_support_zoom_label: 'Dirección de recepción:',
+                home_support_zoom_btn: 'Enviar por Zoom',
+                home_support_copy_address: 'Copiar dirección',
             },
             en: {
                 home_nav_inicio: 'Home',
@@ -335,7 +388,16 @@
                 home_footer_logo_alt: 'RTE Custom Controller Logo',
                 home_footer_brand_desc: 'Pro controllers fully modified and high-performance for demanding players. Elevate your gaming experience with maximum precision.',
                 home_footer_warranty: 'Our Warranty',
-                home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.'
+                home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.',
+                home_support_eyebrow: '// GOT A CONTROLLER?',
+                home_support_title: 'Repair & Customization',
+                home_support_desc: 'If you already have a controller and want it repaired or customized, reach out on WhatsApp or send it via Zoom.',
+                home_support_whatsapp_title: 'WhatsApp',
+                home_support_whatsapp_btn: 'Contact on WhatsApp',
+                home_support_zoom_title: 'Zoom Shipping',
+                home_support_zoom_label: 'Drop-off address:',
+                home_support_zoom_btn: 'Ship with Zoom',
+                home_support_copy_address: 'Copy address',
             }
         };
 
@@ -382,6 +444,17 @@
             setLang(lang);
         });
     })();
+</script>
+
+<script>
+    function copyAddress(btn) {
+        const address = btn.previousElementSibling.textContent;
+        navigator.clipboard.writeText(address).then(() => {
+            const original = btn.textContent;
+            btn.textContent = '¡Copiado!';
+            setTimeout(() => btn.textContent = original, 2000);
+        });
+    }
 </script>
 </body>
 </html>
