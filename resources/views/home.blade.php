@@ -113,7 +113,7 @@
                     </div>
                     <span class='section-eyebrow' data-i18n='home_support_eyebrow'>// ¿EQUIPO PREVIO?</span>
                     <h2 data-i18n='home_support_title'>Reparación y personalización</h2>
-                    <p data-i18n='home_support_desc'>Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o pedí una reunión por Zoom.</p>
+                    <p data-i18n='home_support_desc'>Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por MRW.</p>
                 </div>
 
                 <div class='features-grid' style='grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); max-width: 820px; margin: 0 auto;'>
@@ -123,8 +123,8 @@
                                 <path d='M17.5 14.25c-.25-.12-1.55-.76-1.79-.85-.24-.09-.41-.14-.58.14-.17.28-.65.85-.79 1.02-.15.17-.29.19-.54.07-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.39.11-.51.12-.12.25-.29.37-.44.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.58-1.4-.8-1.91-.21-.5-.42-.43-.58-.44l-.49-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.12.17 1.78 2.72 4.31 3.82.6.26 1.07.42 1.43.54.6.19 1.15.16 1.58.1.48-.07 1.55-.64 1.77-1.25.22-.62.22-1.15.15-1.25-.06-.11-.23-.17-.48-.29zM12.2 2.004c-5.52 0-10 4.48-10 10 0 1.76.46 3.43 1.33 4.9L2 22l5.27-1.51A9.96 9.96 0 0012.2 22c5.52 0 10-4.48 10-10s-4.48-10-10-10z' fill='currentColor'/>
                             </svg>
                         </div>
-                        <h3 data-i18n='home_support_whatsapp_title'>WhatsApp</h3>
-                        <p style='font-size: 1.1rem; color: #fff; margin-bottom: 16px;'>+58 4127141909</p>
+                        <h3 data-i18n='home_support_whatsapp_title'>Reparación y modificación de controles</h3>
+                        <p style='font-size: 1.1rem; color: #fff; margin-bottom: 16px;'>Contactar al 0412-7141909</p>
                         <a href='https://wa.me/584127141909' target='_blank' rel='noopener' class='btn btn-primary' data-i18n='home_support_whatsapp_btn'>Contactar por WhatsApp</a>
                     </div>
 
@@ -136,11 +136,15 @@
                             <line x1='12' y1='22.08' x2='12' y2='12'/>
                         </svg>
                         </div>
-                        <h3 data-i18n='home_support_zoom_title'>Envíos Zoom</h3>
+                        <h3 data-i18n='home_support_zoom_title'>Envíos MRW</h3>
                         <p data-i18n='home_support_zoom_label' style='margin-bottom: 8px; color: #a1a5ab;'>Dirección de recepción:</p>
-                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; word-break: break-all; margin-bottom: 8px;'>Av. Principal, Edificio Centro Ejecutivo, Piso 3, Oficina 305, Chacao, Caracas - Venezuela</code>
+                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; white-space: pre-wrap; word-break: break-all; margin-bottom: 8px;'>MRW: La Esmeralda, San Diego, Carabobo
+Zoom: San Diego, Centro Comercial Fin de Siglo
+Horario: 10 AM - 6:00 PM (cita previa)
+Lunes a sábado, domingo con cita previa
+Tel: 0251-110421 / 0412-7141909</code>
                         <button type='button' class='btn btn-outline' style='margin-bottom: 12px; padding: 6px 14px; font-size: 0.85rem;' data-i18n='home_support_copy_address' onclick='copyAddress(this)'>Copiar dirección</button>
-                        <a href='#' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por Zoom</a>
+                        <a href='#' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por MRW</a>
                     </div>
                 </div>
             </div>
@@ -331,12 +335,12 @@
                 home_footer_warranty_desc: 'Todos nuestros controles personalizados incluyen componentes premium, como sticks analógicos magnéticos TMR para evitar el drift por completo.',
                 home_support_eyebrow: '// ¿EQUIPO PREVIO?',
                 home_support_title: 'Reparación y personalización',
-                home_support_desc: 'Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por Zoom.',
-                home_support_whatsapp_title: 'WhatsApp',
+                home_support_desc: 'Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por MRW.',
+                home_support_whatsapp_title: 'Reparación y modificación de controles',
                 home_support_whatsapp_btn: 'Contactar por WhatsApp',
-                home_support_zoom_title: 'Envíos Zoom',
-                home_support_zoom_label: 'Dirección de recepción:',
-                home_support_zoom_btn: 'Enviar por Zoom',
+                home_support_zoom_title: 'Envíos MRW',
+                home_support_zoom_label: 'Direcciones de recepción:',
+                home_support_zoom_btn: 'Enviar por MRW',
                 home_support_copy_address: 'Copiar dirección',
             },
             en: {
@@ -391,12 +395,12 @@
                 home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.',
                 home_support_eyebrow: '// GOT A CONTROLLER?',
                 home_support_title: 'Repair & Customization',
-                home_support_desc: 'If you already have a controller and want it repaired or customized, reach out on WhatsApp or send it via Zoom.',
-                home_support_whatsapp_title: 'WhatsApp',
+                home_support_desc: 'If you already have a controller and want it repaired or customized, reach out on WhatsApp or send it via MRW.',
+                home_support_whatsapp_title: 'Controller repair and modification',
                 home_support_whatsapp_btn: 'Contact on WhatsApp',
-                home_support_zoom_title: 'Zoom Shipping',
-                home_support_zoom_label: 'Drop-off address:',
-                home_support_zoom_btn: 'Ship with Zoom',
+                home_support_zoom_title: 'MRW Shipping',
+                home_support_zoom_label: 'Drop-off addresses:',
+                home_support_zoom_btn: 'Ship with MRW',
                 home_support_copy_address: 'Copy address',
             }
         };

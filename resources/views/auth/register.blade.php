@@ -178,10 +178,29 @@
         });
     }
 
-    const country = localStorage.getItem('rte_country') || 'VE';
-    countrySelect.value = country;
-    setLang(countrySelect.value === 'US' ? 'en' : 'es');
-    updatePhone();
+    function detectCountryByIp() {
+        fetch('https://ipapi.co/json/?fields=country_code')
+            .then(response => response.json())
+            .then(data => {
+                const detected = data && data.country_code === 'US' ? 'US' : 'VE';
+                if (detected !== countrySelect.value) {
+                    countrySelect.value = detected;
+                    localStorage.setItem('rte_country', detected);
+                    setLang(detected === 'US' ? 'en' : 'es');
+                    updatePhone();
+                }
+            })
+            .catch(() => {});
+    }
+
+    const savedCountry = localStorage.getItem('rte_country');
+    if (savedCountry) {
+        countrySelect.value = savedCountry;
+        setLang(countrySelect.value === 'US' ? 'en' : 'es');
+        updatePhone();
+    } else {
+        detectCountryByIp();
+    }
 </script>
 </body>
 </html>

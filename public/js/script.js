@@ -8,7 +8,7 @@ const controllerModels = {
                 basePath: "https://customizer.diemgaming.com.ar/ps5/front-shell-panel",
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
-                    { name: "Negro", color: "negro", price: 0, type: "mate" },
+                    { name: "Negro", color: "negro", price: 14990, type: "mate" },
                     { name: "Azul Mar Claro", color: "azul-mar-claro", price: 14990, type: "mate" },
                     { name: "Rojo", color: "rojo", price: 14990, type: "mate" },
                     { name: "Naranja Fluor", color: "naranja-fluor", price: 14990, type: "mate" },
@@ -68,8 +68,14 @@ const controllerModels = {
             },
             sticks: {
                 title: "Sticks",
-                layerId: "sticksLayer",
                 basePath: "https://customizer.diemgaming.com.ar/ps5/sticks",
+                previewImage: "front.png",
+                layers: [
+                    { layerId: "sticksGenericLeftTop", variant: "generic-left", piece: "top" },
+                    { layerId: "sticksGenericLeftBase", variant: "generic-left", piece: "base" },
+                    { layerId: "sticksGenericRightTop", variant: "generic-right", piece: "top" },
+                    { layerId: "sticksGenericRightBase", variant: "generic-right", piece: "base" }
+                ],
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
                     { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate" },
@@ -202,9 +208,14 @@ const controllerModels = {
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
                     { name: "Negro", color: "negro", price: 8000, type: "mate" },
-                    { name: "Rojo", color: "rojo", price: 8000, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 8000, type: "mate" },
                     { name: "Azul", color: "azul", price: 8000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 8000, type: "mate" }
+                    { name: "Rojo", color: "rojo", price: 8000, type: "mate" },
+                    { name: "Naranja Fluor", color: "naranja-fluor", price: 8000, type: "mate" },
+                    { name: "Rosa", color: "rosa", price: 8000, type: "mate" },
+                    { name: "Violeta", color: "violeta", price: 8000, type: "mate" },
+                    { name: "Blanco", color: "blanco", price: 8000, type: "mate" },
+                    { name: "Amarillo", color: "amarillo", price: 8000, type: "mate" }
                 ]
             },
             backShell: {
@@ -458,12 +469,16 @@ function createColorButton(color, part, partConfig) {
     `;
 }
 
-function getImageUrl(partConfig, color) {
+function getImageUrl(partConfig, color, layer) {
     if (color.color === 'default') {
         return `${partConfig.basePath}/${partConfig.previewImage || 'front.png'}`;
     }
-    const variant = partConfig.variant ? `${partConfig.variant}/` : '';
-    return `${partConfig.basePath}/${color.type}/${variant}${color.color}.png`;
+    const variant = (layer && layer.variant ? layer.variant : partConfig.variant) || '';
+    const piece = layer && layer.piece ? '-' + layer.piece : '';
+    if (variant) {
+        return `${partConfig.basePath}/${color.type}/${variant}/${color.color}/${color.color}${piece}.png`;
+    }
+    return `${partConfig.basePath}/${color.type}/${color.color}.png`;
 }
 
 function selectColor(part, color, price) {
@@ -483,30 +498,34 @@ function updateController() {
         const partConfig = controllerParts[part];
         if (!partConfig) return;
 
-        const layer = document.getElementById(partConfig.layerId);
-        if (!layer) return;
+        const layers = partConfig.layers || [{ layerId: partConfig.layerId }];
 
-        if (partConfig.side === 'back' && !isBack) {
-            layer.style.display = 'none';
-            layer.classList.remove('active');
-            return;
-        }
-        if (partConfig.side !== 'back' && isBack) {
-            layer.style.display = 'none';
-            layer.classList.remove('active');
-            return;
-        }
+        layers.forEach(layer => {
+            const el = document.getElementById(layer.layerId);
+            if (!el) return;
 
-        const imageUrl = getImageUrl(partConfig, colorObj);
-        layer.src = imageUrl;
+            if (partConfig.side === 'back' && !isBack) {
+                el.style.display = 'none';
+                el.classList.remove('active');
+                return;
+            }
+            if (partConfig.side !== 'back' && isBack) {
+                el.style.display = 'none';
+                el.classList.remove('active');
+                return;
+            }
 
-        if (colorObj.color !== 'default' || colorObj.price > 0) {
-            layer.style.display = 'block';
-            layer.classList.add('active');
-        } else {
-            layer.style.display = 'none';
-            layer.classList.remove('active');
-        }
+            const imageUrl = getImageUrl(partConfig, colorObj, layer);
+            el.src = imageUrl;
+
+            if (colorObj.color !== 'default' || colorObj.price > 0) {
+                el.style.display = 'block';
+                el.classList.add('active');
+            } else {
+                el.style.display = 'none';
+                el.classList.remove('active');
+            }
+        });
     });
 }
 
@@ -523,14 +542,26 @@ function updatePrice() {
 
 function setupOrderType() {
     const orderTypeButtons = document.querySelectorAll('.order-type-btn');
+    const mailInNote = document.getElementById('mailInNote');
+
+    function updateOrderTypeState(orderType) {
+        orderTypeButtons.forEach(b => b.classList.remove('active'));
+        const selected = document.querySelector(`.order-type-btn[data-order-type="${orderType}"]`);
+        if (selected) selected.classList.add('active');
+        if (mailInNote) {
+            mailInNote.style.display = orderType === 'mailIn' ? 'block' : 'none';
+        }
+    }
+
     orderTypeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             selectedOrderType = btn.dataset.orderType;
-            orderTypeButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            updateOrderTypeState(selectedOrderType);
             updatePrice();
         });
     });
+
+    updateOrderTypeState(selectedOrderType);
 }
 
 function setupRotate() {

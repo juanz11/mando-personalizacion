@@ -7,6 +7,28 @@
     <title>RTE Custom Controller | Personaliza tu Mando {{ $model === 'xbox' ? 'XBOX' : 'PS5' }}</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .order-type-btn.active {
+            border-color: #4ade80 !important;
+            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+        }
+        .order-type-btn.active strong {
+            color: #4ade80;
+        }
+        #mailInNote {
+            display: none;
+            background: #0b0d10;
+            border: 1px solid #26282c;
+            border-left: 3px solid #4ade80;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #9aa0aa;
+            line-height: 1.4;
+            white-space: pre-line;
+        }
+    </style>
 </head>
 <body data-model="{{ $model }}">
     <!-- Header -->
@@ -87,7 +109,10 @@
                             <img id="actionButtonsLayer" src="" alt="Action Buttons" class="controller-layer color-layer" style="display: none;">
                             <img id="dpadLayer" src="" alt="D-pad" class="controller-layer color-layer" style="display: none;">
                             <img id="touchpadLayer" src="" alt="Touchpad" class="controller-layer color-layer" style="display: none;">
-                            <img id="sticksLayer" src="" alt="Sticks" class="controller-layer color-layer" style="display: none;">
+                            <img id="sticksGenericLeftTop" src="" alt="Stick Izquierdo Arriba" class="controller-layer color-layer" style="display: none;">
+                            <img id="sticksGenericLeftBase" src="" alt="Stick Izquierdo Base" class="controller-layer color-layer" style="display: none;">
+                            <img id="sticksGenericRightTop" src="" alt="Stick Derecho Arriba" class="controller-layer color-layer" style="display: none;">
+                            <img id="sticksGenericRightBase" src="" alt="Stick Derecho Base" class="controller-layer color-layer" style="display: none;">
                             <img id="ringsLayer" src="" alt="Rings" class="controller-layer color-layer" style="display: none;">
                             <img id="logoLayer" src="" alt="Logo" class="controller-layer color-layer" style="display: none;">
                             <img id="backPanelLayer" src="" alt="Back Panel" class="controller-layer color-layer" style="display: none;">
@@ -121,10 +146,17 @@
                             <span data-i18n="custom_order_new_price" style="font-size: 0.85rem; color: #4ade80;">Desde $79.99</span>
                         </button>
                         <button type="button" class="order-type-btn" data-order-type="mailIn" style="flex: 1; padding: 14px; border: 1px solid #26282c; border-radius: 12px; background: #0b0d10; color: #fff; cursor: pointer; text-align: left; transition: all 0.2s;">
-                            <strong data-i18n="custom_order_mail_title" style="display: block; font-size: 1rem; margin-bottom: 4px;">Envío / Control del cliente</strong>
+                            <strong data-i18n="custom_order_mail_title" style="display: block; font-size: 1rem; margin-bottom: 4px;">Envío control propio</strong>
                             <span data-i18n="custom_order_mail_price" style="font-size: 0.85rem; color: #4ade80;">Desde $55.00</span>
                         </button>
                     </div>
+                    <p id="mailInNote" class="order-type-note" data-i18n="custom_order_mail_desc">
+                        Dirección MRW: La Esmeralda, San Diego, Carabobo
+Zoom: San Diego, Centro Comercial Fin de Siglo
+Horario: 10 AM - 6:00 PM (cita previa)
+Lunes a sábado, domingo con cita previa
+Tel: 0251-110421 / 0412-7141909
+                    </p>
                 </div>
 
                 <div class="price-section">
@@ -308,7 +340,8 @@
                     custom_order_type_label: 'Tipo de pedido',
                     custom_order_new_title: 'Control nuevo',
                     custom_order_new_price: 'Desde $79.99',
-                    custom_order_mail_title: 'Envío / Control del cliente',
+                    custom_order_mail_title: 'Envío control propio',
+                    custom_order_mail_desc: 'Dirección MRW: La Esmeralda, San Diego, Carabobo\nZoom: San Diego, Centro Comercial Fin de Siglo\nHorario: 10 AM - 6:00 PM (cita previa)\nLunes a sábado, domingo con cita previa\nTel: 0251-110421 / 0412-7141909',
                     custom_order_mail_price: 'Desde $55.00',
                     custom_quote: 'Cotizar',
                     custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. Todos los derechos reservados.',
@@ -332,7 +365,8 @@
                     custom_order_type_label: 'Order type',
                     custom_order_new_title: 'New Controller',
                     custom_order_new_price: 'Starting at $79.99',
-                    custom_order_mail_title: 'Mail-In / Customer\'s Controller',
+                    custom_order_mail_title: 'Mail-In / Own Controller',
+                    custom_order_mail_desc: 'MRW address: La Esmeralda, San Diego, Carabobo\nZoom: San Diego, Centro Comercial Fin de Siglo\nHours: 10 AM - 6:00 PM (by appointment)\nMonday to Saturday, Sunday by appointment\nPhone: 0251-110421 / 0412-7141909',
                     custom_order_mail_price: 'Starting at $55.00',
                     custom_quote: 'Quote',
                     custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. All rights reserved.',

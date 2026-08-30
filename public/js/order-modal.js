@@ -74,7 +74,10 @@
 
             const isPartBack = partConfig.side === 'back';
             if ((isBackView && isPartBack) || (!isBackView && !isPartBack)) {
-                urls.push(getImageUrl(partConfig, color));
+                const layers = partConfig.layers || [{ layerId: partConfig.layerId }];
+                layers.forEach(layer => {
+                    urls.push(getImageUrl(partConfig, color, layer));
+                });
             }
         });
 
