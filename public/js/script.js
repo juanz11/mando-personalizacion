@@ -9,11 +9,11 @@ const controllerModels = {
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
                     { name: "Negro", color: "negro", price: 0, type: "mate" },
-                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 30000, type: "mate" },
-                    { name: "Rojo", color: "rojo", price: 30000, type: "mate" },
-                    { name: "Naranja Fluor", color: "naranja-fluor", price: 30000, type: "mate" },
-                    { name: "Gris", color: "gris", price: 30000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 30000, type: "mate" }
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 14990, type: "mate" },
+                    { name: "Rojo", color: "rojo", price: 14990, type: "mate" },
+                    { name: "Naranja Fluor", color: "naranja-fluor", price: 14990, type: "mate" },
+                    { name: "Gris", color: "gris", price: 14990, type: "mate" },
+                    { name: "Blanco", color: "blanco", price: 14990, type: "mate" }
                 ]
             },
             trim: {
@@ -22,12 +22,12 @@ const controllerModels = {
                 basePath: "https://customizer.diemgaming.com.ar/ps5/trim",
                 colors: [
                     { name: "Negro", color: "default", price: 0, type: "mate" },
-                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 8000, type: "mate" },
-                    { name: "Verde Manzana", color: "verde-manzana", price: 8000, type: "mate" },
-                    { name: "Gris", color: "gris", price: 8000, type: "mate" },
-                    { name: "Rojo", color: "rojo", price: 8000, type: "mate" },
-                    { name: "Naranja Fluor", color: "naranja-fluor", price: 8000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 8000, type: "mate" }
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 6990, type: "mate" },
+                    { name: "Verde Manzana", color: "verde-manzana", price: 6990, type: "mate" },
+                    { name: "Gris", color: "gris", price: 6990, type: "mate" },
+                    { name: "Rojo", color: "rojo", price: 6990, type: "mate" },
+                    { name: "Naranja Fluor", color: "naranja-fluor", price: 6990, type: "mate" },
+                    { name: "Blanco", color: "blanco", price: 6990, type: "mate" }
                 ]
             },
             actionButtons: {
@@ -61,9 +61,9 @@ const controllerModels = {
                 basePath: "https://customizer.diemgaming.com.ar/ps5/touchpad",
                 colors: [
                     { name: "Negro", color: "default", price: 0, type: "mate" },
-                    { name: "Gris", color: "gris", price: 5000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 5000, type: "mate" },
-                    { name: "Azul", color: "azul", price: 5000, type: "mate" }
+                    { name: "Gris", color: "gris", price: 6990, type: "mate" },
+                    { name: "Blanco", color: "blanco", price: 6990, type: "mate" },
+                    { name: "Azul", color: "azul", price: 6990, type: "mate" }
                 ]
             },
             sticks: {
@@ -110,7 +110,7 @@ const controllerModels = {
                 previewImage: "back.png",
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
-                    { name: "Negro", color: "negro", price: 0, type: "mate" }
+                    { name: "Negro", color: "negro", price: 14990, type: "mate" }
                 ]
             }
         }
@@ -125,16 +125,16 @@ const controllerModels = {
                 previewImage: "front.png",
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "texturas", typeLabel: "Textura" },
-                    { name: "Joker", color: "joker", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Bicolor", color: "bicolor", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Golden", color: "golden", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Palmeras", color: "palmeras", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Rosas", color: "rosas", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Transparente", color: "transparente", price: 38000, type: "texturas", typeLabel: "Textura" },
-                    { name: "Gris", color: "gris", price: 30000, type: "mate", typeLabel: "Mate" },
-                    { name: "Naranja", color: "naranja", price: 30000, type: "mate", typeLabel: "Mate" },
-                    { name: "Rojo", color: "rojo", price: 30000, type: "mate", typeLabel: "Mate" },
-                    { name: "Blanco", color: "blanco", price: 30000, type: "mate", typeLabel: "Mate" }
+                    { name: "Joker", color: "joker", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Bicolor", color: "bicolor", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Golden", color: "golden", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Palmeras", color: "palmeras", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Rosas", color: "rosas", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Transparente", color: "transparente", price: 31970, type: "texturas", typeLabel: "Textura" },
+                    { name: "Gris", color: "gris", price: 14990, type: "mate", typeLabel: "Mate" },
+                    { name: "Naranja", color: "naranja", price: 14990, type: "mate", typeLabel: "Mate" },
+                    { name: "Rojo", color: "rojo", price: 14990, type: "mate", typeLabel: "Mate" },
+                    { name: "Blanco", color: "blanco", price: 14990, type: "mate", typeLabel: "Mate" }
                 ]
             },
             actionButtons: {
@@ -215,11 +215,11 @@ const controllerModels = {
                 previewImage: "back.png",
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "texturas", typeLabel: "Grip Antideslizante" },
-                    { name: "Azul", color: "azul", price: 10000, type: "texturas", typeLabel: "Grip Antideslizante" },
-                    { name: "Rojo", color: "rojo", price: 10000, type: "texturas", typeLabel: "Grip Antideslizante" },
-                    { name: "Verde", color: "verde", price: 10000, type: "texturas", typeLabel: "Grip Antideslizante" },
-                    { name: "Negro", color: "negro", price: 10000, type: "texturas", typeLabel: "Grip Antideslizante" },
-                    { name: "Blanco", color: "blanco", price: 10000, type: "texturas", typeLabel: "Grip Antideslizante" }
+                    { name: "Azul", color: "azul", price: 19990, type: "texturas", typeLabel: "Grip Antideslizante" },
+                    { name: "Rojo", color: "rojo", price: 19990, type: "texturas", typeLabel: "Grip Antideslizante" },
+                    { name: "Verde", color: "verde", price: 19990, type: "texturas", typeLabel: "Grip Antideslizante" },
+                    { name: "Negro", color: "negro", price: 19990, type: "texturas", typeLabel: "Grip Antideslizante" },
+                    { name: "Blanco", color: "blanco", price: 19990, type: "texturas", typeLabel: "Grip Antideslizante" }
                 ]
             },
             digitalTriggers: {
@@ -300,10 +300,12 @@ function getSwatchColor(color) {
     return colorSwatches[nameKey] || colorSwatches[color.color] || 'linear-gradient(135deg, #555 0%, #777 100%)';
 }
 
+const orderTypes = { new: 79990, mailIn: 55000 };
+let selectedOrderType = 'new';
 let currentModel = 'ps5';
 let currentPart = 'frontShell';
 let selectedColors = {};
-let totalPrice = 298000;
+let totalPrice = 79990;
 let tabButtons = [];
 let isBack = false;
 let baseImage = null;
@@ -323,7 +325,7 @@ function init() {
 
     controllerParts = controllerModels[currentModel].parts;
     baseImage = document.getElementById('baseImage');
-    totalPrice = controllerModels[currentModel].basePrice;
+    totalPrice = orderTypes[selectedOrderType];
 
     if (currentModel === 'xbox') {
         generateXboxUI();
@@ -336,6 +338,7 @@ function init() {
     setupTabs();
     setupRotate();
     setupMobileMenu();
+    setupOrderType();
 
     currentPart = Object.keys(controllerParts)[0];
     if (tabTitle) tabTitle.textContent = controllerParts[currentPart].title;
@@ -451,7 +454,6 @@ function createColorButton(color, part, partConfig) {
                 <span class="color-dot" style="background: ${getSwatchColor(color)}"></span>
             </span>
             <span class="color-name">${color.name}</span>
-            <span class="color-price">+ $${(color.price / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </button>
     `;
 }
@@ -515,8 +517,20 @@ function updatePrice() {
         additionalPrice += selectedColors[part].price;
     });
 
-    totalPrice = controllerModels[currentModel].basePrice + additionalPrice;
-    totalPriceElement.textContent = `$ ${(totalPrice / 1000).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    totalPrice = orderTypes[selectedOrderType] + additionalPrice;
+    totalPriceElement.textContent = `$ ${(totalPrice / 1000).toFixed(2)}`;
+}
+
+function setupOrderType() {
+    const orderTypeButtons = document.querySelectorAll('.order-type-btn');
+    orderTypeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedOrderType = btn.dataset.orderType;
+            orderTypeButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePrice();
+        });
+    });
 }
 
 function setupRotate() {

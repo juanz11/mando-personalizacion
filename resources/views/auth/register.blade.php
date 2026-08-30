@@ -49,9 +49,9 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="phone" data-i18n="register_phone">Teléfono</label>
+                <label for="phone-local" data-i18n="register_phone">Teléfono</label>
                 <div style="display:flex; gap:10px; align-items:center;">
-                    <select id="phone-prefix" style="width:90px; padding:14px 12px; border-radius:12px; border:1px solid #33363c; background:#0b0d10; color:#fff; cursor:pointer;">
+                    <select id="phone-prefix" style="width:100px; padding:14px 12px; border-radius:12px; border:1px solid #33363c; background:#0b0d10; color:#fff; cursor:pointer;">
                         <option value="0412">0412</option>
                         <option value="0414">0414</option>
                         <option value="0416">0416</option>
@@ -60,7 +60,9 @@
                         <option value="0421">0421</option>
                         <option value="0411">0411</option>
                     </select>
-                    <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required style="flex:1;">
+                    <span id="phone-us-prefix" style="display:none; width:60px; padding:14px 12px; border-radius:12px; border:1px solid #33363c; background:#0b0d10; color:#4ade80; text-align:center; font-weight:600; cursor:default;">+1</span>
+                    <input type="tel" id="phone-local" required style="flex:1;">
+                    <input type="hidden" id="phone" name="phone" value="{{ old('phone') }}">
                 </div>
             </div>
             <div class="form-group">
@@ -77,39 +79,52 @@
     </div>
 </div>
 <script>
-    const phoneInput = document.getElementById('phone');
-    const countrySelect = document.getElementById('register-country');
+    const phoneFull = document.getElementById('phone');
+    const phoneLocal = document.getElementById('phone-local');
     const phonePrefix = document.getElementById('phone-prefix');
-    const vePrefixes = /^(0412|0414|0416|0424|0426|0421|0411)/;
+    const phoneUsPrefix = document.getElementById('phone-us-prefix');
+    const countrySelect = document.getElementById('register-country');
+    const vePrefixRegex = /^(0412|0414|0416|0424|0426|0421|0411)/;
+    const usPrefixRegex = /^\+?1/;
 
-    function syncPrefixSelect() {
-        const match = phoneInput.value.match(vePrefixes);
-        if (match) phonePrefix.value = match[1];
+    function cleanLocal() {
+        let local = phoneLocal.value.replace(/\D/g, '');
+        local = local.replace(vePrefixRegex, '').replace(usPrefixRegex, '').replace(/^0+/, '');
+        return local;
     }
 
-    function updatePhone() {
-        const country = countrySelect.value;
-        if (country === 'VE') {
-            phonePrefix.style.display = 'block';
-            const num = phoneInput.value.replace(/^\+?1/, '').replace(/^0\d{3}/, '');
-            if (!vePrefixes.test(phoneInput.value)) {
-                phoneInput.value = phonePrefix.value + num;
-            } else {
-                syncPrefixSelect();
-            }
+    function syncToFull() {
+        const local = cleanLocal();
+        if (countrySelect.value === 'US') {
+            phoneFull.value = '+1' + local;
         } else {
-            phonePrefix.style.display = 'none';
-            const num = phoneInput.value.replace(/^0\d{3}/, '').replace(/^\+?1/, '');
-            phoneInput.value = '+1' + num;
+            phoneFull.value = phonePrefix.value + local;
         }
     }
 
-    phonePrefix.addEventListener('change', () => {
-        phoneInput.value = phonePrefix.value + phoneInput.value.replace(vePrefixes, '');
-        phoneInput.focus();
-    });
+    function parseFullPhone() {
+        let local = phoneFull.value.replace(vePrefixRegex, '').replace(usPrefixRegex, '').replace(/^0+/, '');
+        if (countrySelect.value === 'VE') {
+            const match = phoneFull.value.match(vePrefixRegex);
+            if (match) phonePrefix.value = match[1];
+        }
+        phoneLocal.value = local;
+    }
 
-    phoneInput.addEventListener('input', syncPrefixSelect);
+    function updatePhone() {
+        if (countrySelect.value === 'US') {
+            phonePrefix.style.display = 'none';
+            phoneUsPrefix.style.display = 'block';
+        } else {
+            phonePrefix.style.display = 'block';
+            phoneUsPrefix.style.display = 'none';
+        }
+        parseFullPhone();
+        syncToFull();
+    }
+
+    phoneLocal.addEventListener('input', syncToFull);
+    phonePrefix.addEventListener('change', syncToFull);
     countrySelect.addEventListener('change', () => {
         localStorage.setItem('rte_country', countrySelect.value);
         setLang(countrySelect.value === 'US' ? 'en' : 'es');

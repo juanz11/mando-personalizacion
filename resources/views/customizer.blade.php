@@ -113,8 +113,22 @@
 
             <!-- Customization Panel -->
             <div class="customization-panel">
+                <div class="order-type-section" style="margin-bottom: 20px;">
+                    <p class="order-type-label" data-i18n="custom_order_type_label" style="font-size: 0.85rem; color: #9aa0aa; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;">Tipo de pedido</p>
+                    <div class="order-type-options" style="display: flex; gap: 12px;">
+                        <button type="button" class="order-type-btn active" data-order-type="new" style="flex: 1; padding: 14px; border: 1px solid #26282c; border-radius: 12px; background: #0b0d10; color: #fff; cursor: pointer; text-align: left; transition: all 0.2s;">
+                            <strong data-i18n="custom_order_new_title" style="display: block; font-size: 1rem; margin-bottom: 4px;">Control nuevo</strong>
+                            <span data-i18n="custom_order_new_price" style="font-size: 0.85rem; color: #4ade80;">Desde $79.99</span>
+                        </button>
+                        <button type="button" class="order-type-btn" data-order-type="mailIn" style="flex: 1; padding: 14px; border: 1px solid #26282c; border-radius: 12px; background: #0b0d10; color: #fff; cursor: pointer; text-align: left; transition: all 0.2s;">
+                            <strong data-i18n="custom_order_mail_title" style="display: block; font-size: 1rem; margin-bottom: 4px;">Envío / Control del cliente</strong>
+                            <span data-i18n="custom_order_mail_price" style="font-size: 0.85rem; color: #4ade80;">Desde $55.00</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="price-section">
-                    <h3 class="price" id="totalPrice">$ 298.000,00</h3>
+                    <h3 class="price" id="totalPrice">$ 79.99</h3>
                     @if(auth()->check())
                         <button type="button" class="order-btn" id="orderBtn" data-i18n="custom_quote">
                             Cotizar
@@ -175,6 +189,60 @@
             </div>
         </div>
     </main>
+
+    <!-- Repair Services -->
+    <section class='repair-section' style='padding: 60px 0; background: #0b0d10; border-top: 1px solid #26282c;'>
+        <div class='container'>
+            <div class='section-head' style='text-align: center; margin-bottom: 40px;'>
+                <span style='font-size: 0.85rem; color: #4ade80; text-transform: uppercase; letter-spacing: 0.05em;'>SERVICIOS</span>
+                <h2 style='font-size: 2rem; margin: 12px 0 16px;'>Reparación de Drift + Adicionales</h2>
+                <p style='color: #9aa0aa;'>Si ya tenés un control y necesitás reparación de sticks, acá podés ver los precios y sumar adicionales.</p>
+            </div>
+            <div class='repair-grid' style='display: grid; gap: 16px; max-width: 720px; margin: 0 auto;'>
+                <div class='repair-card' style='padding: 20px; border: 1px solid #26282c; border-radius: 16px; background: #111319;'>
+                    <h3 style='margin-bottom: 16px; font-size: 1.1rem;'>Joystick / Stick Drift Repair</h3>
+                    <label style='display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #fff; cursor: pointer;'>
+                        <span>PS4 DualShock 4</span>
+                        <span style='color: #4ade80; font-weight: 600;'>$55.00</span>
+                        <input type='radio' name='repair_model' value='ps4' data-repair-price='55000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                    <label style='display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #fff; cursor: pointer;'>
+                        <span>PS5 DualSense</span>
+                        <span style='color: #4ade80; font-weight: 600;'>$55.00</span>
+                        <input type='radio' name='repair_model' value='ps5' data-repair-price='55000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                    <label style='display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #fff; cursor: pointer;'>
+                        <span>Xbox</span>
+                        <span style='color: #4ade80; font-weight: 600;'>$55.00</span>
+                        <input type='radio' name='repair_model' value='xbox' data-repair-price='55000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                    <label style='display: flex; align-items: center; justify-content: space-between; color: #fff; cursor: pointer;'>
+                        <span>PS5 DualSense Edge</span>
+                        <span style='color: #4ade80; font-weight: 600;'>$65.00</span>
+                        <input type='radio' name='repair_model' value='edge' data-repair-price='65000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                </div>
+
+                <div class='repair-card' style='padding: 20px; border: 1px solid #26282c; border-radius: 16px; background: #111319;'>
+                    <h3 style='margin-bottom: 16px; font-size: 1.1rem;'>Adicionales opcionales</h3>
+                    <label style='display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; color: #fff; cursor: pointer;'>
+                        <span>Mouse Click Buttons (Clicky Face + Triggers)</span>
+                        <span style='color: #4ade80; font-weight: 600;'>+$70.00</span>
+                        <input type='checkbox' data-repair-price='70000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                    <label style='display: flex; align-items: center; justify-content: space-between; color: #fff; cursor: pointer;'>
+                        <span>4 Back Buttons Kit (+ carcasa compatible + grips)</span>
+                        <span style='color: #4ade80; font-weight: 600;'>+$70.00</span>
+                        <input type='checkbox' data-repair-price='70000' onchange='updateRepairTotal()' style='margin-left: 12px;'>
+                    </label>
+                </div>
+
+                <div class='repair-total' style='text-align: right; font-size: 1.5rem; font-weight: 700;'>
+                    Total: <span id='repairTotal' style='color: #4ade80;'>$0.00</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -237,6 +305,11 @@
                     custom_nav_logout: 'CERRAR SESIÓN',
                     custom_nav_login: 'INICIAR SESIÓN',
                     custom_back: 'Elegir otro modelo',
+                    custom_order_type_label: 'Tipo de pedido',
+                    custom_order_new_title: 'Control nuevo',
+                    custom_order_new_price: 'Desde $79.99',
+                    custom_order_mail_title: 'Envío / Control del cliente',
+                    custom_order_mail_price: 'Desde $55.00',
                     custom_quote: 'Cotizar',
                     custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. Todos los derechos reservados.',
                     custom_footer_dev: 'Desarrollado por ',
@@ -256,6 +329,11 @@
                     custom_nav_logout: 'LOG OUT',
                     custom_nav_login: 'LOG IN',
                     custom_back: 'Choose another model',
+                    custom_order_type_label: 'Order type',
+                    custom_order_new_title: 'New Controller',
+                    custom_order_new_price: 'Starting at $79.99',
+                    custom_order_mail_title: 'Mail-In / Customer\'s Controller',
+                    custom_order_mail_price: 'Starting at $55.00',
                     custom_quote: 'Quote',
                     custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. All rights reserved.',
                     custom_footer_dev: 'Developed by ',
@@ -320,6 +398,17 @@
                 setLang(lang);
             });
         })();
+    </script>
+
+    <script>
+        function updateRepairTotal() {
+            const model = document.querySelector('input[name="repair_model"]:checked');
+            const addOns = document.querySelectorAll('[data-repair-price]:checked');
+            let total = 0;
+            if (model) total += parseInt(model.dataset.repairPrice);
+            addOns.forEach(el => total += parseInt(el.dataset.repairPrice));
+            document.getElementById('repairTotal').textContent = `$ ${(total / 1000).toFixed(2)}`;
+        }
     </script>
 </body>
 </html>
