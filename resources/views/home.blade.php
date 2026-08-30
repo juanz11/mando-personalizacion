@@ -138,13 +138,13 @@
                         </div>
                         <h3 data-i18n='home_support_zoom_title'>Envíos MRW</h3>
                         <p data-i18n='home_support_zoom_label' style='margin-bottom: 8px; color: #a1a5ab;'>Dirección de recepción:</p>
-                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; white-space: pre-wrap; word-break: break-all; margin-bottom: 8px;'>MRW: La Esmeralda, San Diego, Carabobo
+                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; line-height: 1.6; text-align: left; margin-bottom: 8px;'>MRW: La Esmeralda, San Diego, Carabobo
 Zoom: San Diego, Centro Comercial Fin de Siglo
 Horario: 10 AM - 6:00 PM (cita previa)
 Lunes a sábado, domingo con cita previa
 Tel: 0251-110421 / 0412-7141909</code>
                         <button type='button' class='btn btn-outline' style='margin-bottom: 12px; padding: 6px 14px; font-size: 0.85rem;' data-i18n='home_support_copy_address' onclick='copyAddress(this)'>Copiar dirección</button>
-                        <a href='#' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por MRW</a>
+                        <a href='https://mrwve.com/mi-envio' target='_blank' rel='noopener' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por MRW</a>
                     </div>
                 </div>
             </div>
