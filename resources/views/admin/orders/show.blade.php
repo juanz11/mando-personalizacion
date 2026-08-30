@@ -121,8 +121,14 @@
             <h2>Items</h2>
             @foreach($order->items as $item)
                 <p>{{ $item->quantity }}x {{ $item->product_name }} ({{ strtoupper($item->model) }}) - ${{ number_format($item->price, 2, ',', '.') }}</p>
+                @if(is_array($item->configuration) && !empty($item->configuration['summary']))
+                    <p style="color:#a1a5ab; font-size:0.85rem; margin-left:16px;">{{ $item->configuration['summary'] }}</p>
+                @endif
             @endforeach
             <p style="margin-top:12px; font-weight:700; color:#fff;">Total: ${{ number_format($order->total, 2, ',', '.') }}</p>
+            <p style="margin-top:14px;">
+                <a href="{{ route('admin.orders.pdf', $order) }}" target="_blank" rel="noopener noreferrer" onclick="window.open(this.href, '_blank'); return false;" style="display:inline-block; background:#4ade80; color:#000; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:600;">Ver configuración PDF</a>
+            </p>
         </div>
 
         <div class="section" style="margin-bottom:24px;">

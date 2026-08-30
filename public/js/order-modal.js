@@ -41,12 +41,54 @@
 
     function getConfigurationSummary() {
         const summary = [];
-        const activeThumbs = document.querySelectorAll('.thumb.active, .color-option.active, .tab-btn.active');
-        activeThumbs.forEach((el) => {
-            const name = el.dataset.name || el.dataset.color || el.dataset.tab || el.textContent.trim();
-            if (name) summary.push(name);
+        if (typeof controllerParts === 'undefined' || typeof selectedColors === 'undefined') {
+            const activeThumbs = document.querySelectorAll('.thumb.active, .color-option.active, .tab-btn.active');
+            activeThumbs.forEach((el) => {
+                const name = el.dataset.name || el.dataset.color || el.dataset.tab || el.textContent.trim();
+                if (name) summary.push(name);
+            });
+            return summary.join(', ');
+        }
+
+        Object.keys(controllerParts).forEach(part => {
+            const color = selectedColors[part];
+            if (color && color.color !== 'default') {
+                summary.push(`${controllerParts[part].title}: ${color.name}`);
+            }
         });
         return summary.join(', ');
+    }
+
+    function buildImageUrls(isBackView) {
+        const model = document.body.dataset.model || 'ps5';
+        const urls = [`https://customizer.diemgaming.com.ar/${model}/base${isBackView ? '_back' : ''}.png`];
+
+        if (typeof controllerParts === 'undefined' || typeof selectedColors === 'undefined' || typeof getImageUrl !== 'function') {
+            return urls;
+        }
+
+        Object.keys(controllerParts).forEach(part => {
+            const partConfig = controllerParts[part];
+            const color = selectedColors[part];
+            if (!color || color.color === 'default') return;
+
+            const isPartBack = partConfig.side === 'back';
+            if ((isBackView && isPartBack) || (!isBackView && !isPartBack)) {
+                urls.push(getImageUrl(partConfig, color));
+            }
+        });
+
+        return urls;
+    }
+
+    function getConfigurationData() {
+        const model = document.body.dataset.model || 'ps5';
+        return {
+            model: model,
+            summary: getConfigurationSummary(),
+            front: buildImageUrls(false),
+            back: buildImageUrls(true),
+        };
     }
 
     async function handleSubmit(event) {
@@ -61,7 +103,7 @@
         payload.append('model', model);
         payload.append('price', price);
         payload.append('product_name', `Mando personalizado ${model.toUpperCase()}`);
-        payload.append('configuration', getConfigurationSummary());
+        payload.append('configuration', JSON.stringify(getConfigurationData()));
 
         const submitBtn = form.querySelector('.btn-submit-order');
         if (submitBtn) submitBtn.disabled = true;

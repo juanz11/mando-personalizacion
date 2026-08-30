@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('ordenes', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('ordenes/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::get('ordenes/{order}/pdf', [AdminOrderController::class, 'pdf'])->name('orders.pdf');
     Route::put('ordenes/{order}/tracking', [AdminOrderController::class, 'updateTracking'])->name('orders.tracking');
     Route::put('ordenes/{order}/estado', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
 });

@@ -32,6 +32,35 @@ class AdminOrderController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
+    public function pdf(Order $order)
+    {
+        $order->load('items');
+        $item = $order->items->first();
+        $rawConfig = $item?->configuration ?? [];
+
+        if (is_string($rawConfig)) {
+            $rawConfig = json_decode($rawConfig, true) ?: [];
+        }
+
+        $config = is_array($rawConfig) ? $rawConfig : [];
+        $model = $config['model'] ?? ($item?->model ?? 'ps5');
+
+        $frontLayers = $config['front'] ?? [];
+        $backLayers = $config['back'] ?? [];
+
+        if (empty($frontLayers) && empty($backLayers)) {
+            return back()->with('error', 'No hay imágenes de configuración para esta orden.');
+        }
+
+        return view('admin.orders.config', [
+            'order' => $order,
+            'config' => $config,
+            'model' => $model,
+            'frontLayers' => $frontLayers,
+            'backLayers' => $backLayers,
+        ]);
+    }
+
     public function updateTracking(Request $request, Order $order)
     {
         $data = $request->validate([
