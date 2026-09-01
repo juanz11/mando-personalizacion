@@ -1,5 +1,7 @@
 <?php
 
+ini_set('default_charset', 'UTF-8');
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 

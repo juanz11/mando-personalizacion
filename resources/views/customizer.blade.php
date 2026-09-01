@@ -324,8 +324,8 @@ Tel: 0251-110421 / 0412-7141909
         </div>
     </div>
 
-    <script src="{{ asset('js/script.js') }}"></script>
-    <script src="{{ asset('js/order-modal.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}?v={{ filemtime(public_path('js/script.js')) }}"></script>
+    <script src="{{ asset('js/order-modal.js') }}?v={{ filemtime(public_path('js/order-modal.js')) }}"></script>
     <script>
         (function() {
             const translations = {
