@@ -31,11 +31,11 @@ class CartController extends Controller
 
         session([
             'cart' => $cart,
-            'checkout_prefill' => [
+            'checkout_prefill' => $user ? [
                 'customer_name' => $user->name,
                 'customer_email' => $user->email,
                 'customer_phone' => $user->phone,
-            ],
+            ] : [],
         ]);
 
         return redirect()->route('checkout.index');

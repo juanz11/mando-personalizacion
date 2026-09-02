@@ -84,15 +84,15 @@
             <div class="form-grid">
                 <div class="form-group wide">
                     <label for="customer_name" data-i18n="name_label">Nombre completo</label>
-                    <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name', $prefill['customer_name'] ?? $user->name) }}" required>
+                    <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name', $prefill['customer_name'] ?? ($user?->name ?? '')) }}" required>
                 </div>
                 <div class="form-group">
                     <label for="customer_email" data-i18n="email_label">Email</label>
-                    <input type="email" id="customer_email" name="customer_email" value="{{ old('customer_email', $prefill['customer_email'] ?? $user->email) }}" required>
+                    <input type="email" id="customer_email" name="customer_email" value="{{ old('customer_email', $prefill['customer_email'] ?? ($user?->email ?? '')) }}" required>
                 </div>
                 <div class="form-group">
                     <label for="customer_phone" data-i18n="phone_label">Teléfono</label>
-                    <input type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $prefill['customer_phone'] ?? $user->phone ?? '') }}" required>
+                    <input type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $prefill['customer_phone'] ?? ($user?->phone ?? '')) }}" required>
                 </div>
                 <div class="form-group wide">
                     <label for="shipping_address" data-i18n="address_label">Dirección de envío</label>

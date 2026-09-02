@@ -16,7 +16,11 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        abort_if($order->user_id !== Auth::id(), 403);
+        if (Auth::check()) {
+            abort_if($order->user_id !== Auth::id(), 403);
+        } else {
+            abort_if($order->user_id !== null, 403);
+        }
 
         $order->load('items', 'trackingUpdates');
         return view('orders.show', compact('order'));

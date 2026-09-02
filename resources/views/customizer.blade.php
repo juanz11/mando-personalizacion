@@ -161,21 +161,13 @@ Tel: 0251-110421 / 0412-7141909
 
                 <div class="price-section">
                     <h3 class="price" id="totalPrice">$ 79.99</h3>
-                    @if(auth()->check())
-                        <button type="button" class="order-btn" id="orderBtn" data-i18n="custom_quote">
-                            Cotizar
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
-                            </svg>
-                        </button>
-                    @else
-                        <a href="{{ route('register') }}" class="order-btn" style="text-decoration: none;" data-i18n="custom_quote">
-                            Cotizar
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
-                            </svg>
-                        </a>
-                    @endif
+                    <button type="button" class="order-btn" id="orderBtn" data-i18n="custom_quote">
+                        Cotizar
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path fill="currentColor" d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2m-5 12H9v-2h6zm5-7H4V4l16-.02z"/>
+                        </svg>
+                    </button>
+                    <small style="display:block; margin-top:8px; font-size:0.75rem; color:#9aa0aa;">También podés cotizar sin registrarte</small>
                 </div>
 
                 <!-- Tabs Navigation -->

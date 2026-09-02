@@ -14,7 +14,11 @@ Route::get('/{model}', function ($model) {
     return view('customizer', ['model' => $model]);
 })->where('model', 'ps5|xbox')->name('customizer');
 
-Route::post('cart/add', [\App\Http\Controllers\CartController::class, 'add'])->middleware('auth')->name('cart.add');
+Route::post('cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+
+Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout.index');
+Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('mis-ordenes/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
@@ -28,11 +32,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 Route::get('comprobantes/{path}', [CheckoutController::class, 'receipt'])->where('path', '.*')->name('receipts.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout.index');
-    Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-
     Route::get('mis-ordenes', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('mis-ordenes/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
