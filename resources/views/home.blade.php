@@ -49,6 +49,8 @@
         </div>
     </header>
 
+    <div class="menu-overlay"></div>
+
     <main>
         <!-- Hero -->
         <section id="inicio" class="hero">
@@ -124,8 +126,8 @@
                             </svg>
                         </div>
                         <h3 data-i18n='home_support_whatsapp_title'>Reparación y modificación de controles</h3>
-                        <p style='font-size: 1.1rem; color: #fff; margin-bottom: 16px;'>Contactar al 0412-7141909</p>
-                        <a href='https://wa.me/584127141909' target='_blank' rel='noopener' class='btn btn-primary' data-i18n='home_support_whatsapp_btn'>Contactar por WhatsApp</a>
+                        <p data-i18n='home_support_whatsapp_contact' style='font-size: 1.1rem; color: #fff; margin-bottom: 16px; white-space: pre-wrap;'>Contactar al 0412-7141909</p>
+                        <a href='https://wa.me/584127141909' target='_blank' rel='noopener' class='btn btn-primary' data-i18n='home_support_whatsapp_btn' data-i18n-href='home_support_whatsapp_url'>Contactar por WhatsApp</a>
                     </div>
 
                     <div class='feature-card' style='text-align: center;'>
@@ -138,7 +140,7 @@
                         </div>
                         <h3 data-i18n='home_support_zoom_title'>Envíos MRW</h3>
                         <p data-i18n='home_support_zoom_label' style='margin-bottom: 8px; color: #a1a5ab;'>Dirección de recepción:</p>
-                        <code style='display: block; background: #0b0d10; color: #4ade80; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; line-height: 1.6; text-align: left; margin-bottom: 8px;'>MRW: La Esmeralda, San Diego, Carabobo
+                        <code data-i18n='home_support_zoom_address' style='display: block; background: #0b0d10; color: #4ade80; padding: 12px 16px; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; line-height: 1.6; text-align: left; margin-bottom: 8px;'>MRW: La Esmeralda, San Diego, Carabobo
 Zoom: San Diego, Centro Comercial Fin de Siglo
 Horario: 10 AM - 6:00 PM (cita previa)
 Lunes a sábado, domingo con cita previa
@@ -337,10 +339,13 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_support_title: 'Reparación y personalización',
                 home_support_desc: 'Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por MRW.',
                 home_support_whatsapp_title: 'Reparación y modificación de controles',
+                home_support_whatsapp_contact: 'Contactar al 0412-7141909',
                 home_support_whatsapp_btn: 'Contactar por WhatsApp',
+                home_support_whatsapp_url: 'https://wa.me/584127141909',
                 home_support_zoom_title: 'Envíos MRW',
                 home_support_zoom_label: 'Direcciones de recepción:',
                 home_support_zoom_btn: 'Enviar por MRW',
+                home_support_zoom_address: 'MRW: La Esmeralda, San Diego, Carabobo\nZoom: San Diego, Centro Comercial Fin de Siglo\nHorario: 10 AM - 6:00 PM (cita previa)\nLunes a sábado, domingo con cita previa\nTel: 0251-110421 / 0412-7141909',
                 home_support_copy_address: 'Copiar dirección',
             },
             en: {
@@ -395,12 +400,15 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.',
                 home_support_eyebrow: '// GOT A CONTROLLER?',
                 home_support_title: 'Repair & Customization',
-                home_support_desc: 'If you already have a controller and want it repaired or customized, reach out on WhatsApp or send it via MRW.',
+                home_support_desc: 'If you already have a controller and want it repaired or customized, message us or send it via MRW.',
                 home_support_whatsapp_title: 'Controller repair and modification',
-                home_support_whatsapp_btn: 'Contact on WhatsApp',
+                home_support_whatsapp_contact: '+1 612 564 0351',
+                home_support_whatsapp_btn: 'Contact this number',
+                home_support_whatsapp_url: 'sms:+16125640351',
                 home_support_zoom_title: 'MRW Shipping',
                 home_support_zoom_label: 'Drop-off addresses:',
                 home_support_zoom_btn: 'Ship with MRW',
+                home_support_zoom_address: '1224 Shakopee Ave E\nCity Shakopee, MN 55379',
                 home_support_copy_address: 'Copy address',
             }
         };
@@ -414,6 +422,9 @@ Tel: 0251-110421 / 0412-7141909</code>
                     el.alt = translations[lang][key];
                 } else {
                     el.textContent = translations[lang][key];
+                }
+                if (el.dataset.i18nHref && translations[lang] && translations[lang][el.dataset.i18nHref]) {
+                    el.href = translations[lang][el.dataset.i18nHref];
                 }
             });
         }
@@ -459,6 +470,30 @@ Tel: 0251-110421 / 0412-7141909</code>
             setTimeout(() => btn.textContent = original, 2000);
         });
     }
+</script>
+
+<script>
+    (function() {
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('.site-nav');
+        const overlay = document.querySelector('.menu-overlay');
+        if (!toggle || !nav) return;
+
+        function setOpen(isOpen) {
+            nav.classList.toggle('open', isOpen);
+            if (overlay) overlay.classList.toggle('active', isOpen);
+        }
+
+        toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+
+        nav.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', () => setOpen(false));
+        });
+
+        if (overlay) {
+            overlay.addEventListener('click', () => setOpen(false));
+        }
+    })();
 </script>
 </body>
 </html>

@@ -83,12 +83,68 @@ img {
     padding: 8px;
 }
 
-@media (max-width: 900px) {
+.menu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 55;
+}
+.menu-overlay.active {
+    display: block;
+}
+
+@media (max-width: 1100px) {
+    .site-header .header-inner {
+        height: auto;
+        min-height: 120px;
+        padding: 20px 0;
+    }
     .site-nav {
-        display: none;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 900px) {
+    .site-header .header-inner {
+        height: 80px;
+        min-height: auto;
+        padding: 0;
+    }
+    .site-header .logo img {
+        height: 60px;
+    }
+    .site-nav {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 260px;
+        height: 100vh;
+        background: #000;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 100px 24px 24px;
+        gap: 24px;
+        border-left: 1px solid #26282c;
+        transition: right 0.3s ease;
+        z-index: 60;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+    .site-nav.open {
+        right: 0;
+    }
+    .site-nav a,
+    .site-nav form,
+    .site-nav button {
+        width: 100%;
+        justify-content: flex-start;
     }
     .menu-toggle {
         display: inline-flex;
+        z-index: 70;
     }
 }
 
