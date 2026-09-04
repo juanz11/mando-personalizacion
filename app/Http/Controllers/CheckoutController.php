@@ -19,7 +19,7 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'El carrito está vacío.');
         }
 
-        $total = collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1));
+        $total = round(collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1)), 2);
 
         $prefill = session('checkout_prefill', []);
         $user = auth()->user();
@@ -56,7 +56,7 @@ class CheckoutController extends Controller
         $base['shipping_address'] = $base['shipping_state'] . ' - ' . $base['shipping_address'];
         unset($base['shipping_state']);
 
-        $total = collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1));
+        $total = round(collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1)), 2);
 
         $paymentRules = $country === 'VE'
             ? [

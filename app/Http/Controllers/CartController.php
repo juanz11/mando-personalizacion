@@ -17,7 +17,7 @@ class CartController extends Controller
         ]);
 
         $user = Auth::user();
-        $price = (float) $data['price'];
+        $price = round((float) $data['price'], 2);
 
         $cart = [
             [
