@@ -41,7 +41,7 @@
         .country-switch { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; }
         .country-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; border: 2px solid #33363c; background: #0b0d10; color: #a1a5ab; cursor: pointer; transition: all 0.2s; }
         .country-btn.active { border-color: #4ade80; color: #fff; background: rgba(74, 222, 128, 0.1); }
-        .country-btn .flag { font-size: 1.25rem; }
+        .country-btn .flag { width: 22px; height: auto; display: block; border-radius: 3px; }
         .stripe-field { display: flex; align-items: center; color: #000; }
         .stripe-field .__PrivateStripeElement,
         .stripe-field .StripeElement { width: 100% !important; }
@@ -117,11 +117,11 @@
 
                 <div class="country-switch" style="grid-column: 1 / -1;">
                     <button type="button" class="country-btn active" data-country="VE">
-                        <span class="flag">🇻🇪</span>
+                        <img class="flag" src="{{ asset('Bandera-Venezuela.png') }}" alt="Venezuela">
                         <span>Venezuela</span>
                     </button>
                     <button type="button" class="country-btn" data-country="US">
-                        <span class="flag">🇺🇸</span>
+                        <img class="flag" src="{{ asset('Bandera-USA.png') }}" alt="United States">
                         <span>United States</span>
                     </button>
                 </div>
@@ -172,13 +172,14 @@
 
                 <div id="payment-methods-us" class="payment-methods" style="display: none;">
                     <div class="payment-method">
-                        <div class="pm-header">
+                        <label class="pm-header" for="payment_stripe">
+                            <input type="radio" id="payment_stripe" name="payment_method" value="stripe" {{ old('payment_method', 'stripe') === 'stripe' ? 'checked' : '' }} disabled>
                             <div>
                                 <strong data-i18n="stripe_title">Stripe (test card)</strong>
                                 <small data-i18n="stripe_desc">Pay by card using Stripe test mode.</small>
                             </div>
-                        </div>
-                        <div class="payment-details">
+                        </label>
+                        <div class="payment-details" id="stripe-details">
                             <div style="display: flex; flex-direction: column; gap: 14px;">
                                 <div>
                                     <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_number">Número de tarjeta</label>
@@ -196,8 +197,21 @@
                                 </div>
                             </div>
                             <div id="card-errors" role="alert" style="color:#ff6b6b; font-size:0.85rem; margin-top:6px;"></div>
-                            <input type="hidden" name="payment_method" value="stripe" disabled>
                             <input type="hidden" name="stripe_token" id="stripe_token" disabled>
+                        </div>
+                    </div>
+                    <div class="payment-method" @if(!$paypalClientId) style="display:none;" @endif>
+                        <label class="pm-header" for="payment_paypal">
+                            <input type="radio" id="payment_paypal" name="payment_method" value="paypal" {{ old('payment_method') === 'paypal' ? 'checked' : '' }} disabled>
+                            <div>
+                                <strong>PayPal</strong>
+                                <small data-i18n="paypal_desc">Pagá de forma segura con tu cuenta PayPal.</small>
+                            </div>
+                        </label>
+                        <div class="payment-details" id="paypal-details" style="display:none;">
+                            <div id="paypal-button-container"></div>
+                            <div id="paypal-errors" role="alert" style="color:#ff6b6b; font-size:0.85rem;"></div>
+                            <input type="hidden" name="paypal_order_id" id="paypal_order_id" disabled>
                         </div>
                     </div>
                 </div>
@@ -233,6 +247,9 @@
             pagomovil_desc: 'Usá estos datos y subí el capture del pago.',
             stripe_title: 'Stripe (tarjeta de prueba)',
             stripe_desc: 'Pagá con tarjeta usando Stripe en modo prueba.',
+            paypal_desc: 'Pagá de forma segura con tu cuenta PayPal.',
+            paypal_missing: 'Completá el pago con el botón de PayPal antes de confirmar.',
+            paypal_error: 'Ocurrió un error con PayPal. Intentá de nuevo.',
             card_number: 'Número de tarjeta',
             card_expiry: 'Fecha de expiración',
             card_cvc: 'CVC',
@@ -260,6 +277,9 @@
             pagomovil_desc: 'Use these details and upload the payment screenshot.',
             stripe_title: 'Stripe (test card)',
             stripe_desc: 'Pay by card using Stripe test mode.',
+            paypal_desc: 'Pay securely with your PayPal account.',
+            paypal_missing: 'Please complete the PayPal payment using the button above.',
+            paypal_error: 'There was an error with PayPal. Please try again.',
             card_number: 'Card number',
             card_expiry: 'Expiry date',
             card_cvc: 'CVC',
@@ -295,7 +315,18 @@
     const countryBtns = document.querySelectorAll('.country-btn');
     const veMethods = document.getElementById('payment-methods-ve');
     const usMethods = document.getElementById('payment-methods-us');
-    const usInputs = usMethods.querySelectorAll('input[name="payment_method"], input[name="stripe_token"]');
+    const usInputs = usMethods.querySelectorAll('input');
+    const stripeRadio = document.getElementById('payment_stripe');
+    const paypalRadio = document.getElementById('payment_paypal');
+    const stripeDetails = document.getElementById('stripe-details');
+    const paypalDetails = document.getElementById('paypal-details');
+
+    function updateUsMethod() {
+        stripeDetails.style.display = stripeRadio.checked ? 'flex' : 'none';
+        paypalDetails.style.display = (paypalRadio && paypalRadio.checked) ? 'flex' : 'none';
+    }
+    [stripeRadio, paypalRadio].forEach(r => r && r.addEventListener('change', updateUsMethod));
+    updateUsMethod();
     const veRadios = veMethods.querySelectorAll('input[name="payment_method"]');
     const receiptGroup = document.getElementById('receipt-group');
     const receiptInput = document.getElementById('payment_receipt');
@@ -430,6 +461,8 @@
     const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
         if (countrySelect.value !== 'US') return;
+        const method = form.querySelector('input[name="payment_method"]:checked')?.value || 'stripe';
+        if (method !== 'stripe') return;
         event.preventDefault();
 
         stripe.createToken(cardNumber).then(function(result) {
@@ -443,5 +476,51 @@
     });
     @endif
 </script>
+
+@if($paypalClientId)
+<script src="https://www.paypal.com/sdk/js?client-id={{ $paypalClientId }}&currency={{ config('services.paypal.currency', 'USD') }}&intent=capture"></script>
+<script>
+    (function() {
+        const paypalForm = document.querySelector('form');
+        const paypalOrderInput = document.getElementById('paypal_order_id');
+        const paypalErrors = document.getElementById('paypal-errors');
+        const countryField = document.getElementById('shipping_country');
+        const paypalLang = () => countryField.value === 'US' ? 'en' : 'es';
+
+        if (window.paypal && paypal.Buttons) {
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        intent: 'CAPTURE',
+                        purchase_units: [{
+                            description: 'RTE Custom Controller Order',
+                            amount: {
+                                currency_code: '{{ config('services.paypal.currency', 'USD') }}',
+                                value: '{{ number_format($total, 2, ".", "") }}'
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    paypalOrderInput.value = data.orderID;
+                    paypalForm.requestSubmit();
+                },
+                onError: function() {
+                    paypalErrors.textContent = i18n[paypalLang()].paypal_error;
+                }
+            }).render('#paypal-button-container');
+        }
+
+        paypalForm.addEventListener('submit', function(event) {
+            if (countryField.value !== 'US') return;
+            const method = paypalForm.querySelector('input[name="payment_method"]:checked')?.value;
+            if (method === 'paypal' && !paypalOrderInput.value) {
+                event.preventDefault();
+                paypalErrors.textContent = i18n[paypalLang()].paypal_missing;
+            }
+        });
+    })();
+</script>
+@endif
 </body>
 </html>

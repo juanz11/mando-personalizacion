@@ -37,8 +37,8 @@
             </nav>
 
             <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
-                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇻🇪</button>
-                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇺🇸</button>
+                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-Venezuela.png') }}" alt="Venezuela" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
+                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-USA.png') }}" alt="United States" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
             </div>
 
             <button class="menu-toggle" aria-label="Abrir menú">
@@ -146,7 +146,7 @@ Horario: 10 AM - 6:00 PM (cita previa)
 Lunes a sábado, domingo con cita previa
 Tel: 0251-110421 / 0412-7141909</code>
                         <button type='button' class='btn btn-outline' style='margin-bottom: 12px; padding: 6px 14px; font-size: 0.85rem;' data-i18n='home_support_copy_address' onclick='copyAddress(this)'>Copiar dirección</button>
-                        <a href='https://mrwve.com/mi-envio' target='_blank' rel='noopener' class='btn btn-outline' data-i18n='home_support_zoom_btn'>Enviar por MRW</a>
+                        <a href='https://mrwve.com/mi-envio' target='_blank' rel='noopener' class='btn btn-outline' data-i18n='home_support_zoom_btn' data-i18n-href='home_support_ship_url'>Enviar por MRW</a>
                     </div>
                 </div>
             </div>
@@ -345,6 +345,7 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_support_zoom_title: 'Envíos MRW',
                 home_support_zoom_label: 'Direcciones de recepción:',
                 home_support_zoom_btn: 'Enviar por MRW',
+                home_support_ship_url: 'https://mrwve.com/mi-envio',
                 home_support_zoom_address: 'MRW: La Esmeralda, San Diego, Carabobo\nZoom: San Diego, Centro Comercial Fin de Siglo\nHorario: 10 AM - 6:00 PM (cita previa)\nLunes a sábado, domingo con cita previa\nTel: 0251-110421 / 0412-7141909',
                 home_support_copy_address: 'Copiar dirección',
             },
@@ -400,15 +401,16 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_footer_warranty_desc: 'All our custom controllers include premium components, such as magnetic TMR analog sticks to prevent drift completely.',
                 home_support_eyebrow: '// GOT A CONTROLLER?',
                 home_support_title: 'Repair & Customization',
-                home_support_desc: 'If you already have a controller and want it repaired or customized, message us or send it via MRW.',
+                home_support_desc: 'If you already have a controller and want it repaired or customized, message us or send it via USPS, FedEx or DHL.',
                 home_support_whatsapp_title: 'Controller repair and modification',
                 home_support_whatsapp_contact: '+1 612 564 0351',
                 home_support_whatsapp_btn: 'Contact this number',
                 home_support_whatsapp_url: 'sms:+16125640351',
-                home_support_zoom_title: 'MRW Shipping',
-                home_support_zoom_label: 'Drop-off addresses:',
-                home_support_zoom_btn: 'Ship with MRW',
-                home_support_zoom_address: '1224 Shakopee Ave E\nCity Shakopee, MN 55379',
+                home_support_zoom_title: 'USPS · FedEx · DHL Shipping',
+                home_support_zoom_label: 'Drop-off address:',
+                home_support_zoom_btn: 'Ship with USPS',
+                home_support_ship_url: 'https://www.usps.com/ship/',
+                home_support_zoom_address: 'USPS / FedEx / DHL\n1224 Shakopee Ave E\nShakopee, MN 55379\nPhone: +1 612 564 0351',
                 home_support_copy_address: 'Copy address',
             }
         };

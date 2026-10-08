@@ -56,8 +56,8 @@
             </nav>
 
             <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
-                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇻🇪</button>
-                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;">🇺🇸</button>
+                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-Venezuela.png') }}" alt="Venezuela" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
+                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-USA.png') }}" alt="United States" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
             </div>
 
             <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
@@ -358,7 +358,7 @@ Tel: 0251-110421 / 0412-7141909
                     custom_order_new_title: 'New Controller',
                     custom_order_new_price: 'Starting at $79.99',
                     custom_order_mail_title: 'Mail-In / Own Controller',
-                    custom_order_mail_desc: 'MRW address: La Esmeralda, San Diego, Carabobo\nZoom: San Diego, Centro Comercial Fin de Siglo\nHours: 10 AM - 6:00 PM (by appointment)\nMonday to Saturday, Sunday by appointment\nPhone: 0251-110421 / 0412-7141909',
+                    custom_order_mail_desc: 'USPS / FedEx / DHL: 1224 Shakopee Ave E, Shakopee, MN 55379\nPhone: +1 612 564 0351',
                     custom_order_mail_price: 'Starting at $55.00',
                     custom_quote: 'Quote',
                     custom_footer_copy: 'Copyright ' + new Date().getFullYear() + ' © RTE Custom Controller. All rights reserved.',

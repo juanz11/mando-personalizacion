@@ -56,6 +56,8 @@
                     Binance Pay
                 @elseif($order->payment_method == 'stripe')
                     Stripe
+                @elseif($order->payment_method == 'paypal')
+                    PayPal
                 @else
                     Pago Móvil Venezuela
                 @endif
@@ -80,6 +82,8 @@
                 </div>
             @elseif($order->payment_method == 'stripe')
                 <p style="color:#a1a5ab; font-size:0.9rem;" data-i18n="stripe_test_message">Pago procesado con Stripe en modo prueba.</p>
+            @elseif($order->payment_method == 'paypal')
+                <p style="color:#a1a5ab; font-size:0.9rem;" data-i18n="paypal_message">Pago procesado con PayPal.</p>
             @endif
             @if($order->payment_receipt)
                 <p style="margin-top:14px;"><a href="{{ route('receipts.show', ['path' => $order->payment_receipt]) }}" target="_blank" class="track-btn" style="background:#60a5fa;" data-i18n="order_view_receipt">Ver comprobante</a></p>
@@ -149,6 +153,7 @@
             order_payment: 'Pago',
             order_method: 'Método:',
             stripe_test_message: 'Pago procesado con Stripe en modo prueba.',
+            paypal_message: 'Pago procesado con PayPal.',
             order_shipping_title: 'Envío',
             order_no_tracking: 'Todavía no hay un número de tracking asignado.',
             order_history: 'Historial',
@@ -169,6 +174,7 @@
             order_payment: 'Payment',
             order_method: 'Method:',
             stripe_test_message: 'Payment processed with Stripe test mode.',
+            paypal_message: 'Payment processed with PayPal.',
             order_shipping_title: 'Shipping',
             order_no_tracking: 'No tracking number assigned yet.',
             order_history: 'History',

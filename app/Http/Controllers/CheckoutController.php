@@ -30,6 +30,7 @@ class CheckoutController extends Controller
             'prefill' => $prefill,
             'user' => $user,
             'stripeKey' => config('services.stripe.key'),
+            'paypalClientId' => config('services.paypal.client_id'),
         ]);
     }
 
@@ -64,8 +65,9 @@ class CheckoutController extends Controller
                 'payment_receipt' => ['required', 'image', 'max:5120'],
             ]
             : [
-                'payment_method' => ['required', 'in:stripe'],
-                'stripe_token' => ['required', 'string', 'max:255'],
+                'payment_method' => ['required', 'in:stripe,paypal'],
+                'stripe_token' => ['required_if:payment_method,stripe', 'nullable', 'string', 'max:255'],
+                'paypal_order_id' => ['required_if:payment_method,paypal', 'nullable', 'string', 'max:64'],
             ];
 
         $payment = $request->validate($paymentRules);
@@ -77,7 +79,7 @@ class CheckoutController extends Controller
 
         $orderNumber = 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid());
 
-        if ($country === 'US') {
+        if ($country === 'US' && $payment['payment_method'] === 'stripe') {
             $amount = (int) round($total * 100);
             $currency = config('services.stripe.currency', 'usd');
 
@@ -99,6 +101,54 @@ class CheckoutController extends Controller
             if ($response->failed()) {
                 $error = $response->json()['error']['message'] ?? 'No se pudo procesar el pago con Stripe.';
                 return back()->withInput()->with('error', $error);
+            }
+        }
+
+        if ($country === 'US' && $payment['payment_method'] === 'paypal') {
+            $baseUrl = config('services.paypal.mode') === 'live'
+                ? 'https://api-m.paypal.com'
+                : 'https://api-m.sandbox.paypal.com';
+            $currency = config('services.paypal.currency', 'USD');
+
+            try {
+                $tokenResponse = Http::asForm()
+                    ->withBasicAuth(config('services.paypal.client_id'), config('services.paypal.secret'))
+                    ->timeout(15)
+                    ->withOptions(['connect_timeout' => 10])
+                    ->post($baseUrl . '/v1/oauth2/token', [
+                        'grant_type' => 'client_credentials',
+                    ]);
+
+                if ($tokenResponse->failed()) {
+                    return back()->withInput()->with('error', 'No se pudo autenticar con PayPal.');
+                }
+
+                $captureResponse = Http::withToken($tokenResponse->json('access_token'))
+                    ->timeout(15)
+                    ->withOptions(['connect_timeout' => 10])
+                    ->post($baseUrl . '/v2/checkout/orders/' . $payment['paypal_order_id'] . '/capture');
+            } catch (\Exception $e) {
+                return back()->withInput()->with('error', 'No se pudo conectar con PayPal. Verificá tu conexión e intentá de nuevo.');
+            }
+
+            if ($captureResponse->failed()) {
+                $error = $captureResponse->json('details.0.description')
+                    ?? $captureResponse->json('message')
+                    ?? 'No se pudo procesar el pago con PayPal.';
+                return back()->withInput()->with('error', $error);
+            }
+
+            $capture = $captureResponse->json('purchase_units.0.payments.captures.0');
+            $capturedAmount = $capture['amount']['value'] ?? null;
+            $capturedCurrency = $capture['amount']['currency_code'] ?? $currency;
+
+            if (
+                $captureResponse->json('status') !== 'COMPLETED'
+                || ($capture['status'] ?? 'COMPLETED') !== 'COMPLETED'
+                || abs((float) $capturedAmount - $total) > 0.01
+                || $capturedCurrency !== $currency
+            ) {
+                return back()->withInput()->with('error', 'El pago de PayPal no se completó correctamente.');
             }
         }
 

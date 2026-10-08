@@ -80,13 +80,13 @@
             </div>
             <div class="section">
                 <h2>Pago</h2>
-                <p style="margin-bottom:12px;"><strong>Método:</strong> {{ $order->payment_method == 'binance' ? 'Binance Pay' : 'Pago Móvil Venezuela' }}</p>
+                <p style="margin-bottom:12px;"><strong>Método:</strong> {{ match($order->payment_method) { 'binance' => 'Binance Pay', 'stripe' => 'Stripe', 'paypal' => 'PayPal', default => 'Pago Móvil Venezuela' } }}</p>
                 @if($order->payment_method == 'binance')
                     <div class="pay-row">
                         <span>Correo: <code>Javierjbd13@gmail.com</code></span>
                         <button type="button" class="copy-btn" data-copy="Javierjbd13@gmail.com">Copiar</button>
                     </div>
-                @else
+                @elseif($order->payment_method == 'pago_movil')
                     <div class="pay-row">
                         <span>Teléfono: <code>04127141909</code></span>
                         <button type="button" class="copy-btn" data-copy="04127141909">Copiar</button>

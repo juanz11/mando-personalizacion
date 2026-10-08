@@ -74,6 +74,26 @@ img {
     color: #22d3ee;
 }
 
+.site-nav .btn {
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    padding: 10px 24px;
+    white-space: nowrap;
+}
+
+.site-nav .btn:hover {
+    color: #fff;
+}
+
+.site-nav form {
+    display: inline-flex;
+    align-items: center;
+}
+
 .menu-toggle {
     display: none;
     background: none;
