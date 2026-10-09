@@ -13,7 +13,8 @@ const controllerModels = {
                     { name: "Rojo", color: "rojo", price: 14990, type: "mate" },
                     { name: "Naranja Fluor", color: "naranja-fluor", price: 14990, type: "mate" },
                     { name: "Gris", color: "gris", price: 14990, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 14990, type: "mate" }
+                    { name: "Blanco", color: "blanco", price: 14990, type: "mate" },
+                    { name: "Bright Orange", color: "bright-orange", price: 14990, type: "mate", image: "/Bright%20Orange.png" }
                 ]
             },
             trim: {
@@ -288,6 +289,7 @@ const colorSwatches = {
     'gris': '#9e9e9e',
     'naranja-fluor': '#ff9800',
     'naranja': '#ff9800',
+    'bright-orange': '#ff7300',
     'rosa': '#e91e63',
     'rosas': '#e91e63',
     'amarillo': '#ffeb3b',
@@ -470,6 +472,9 @@ function createColorButton(color, part, partConfig) {
 }
 
 function getImageUrl(partConfig, color, layer) {
+    if (color.image) {
+        return color.image;
+    }
     if (color.color === 'default') {
         return `${partConfig.basePath}/${partConfig.previewImage || 'front.png'}`;
     }
