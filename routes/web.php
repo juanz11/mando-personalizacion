@@ -18,6 +18,9 @@ Route::post('cart/add', [\App\Http\Controllers\CartController::class, 'add'])->n
 
 Route::get('checkout', [CheckoutController::class, 'show'])->name('checkout.index');
 Route::post('checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('checkout/intent', [CheckoutController::class, 'intent'])->name('checkout.intent');
+Route::post('checkout/prepare', [CheckoutController::class, 'prepare'])->name('checkout.prepare');
+Route::get('checkout/return', [CheckoutController::class, 'paymentReturn'])->name('checkout.return');
 Route::get('mis-ordenes/{order}', [OrderController::class, 'show'])->name('orders.show');
 
 Route::middleware('guest')->group(function () {

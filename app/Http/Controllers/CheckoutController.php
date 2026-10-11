@@ -34,6 +34,84 @@ class CheckoutController extends Controller
         ]);
     }
 
+    public function intent()
+    {
+        $cart = session('cart', []);
+
+        if (empty($cart)) {
+            return response()->json(['error' => 'El carrito está vacío.'], 422);
+        }
+
+        $total = round(collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1)), 2);
+
+        try {
+            $response = Http::withToken(config('services.stripe.secret'))
+                ->asForm()
+                ->timeout(15)
+                ->withOptions(['connect_timeout' => 10])
+                ->post('https://api.stripe.com/v1/payment_intents', [
+                    'amount' => (int) round($total * 100),
+                    'currency' => config('services.stripe.currency', 'usd'),
+                    'automatic_payment_methods[enabled]' => 'true',
+                    'description' => 'RTE Custom Controller Order',
+                ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No se pudo conectar con Stripe.'], 502);
+        }
+
+        if ($response->failed()) {
+            return response()->json(['error' => $response->json('error.message') ?? 'No se pudo iniciar el pago.'], 502);
+        }
+
+        return response()->json(['clientSecret' => $response->json('client_secret')]);
+    }
+
+    public function prepare(Request $request)
+    {
+        $base = $request->validate($this->checkoutRules());
+
+        $base['shipping_address'] = $base['shipping_state'] . ' - ' . $base['shipping_address'];
+        unset($base['shipping_state']);
+
+        session(['pending_checkout' => $base]);
+
+        return response()->json(['ok' => true]);
+    }
+
+    public function paymentReturn(Request $request)
+    {
+        $paymentIntentId = $request->query('payment_intent');
+        $pending = session('pending_checkout');
+
+        if (!$paymentIntentId || !$pending || empty(session('cart', []))) {
+            return redirect()->route('checkout.index')->with('error', 'No se encontró el pago o la sesión expiró. Intentá de nuevo.');
+        }
+
+        $total = round(collect(session('cart', []))->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1)), 2);
+
+        try {
+            $response = Http::withToken(config('services.stripe.secret'))
+                ->timeout(15)
+                ->withOptions(['connect_timeout' => 10])
+                ->get('https://api.stripe.com/v1/payment_intents/' . $paymentIntentId);
+        } catch (\Exception $e) {
+            return redirect()->route('checkout.index')->with('error', 'No se pudo conectar con Stripe.');
+        }
+
+        if ($response->failed() || !in_array($response->json('status'), ['succeeded', 'processing'], true)) {
+            return redirect()->route('checkout.index')->with('error', 'El pago no se completó. Intentá de nuevo.');
+        }
+
+        if (abs($response->json('amount') - (int) round($total * 100)) > 1) {
+            return redirect()->route('checkout.index')->with('error', 'El monto del pago no coincide con el total.');
+        }
+
+        $order = $this->createOrder($pending, 'stripe', null);
+        session()->forget('pending_checkout');
+
+        return redirect()->route('orders.show', $order)->with('success', 'Compra realizada correctamente.');
+    }
+
     public function store(Request $request)
     {
         $cart = session('cart', []);
@@ -42,16 +120,7 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'El carrito está vacío.');
         }
 
-        $base = $request->validate([
-            'customer_name' => ['required', 'string', 'max:255'],
-            'customer_email' => ['required', 'email', 'max:255'],
-            'customer_phone' => ['required', 'string', 'max:50'],
-            'shipping_address' => ['required', 'string'],
-            'shipping_city' => ['required', 'string', 'max:255'],
-            'shipping_state' => ['required', 'string', 'max:255'],
-            'shipping_zip' => ['required', 'string', 'max:20'],
-            'shipping_country' => ['required', 'in:VE,US'],
-        ]);
+        $base = $request->validate($this->checkoutRules());
 
         $country = $base['shipping_country'];
         $base['shipping_address'] = $base['shipping_state'] . ' - ' . $base['shipping_address'];
@@ -66,7 +135,7 @@ class CheckoutController extends Controller
             ]
             : [
                 'payment_method' => ['required', 'in:stripe,paypal'],
-                'stripe_token' => ['required_if:payment_method,stripe', 'nullable', 'string', 'max:255'],
+                'stripe_payment_intent' => ['required_if:payment_method,stripe', 'nullable', 'string', 'max:64'],
                 'paypal_order_id' => ['required_if:payment_method,paypal', 'nullable', 'string', 'max:64'],
             ];
 
@@ -77,30 +146,26 @@ class CheckoutController extends Controller
             $receiptPath = $request->file('payment_receipt')->store('receipts', 'public');
         }
 
-        $orderNumber = 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid());
-
         if ($country === 'US' && $payment['payment_method'] === 'stripe') {
-            $amount = (int) round($total * 100);
-            $currency = config('services.stripe.currency', 'usd');
-
             try {
                 $response = Http::withToken(config('services.stripe.secret'))
-                    ->asForm()
                     ->timeout(15)
                     ->withOptions(['connect_timeout' => 10])
-                    ->post('https://api.stripe.com/v1/charges', [
-                        'amount' => $amount,
-                        'currency' => $currency,
-                        'source' => $payment['stripe_token'],
-                        'description' => 'RTE Order ' . $orderNumber,
-                    ]);
+                    ->get('https://api.stripe.com/v1/payment_intents/' . $payment['stripe_payment_intent']);
             } catch (\Exception $e) {
                 return back()->withInput()->with('error', 'No se pudo conectar con Stripe. Verificá tu conexión e intentá de nuevo.');
             }
 
             if ($response->failed()) {
-                $error = $response->json()['error']['message'] ?? 'No se pudo procesar el pago con Stripe.';
+                $error = $response->json('error.message') ?? 'No se pudo verificar el pago con Stripe.';
                 return back()->withInput()->with('error', $error);
+            }
+
+            if (
+                !in_array($response->json('status'), ['succeeded', 'processing'], true)
+                || abs($response->json('amount') - (int) round($total * 100)) > 1
+            ) {
+                return back()->withInput()->with('error', 'El pago de Stripe no se completó correctamente.');
             }
         }
 
@@ -152,11 +217,35 @@ class CheckoutController extends Controller
             }
         }
 
+        $order = $this->createOrder($base, $payment['payment_method'], $receiptPath);
+
+        return redirect()->route('orders.show', $order)->with('success', 'Compra realizada correctamente.');
+    }
+
+    private function checkoutRules(): array
+    {
+        return [
+            'customer_name' => ['required', 'string', 'max:255'],
+            'customer_email' => ['required', 'email', 'max:255'],
+            'customer_phone' => ['required', 'string', 'max:50'],
+            'shipping_address' => ['required', 'string'],
+            'shipping_city' => ['required', 'string', 'max:255'],
+            'shipping_state' => ['required', 'string', 'max:255'],
+            'shipping_zip' => ['required', 'string', 'max:20'],
+            'shipping_country' => ['required', 'in:VE,US'],
+        ];
+    }
+
+    private function createOrder(array $base, string $paymentMethod, ?string $receiptPath): Order
+    {
+        $cart = session('cart', []);
+        $total = round(collect($cart)->sum(fn ($item) => $item['price'] * ($item['quantity'] ?? 1)), 2);
+
         $order = Order::create([
             ...$base,
-            'payment_method' => $payment['payment_method'],
+            'payment_method' => $paymentMethod,
             'user_id' => Auth::id(),
-            'order_number' => $orderNumber,
+            'order_number' => 'RTE-' . now()->format('Ymd') . '-' . strtoupper(uniqid()),
             'status' => 'paid',
             'total' => $total,
             'items_json' => $cart,
@@ -176,7 +265,7 @@ class CheckoutController extends Controller
 
         session()->forget('cart');
 
-        return redirect()->route('orders.show', $order)->with('success', 'Compra realizada correctamente.');
+        return $order;
     }
 
     public function receipt(string $path)

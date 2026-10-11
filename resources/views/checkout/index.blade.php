@@ -175,29 +175,14 @@
                         <label class="pm-header" for="payment_stripe">
                             <input type="radio" id="payment_stripe" name="payment_method" value="stripe" {{ old('payment_method', 'stripe') === 'stripe' ? 'checked' : '' }} disabled>
                             <div>
-                                <strong data-i18n="stripe_title">Stripe (test card)</strong>
-                                <small data-i18n="stripe_desc">Pay by card using Stripe test mode.</small>
+                                <strong data-i18n="stripe_title">Tarjeta / Wallets / Cuotas</strong>
+                                <small data-i18n="stripe_desc">Pagá con tarjeta, Apple Pay, Google Pay, Klarna o Affirm.</small>
                             </div>
                         </label>
                         <div class="payment-details" id="stripe-details">
-                            <div style="display: flex; flex-direction: column; gap: 14px;">
-                                <div>
-                                    <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_number">Número de tarjeta</label>
-                                    <div id="card-number" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
-                                </div>
-                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                                    <div>
-                                        <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_expiry">Fecha de expiración</label>
-                                        <div id="card-expiry" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
-                                    </div>
-                                    <div>
-                                        <label style="display:block; font-size:0.875rem; margin-bottom:8px; color:#a1a5ab;" data-i18n="card_cvc">CVC</label>
-                                        <div id="card-cvc" class="stripe-field" style="background:#fff; color:#000; padding:12px 14px; border-radius:8px; min-height:44px;"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="payment-element"></div>
                             <div id="card-errors" role="alert" style="color:#ff6b6b; font-size:0.85rem; margin-top:6px;"></div>
-                            <input type="hidden" name="stripe_token" id="stripe_token" disabled>
+                            <input type="hidden" name="stripe_payment_intent" id="stripe_payment_intent" disabled>
                         </div>
                     </div>
                     <div class="payment-method" @if(!$paypalClientId) style="display:none;" @endif>
@@ -245,8 +230,8 @@
             binance_desc: 'Realizá el pago a este correo y subí el comprobante.',
             pagomovil_title: 'Pago Móvil Venezuela',
             pagomovil_desc: 'Usá estos datos y subí el capture del pago.',
-            stripe_title: 'Stripe (tarjeta de prueba)',
-            stripe_desc: 'Pagá con tarjeta usando Stripe en modo prueba.',
+            stripe_title: 'Tarjeta / Wallets / Cuotas',
+            stripe_desc: 'Pagá con tarjeta, Apple Pay, Google Pay, Klarna o Affirm.',
             paypal_desc: 'Pagá de forma segura con tu cuenta PayPal.',
             paypal_missing: 'Completá el pago con el botón de PayPal antes de confirmar.',
             paypal_error: 'Ocurrió un error con PayPal. Intentá de nuevo.',
@@ -275,8 +260,8 @@
             binance_desc: 'Send payment to this email and upload the receipt.',
             pagomovil_title: 'Pago Móvil Venezuela',
             pagomovil_desc: 'Use these details and upload the payment screenshot.',
-            stripe_title: 'Stripe (test card)',
-            stripe_desc: 'Pay by card using Stripe test mode.',
+            stripe_title: 'Card / Wallets / Installments',
+            stripe_desc: 'Pay by card, Apple Pay, Google Pay, Klarna or Affirm.',
             paypal_desc: 'Pay securely with your PayPal account.',
             paypal_missing: 'Please complete the PayPal payment using the button above.',
             paypal_error: 'There was an error with PayPal. Please try again.',
@@ -357,6 +342,7 @@
         if (country === 'US') {
             veMethods.style.display = 'none';
             usMethods.style.display = 'grid';
+            if (typeof initPaymentElement === 'function') initPaymentElement();
             veRadios.forEach(r => r.disabled = true);
             usInputs.forEach(i => i.disabled = false);
             receiptGroup.style.display = 'none';
@@ -433,47 +419,99 @@
     @if($stripeKey)
     const stripeLang = countrySelect.value === 'US' ? 'en' : 'es';
     const stripe = Stripe('{{ $stripeKey }}');
-    const elements = stripe.elements({ locale: stripeLang });
-    const stripeStyle = {
-        base: {
-            fontSize: '16px',
-            color: '#000',
-            fontFamily: '"Poppins", sans-serif',
-            '::placeholder': { color: '#6b7280' }
-        },
-        invalid: { color: '#dc2626' }
-    };
-
-    const cardNumber = elements.create('cardNumber', { style: stripeStyle, showIcon: true });
-    const cardExpiry = elements.create('cardExpiry', { style: stripeStyle });
-    const cardCvc = elements.create('cardCvc', { style: stripeStyle });
-
-    cardNumber.mount('#card-number');
-    cardExpiry.mount('#card-expiry');
-    cardCvc.mount('#card-cvc');
-
-    function showStripeError(event) {
-        const displayError = document.getElementById('card-errors');
-        displayError.textContent = event.error ? event.error.message : '';
-    }
-    [cardNumber, cardExpiry, cardCvc].forEach(el => el.addEventListener('change', showStripeError));
-
+    const csrfToken = document.querySelector('input[name="_token"]').value;
+    const cardErrors = document.getElementById('card-errors');
     const form = document.querySelector('form');
-    form.addEventListener('submit', function(event) {
+    let stripeElements = null;
+
+    async function initPaymentElement() {
+        if (stripeElements) return true;
+        try {
+            const res = await fetch('{{ route('checkout.intent') }}', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' }
+            });
+            const data = await res.json();
+            if (!data.clientSecret) {
+                cardErrors.textContent = data.error || 'No se pudo iniciar el pago.';
+                return false;
+            }
+            stripeElements = stripe.elements({
+                clientSecret: data.clientSecret,
+                locale: stripeLang,
+                appearance: {
+                    theme: 'night',
+                    variables: {
+                        colorPrimary: '#4ade80',
+                        colorBackground: '#0b0d10',
+                        colorText: '#ffffff',
+                        borderRadius: '8px',
+                        fontFamily: '"Poppins", sans-serif'
+                    }
+                }
+            });
+            stripeElements.create('payment', { layout: 'tabs' }).mount('#payment-element');
+            return true;
+        } catch (e) {
+            cardErrors.textContent = 'No se pudo iniciar el pago.';
+            return false;
+        }
+    }
+
+    form.addEventListener('submit', async function(event) {
         if (countrySelect.value !== 'US') return;
         const method = form.querySelector('input[name="payment_method"]:checked')?.value || 'stripe';
         if (method !== 'stripe') return;
         event.preventDefault();
+        cardErrors.textContent = '';
 
-        stripe.createToken(cardNumber).then(function(result) {
-            if (result.error) {
-                document.getElementById('card-errors').textContent = result.error.message;
-            } else {
-                document.getElementById('stripe_token').value = result.token.id;
-                form.submit();
-            }
+        if (!await initPaymentElement()) return;
+
+        const { error: submitError } = await stripeElements.submit();
+        if (submitError) {
+            cardErrors.textContent = submitError.message;
+            return;
+        }
+
+        try {
+            const fd = new FormData(form);
+            fd.set('payment_method', 'stripe');
+            await fetch('{{ route('checkout.prepare') }}', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken, 'Accept': 'application/json' },
+                body: fd
+            });
+        } catch (e) {}
+
+        const { error, paymentIntent } = await stripe.confirmPayment({
+            elements: stripeElements,
+            confirmParams: {
+                return_url: '{{ route('checkout.return') }}',
+                payment_method_data: {
+                    billing_details: {
+                        name: document.getElementById('customer_name').value,
+                        email: document.getElementById('customer_email').value,
+                        phone: document.getElementById('customer_phone').value
+                    }
+                }
+            },
+            redirect: 'if_required'
         });
+
+        if (error) {
+            cardErrors.textContent = error.message;
+            return;
+        }
+
+        if (paymentIntent && ['succeeded', 'processing'].includes(paymentIntent.status)) {
+            document.getElementById('stripe_payment_intent').value = paymentIntent.id;
+            form.submit();
+        } else {
+            cardErrors.textContent = 'El pago no se completó.';
+        }
     });
+
+    if (countrySelect.value === 'US') initPaymentElement();
     @endif
 </script>
 
