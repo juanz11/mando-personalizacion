@@ -9,12 +9,21 @@ const controllerModels = {
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
                     { name: "Negro", color: "negro", price: 14990, type: "mate" },
-                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 14990, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 14990, type: "mate", image: "/Mandos%20Azul%20mar%20%20Claro.png" },
                     { name: "Rojo", color: "rojo", price: 14990, type: "mate" },
                     { name: "Naranja Fluor", color: "naranja-fluor", price: 14990, type: "mate" },
                     { name: "Gris", color: "gris", price: 14990, type: "mate" },
                     { name: "Blanco", color: "blanco", price: 14990, type: "mate" },
-                    { name: "Bright Orange", color: "bright-orange", price: 14990, type: "mate", image: "/Bright%20Orange.png" }
+                    { name: "Bright Orange", color: "bright-orange", price: 14990, type: "mate", image: "/Bright%20Orange.png" },
+                    { name: "EEUU", color: "eeuu", price: 14990, type: "mate", image: "/EEUU.png", coversTouchpad: true },
+                    { name: "Fuego Azul", color: "fuego-azul", price: 14990, type: "mate", image: "/Fuego%20azul.png", coversTouchpad: true },
+                    { name: "Wolf", color: "wolf", price: 14990, type: "mate", image: "/Wolf.png", coversTouchpad: true },
+                    { name: "Carbon", color: "carbon", price: 14990, type: "mate", image: "/carbon.png", coversTouchpad: true },
+                    { name: "Flowers", color: "flowers", price: 14990, type: "mate", image: "/flowers.png", coversTouchpad: true },
+                    { name: "Galaxia", color: "galaxia", price: 14990, type: "mate", image: "/galaxia.png", coversTouchpad: true },
+                    { name: "Hojas", color: "hojas", price: 14990, type: "mate", image: "/hojas.png", coversTouchpad: true },
+                    { name: "Olas", color: "olas", price: 14990, type: "mate", image: "/olas.png", coversTouchpad: true },
+                    { name: "Payaso", color: "payaso", price: 14990, type: "mate", image: "/payaso.png", coversTouchpad: true }
                 ]
             },
             trim: {
@@ -23,7 +32,7 @@ const controllerModels = {
                 basePath: "https://customizer.diemgaming.com.ar/ps5/trim",
                 colors: [
                     { name: "Negro", color: "default", price: 0, type: "mate" },
-                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 6990, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 6990, type: "mate", image: "/D%20Pad-%20Azul%20Claro.png" },
                     { name: "Verde Manzana", color: "verde-manzana", price: 6990, type: "mate" },
                     { name: "Gris", color: "gris", price: 6990, type: "mate" },
                     { name: "Rojo", color: "rojo", price: 6990, type: "mate" },
@@ -41,7 +50,8 @@ const controllerModels = {
                     { name: "Azul", color: "azul", price: 5000, type: "mate" },
                     { name: "Verde", color: "verde", price: 5000, type: "mate" },
                     { name: "Rosa", color: "rosa", price: 5000, type: "mate" },
-                    { name: "Amarillo", color: "amarillo", price: 5000, type: "mate" }
+                    { name: "Amarillo", color: "amarillo", price: 5000, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate", image: "/Botones%20derechos.png" }
                 ]
             },
             dpad: {
@@ -53,7 +63,8 @@ const controllerModels = {
                     { name: "Rojo", color: "rojo", price: 5000, type: "mate" },
                     { name: "Azul", color: "azul", price: 5000, type: "mate" },
                     { name: "Verde", color: "verde", price: 5000, type: "mate" },
-                    { name: "Blanco", color: "blanco", price: 5000, type: "mate" }
+                    { name: "Blanco", color: "blanco", price: 5000, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate", image: "/Botones%20izquierdos.png" }
                 ]
             },
             touchpad: {
@@ -64,7 +75,8 @@ const controllerModels = {
                     { name: "Negro", color: "default", price: 0, type: "mate" },
                     { name: "Gris", color: "gris", price: 6990, type: "mate" },
                     { name: "Blanco", color: "blanco", price: 6990, type: "mate" },
-                    { name: "Azul", color: "azul", price: 6990, type: "mate" }
+                    { name: "Azul", color: "azul", price: 6990, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 6990, type: "mate", image: "/Touch%20Pad-%20Azul%20claro.png" }
                 ]
             },
             sticks: {
@@ -79,7 +91,10 @@ const controllerModels = {
                 ],
                 colors: [
                     { name: "Default", color: "default", price: 0, type: "mate" },
-                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate" },
+                    { name: "Azul Mar Claro", color: "azul-mar-claro", price: 5000, type: "mate", images: {
+                        sticksGenericLeftTop: "/azul-mar-claro-top.png",
+                        sticksGenericRightTop: "/azul-mar-claro-top%20derecho.png"
+                    } },
                     { name: "Rojo", color: "rojo", price: 5000, type: "mate" },
                     { name: "Naranja Fluor", color: "naranja-fluor", price: 5000, type: "mate" },
                     { name: "Rosa", color: "rosa", price: 5000, type: "mate" },
@@ -305,7 +320,15 @@ const colorSwatches = {
     'transparente': 'rgba(255,255,255,0.3)',
     'bicolor': 'linear-gradient(90deg, #d32f2f 0%, #1976d2 100%)',
     'palmeras': 'linear-gradient(45deg, #388e3c 0%, #ff9800 100%)',
-    'joker': 'linear-gradient(135deg, #7b1fa2 0%, #22d3ee 100%)'
+    'joker': 'linear-gradient(135deg, #7b1fa2 0%, #22d3ee 100%)',
+    'eeuu': 'linear-gradient(135deg, #1e3a6e 0%, #b22234 100%)',
+    'fuego-azul': 'linear-gradient(135deg, #1976d2 0%, #00e5ff 100%)',
+    'wolf': '#546e7a',
+    'flowers': 'linear-gradient(135deg, #e91e63 0%, #7b1fa2 100%)',
+    'galaxia': 'linear-gradient(135deg, #311b92 0%, #7b1fa2 50%, #e91e63 100%)',
+    'hojas': 'linear-gradient(135deg, #1b5e20 0%, #4caf50 100%)',
+    'olas': 'linear-gradient(135deg, #01579b 0%, #29b6f6 100%)',
+    'payaso': 'linear-gradient(135deg, #e53935 0%, #fdd835 50%, #8e24aa 100%)'
 };
 
 function getSwatchColor(color) {
@@ -472,6 +495,9 @@ function createColorButton(color, part, partConfig) {
 }
 
 function getImageUrl(partConfig, color, layer) {
+    if (layer && layer.layerId && color.images && color.images[layer.layerId]) {
+        return color.images[layer.layerId];
+    }
     if (color.image) {
         return color.image;
     }
@@ -492,6 +518,10 @@ function selectColor(part, color, price) {
 
     if (colorObj) {
         selectedColors[part] = colorObj;
+        if (colorObj.coversTouchpad && controllerParts.touchpad) {
+            const defaultTouchpad = controllerParts.touchpad.colors.find(c => c.color === 'default');
+            if (defaultTouchpad) selectedColors.touchpad = defaultTouchpad;
+        }
         updateController();
         updatePrice();
     }
