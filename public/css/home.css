@@ -326,8 +326,7 @@ section {
 /* ===== Platform banner ===== */
 .platform-banner {
     position: relative;
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    width: 100%;
     aspect-ratio: 720 / 298;
     overflow: hidden;
 }
@@ -339,6 +338,40 @@ section {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+}
+
+.pb-title {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    width: 60%;
+}
+
+.pb-title .section-eyebrow {
+    display: block;
+    font-size: clamp(0.6rem, 1vw, 0.78rem);
+    margin-bottom: 4px;
+}
+
+.pb-title h2 {
+    font-size: clamp(1rem, 2.1vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+.pb-title p {
+    font-size: clamp(0.58rem, 1vw, 0.8rem);
+    color: #c8cdd4;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+    margin: 4px 0 0;
 }
 
 .pb-side {

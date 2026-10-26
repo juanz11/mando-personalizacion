@@ -70,25 +70,23 @@
 
         <!-- Elegí tu plataforma -->
         <section id="plataformas">
-            <div class="container">
-                <div class="section-head">
+            <div class="platform-banner">
+                <img class="pb-layer" src="{{ asset('bannercompleto.png') }}" alt="" aria-hidden="true">
+
+                <div class="pb-title">
                     <span class="section-eyebrow" data-i18n="home_platforms_eyebrow">// ELEGÍ TU PLATAFORMA</span>
                     <h2 data-i18n="home_platforms_title">Creá un mando 100% personalizado</h2>
                     <p data-i18n="home_platforms_desc">Personalizá cada pieza de tu control y mejorá tu experiencia de juego.</p>
                 </div>
 
-                <div class="platform-banner">
-                    <img class="pb-layer" src="{{ asset('bannercompleto.png') }}" alt="" aria-hidden="true">
-
-                    <a href="/ps5" class="pb-side pb-left" aria-label="Personalizar mando PS5">
-                        <img class="pb-controller" src="{{ asset('ps5-controller.png') }}" alt="Mando PS5 personalizado">
-                        <img class="pb-logo" src="{{ asset('ps5-logo.png') }}" alt="">
-                    </a>
-                    <a href="/xbox" class="pb-side pb-right" aria-label="Personalizar mando Xbox">
-                        <img class="pb-controller" src="{{ asset('xbox-controller.png') }}" alt="Mando Xbox personalizado">
-                        <img class="pb-logo" src="{{ asset('xbox-logo.png') }}" alt="">
-                    </a>
-                </div>
+                <a href="/ps5" class="pb-side pb-left" aria-label="Personalizar mando PS5">
+                    <img class="pb-controller" src="{{ asset('ps5-controller.png') }}" alt="Mando PS5 personalizado">
+                    <img class="pb-logo" src="{{ asset('ps5-logo.png') }}" alt="">
+                </a>
+                <a href="/xbox" class="pb-side pb-right" aria-label="Personalizar mando Xbox">
+                    <img class="pb-controller" src="{{ asset('xbox-controller.png') }}" alt="Mando Xbox personalizado">
+                    <img class="pb-logo" src="{{ asset('xbox-logo.png') }}" alt="">
+                </a>
             </div>
         </section>
 
