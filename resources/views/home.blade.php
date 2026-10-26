@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTE Custom Controller | Mandos Personalizados PS5 y Xbox</title>
     <meta name="description" content="Mandos gaming premium personalizados para PS5 y Xbox, con tecnología anti-drift, gatillos digitales y componentes de nivel competitivo.">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ filemtime(public_path('css/home.css')) }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
