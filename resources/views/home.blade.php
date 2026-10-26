@@ -36,9 +36,9 @@
                 @endif
             </nav>
 
-            <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px;">
-                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-Venezuela.png') }}" alt="Venezuela" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
-                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;"><img src="{{ asset('Bandera-USA.png') }}" alt="United States" style="width:24px;height:24px;border-radius:50%;object-fit:cover;display:block;"></button>
+            <div class="country-switch" style="display:flex; align-items:center; gap:8px; margin-left:12px; flex-shrink:0;">
+                <button type="button" class="site-country-btn" data-country="VE" title="Venezuela" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><img src="{{ asset('Bandera-Venezuela.png') }}" alt="Venezuela" style="width:22px;height:22px;border-radius:50%;object-fit:cover;display:block;"></button>
+                <button type="button" class="site-country-btn" data-country="US" title="United States" style="background:none;border:2px solid transparent;border-radius:50%;padding:4px;cursor:pointer;font-size:1.25rem;flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;"><img src="{{ asset('Bandera-USA.png') }}" alt="United States" style="width:22px;height:22px;border-radius:50%;object-fit:cover;display:block;"></button>
             </div>
 
             <button class="menu-toggle" aria-label="Abrir menú">
