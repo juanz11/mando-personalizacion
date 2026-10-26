@@ -417,7 +417,7 @@
     });
 
     @if($stripeKey)
-    const stripeLang = countrySelect.value === 'US' ? 'en' : 'es';
+    const stripeLang = () => countrySelect.value === 'US' ? 'en' : 'es';
     const stripe = Stripe('{{ $stripeKey }}');
     const csrfToken = document.querySelector('input[name="_token"]').value;
     const cardErrors = document.getElementById('card-errors');
@@ -438,7 +438,7 @@
             }
             stripeElements = stripe.elements({
                 clientSecret: data.clientSecret,
-                locale: stripeLang,
+                locale: stripeLang(),
                 appearance: {
                     theme: 'night',
                     variables: {
@@ -450,7 +450,17 @@
                     }
                 }
             });
-            stripeElements.create('payment', { layout: 'tabs' }).mount('#payment-element');
+            stripeElements.create('payment', {
+                layout: 'tabs',
+                defaultValues: {
+                    billingDetails: {
+                        name: document.getElementById('customer_name').value,
+                        email: document.getElementById('customer_email').value,
+                        phone: document.getElementById('customer_phone').value,
+                        address: { country: 'US' }
+                    }
+                }
+            }).mount('#payment-element');
             return true;
         } catch (e) {
             cardErrors.textContent = 'No se pudo iniciar el pago.';

@@ -77,28 +77,16 @@
                     <p data-i18n="home_platforms_desc">Personalizá cada pieza de tu control y mejorá tu experiencia de juego.</p>
                 </div>
 
-                <div class="platform-grid">
-                    <a href="/ps5" class="platform-card">
-                        <div class="platform-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 12h.01M6 15h.01M17.5 9h.01M14.5 12h.01M2 12c0-3.5 1-6 3-6h14c2 0 3 2.5 3 6s-1 8-4 8c-1.5 0-2-1.5-3-3H9c-1 1.5-1.5 3-3 3-3 0-4-4.5-4-8Z"/>
-                            </svg>
-                        </div>
-                        <h3 data-i18n="home_ps5_title">Mandos PS5</h3>
-                        <p data-i18n="home_ps5_desc">Diseñá tu DualSense con la combinación de colores y texturas que quieras.</p>
-                        <span class="btn btn-primary" data-i18n="home_ps5_btn">PERSONALIZAR</span>
-                    </a>
+                <div class="platform-banner">
+                    <img class="pb-layer" src="{{ asset('bannercompleto.png') }}" alt="" aria-hidden="true">
 
-                    <a href="/xbox" class="platform-card">
-                        <div class="platform-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="9"/>
-                                <path d="M8 9c1.5 2 2.5 3 4 3s2.5-1 4-3M6 18c1.5-2.5 3.5-4 6-4s4.5 1.5 6 4"/>
-                            </svg>
-                        </div>
-                        <h3 data-i18n="home_xbox_title">Mandos Xbox</h3>
-                        <p data-i18n="home_xbox_desc">Armá tu control Xbox a medida, con la estética y el rendimiento que buscás.</p>
-                        <span class="btn btn-primary" data-i18n="home_xbox_btn">PERSONALIZAR</span>
+                    <a href="/ps5" class="pb-side pb-left" aria-label="Personalizar mando PS5">
+                        <img class="pb-controller" src="{{ asset('ps5-controller.png') }}" alt="Mando PS5 personalizado">
+                        <img class="pb-logo" src="{{ asset('ps5-logo.png') }}" alt="">
+                    </a>
+                    <a href="/xbox" class="pb-side pb-right" aria-label="Personalizar mando Xbox">
+                        <img class="pb-controller" src="{{ asset('xbox-controller.png') }}" alt="Mando Xbox personalizado">
+                        <img class="pb-logo" src="{{ asset('xbox-logo.png') }}" alt="">
                     </a>
                 </div>
             </div>
