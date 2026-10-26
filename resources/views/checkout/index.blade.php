@@ -452,6 +452,10 @@
             });
             stripeElements.create('payment', {
                 layout: 'tabs',
+                wallets: {
+                    applePay: 'auto',
+                    googlePay: 'auto'
+                },
                 defaultValues: {
                     billingDetails: {
                         name: document.getElementById('customer_name').value,
