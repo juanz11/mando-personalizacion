@@ -80,10 +80,12 @@
                 </div>
 
                 <a href="/ps5" class="pb-side pb-left" aria-label="Personalizar mando PS5">
+                    <img class="pb-half-bg" src="{{ asset('bannercompleto.png') }}" alt="" aria-hidden="true">
                     <img class="pb-controller" src="{{ asset('ps5-controller.png') }}" alt="Mando PS5 personalizado">
                     <img class="pb-logo" src="{{ asset('ps5-logo.png') }}" alt="">
                 </a>
                 <a href="/xbox" class="pb-side pb-right" aria-label="Personalizar mando Xbox">
+                    <img class="pb-half-bg" src="{{ asset('bannercompleto.png') }}" alt="" aria-hidden="true">
                     <img class="pb-controller" src="{{ asset('xbox-controller.png') }}" alt="Mando Xbox personalizado">
                     <img class="pb-logo" src="{{ asset('xbox-logo.png') }}" alt="">
                 </a>
@@ -104,7 +106,7 @@
                     <p data-i18n='home_support_desc'>Si ya tenés un mando y querés repararlo o personalizarlo, contactanos por WhatsApp o envialo por MRW.</p>
                 </div>
 
-                <div class='features-grid' style='grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); max-width: 820px; margin: 0 auto;'>
+                <div class='features-grid' style='grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));'>
                     <div class='feature-card' style='text-align: center;'>
                         <div class='feature-icon' style='margin-bottom: 16px;'>
                             <svg viewBox='0 0 24 24' fill='none' style='width: 44px; height: 44px; color: #25D366;' aria-hidden='true'>
