@@ -489,6 +489,112 @@ section {
     .pb-right .pb-half-bg { right: 0; }
 }
 
+/* ===== Designs carousel ===== */
+.designs-section {
+    padding: 80px 0 60px;
+    border-top: 1px solid #1d1f22;
+    background: #000;
+}
+
+.design-carousel-wrap {
+    position: relative;
+}
+
+.design-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+    padding: 10px 0 24px;
+}
+
+.design-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.design-card {
+    scroll-snap-align: center;
+    flex: 0 0 240px;
+    background-color: rgba(18, 18, 20, 0.7);
+    border: 1px solid #232427;
+    border-radius: 18px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.design-card:hover {
+    border-color: #3a3b40;
+    transform: translateY(-4px);
+}
+
+.dc-img {
+    position: relative;
+    height: 190px;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55));
+    transition: transform 0.3s ease;
+}
+
+.dc-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.design-card:hover .dc-img {
+    transform: translateY(-6px) scale(1.04);
+}
+
+.design-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 14px;
+}
+
+.dc-btn {
+    display: inline-block;
+    padding: 9px 22px;
+    font-size: 0.78rem;
+}
+
+.dc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid #3a3b40;
+    background: rgba(11, 13, 16, 0.85);
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.dc-arrow:hover {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: #4ade80;
+}
+
+.dc-prev { left: 12px; }
+.dc-next { right: 12px; }
+
+@media (max-width: 768px) {
+    .dc-arrow { display: none; }
+    .design-card { flex: 0 0 200px; }
+    .dc-img { height: 160px; }
+}
+
 /* ===== Features ===== */
 .features-section {
     background: linear-gradient(to bottom, rgba(217, 119, 6, 0.06), #0b0d10 30%);

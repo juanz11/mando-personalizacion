@@ -371,6 +371,18 @@ function init() {
         selectedColors[part] = controllerParts[part].colors[0];
     });
 
+    const designParam = new URLSearchParams(window.location.search).get('design');
+    if (designParam && controllerParts.frontShell) {
+        const preset = controllerParts.frontShell.colors.find(c => c.color === designParam);
+        if (preset) {
+            selectedColors.frontShell = preset;
+            if (preset.coversTouchpad && controllerParts.touchpad) {
+                const defaultTouchpad = controllerParts.touchpad.colors.find(c => c.color === 'default');
+                if (defaultTouchpad) selectedColors.touchpad = defaultTouchpad;
+            }
+        }
+    }
+
     setupTabs();
     setupRotate();
     setupMobileMenu();

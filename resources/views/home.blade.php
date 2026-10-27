@@ -92,6 +92,48 @@
             </div>
         </section>
 
+        <!-- Diseños destacados -->
+        @php
+            $designs = [
+                ['slug' => 'eeuu',       'name' => 'EEUU',       'img' => 'EEUU.png'],
+                ['slug' => 'fuego-azul', 'name' => 'Fuego Azul', 'img' => 'Fuego azul.png'],
+                ['slug' => 'wolf',       'name' => 'Wolf',       'img' => 'Wolf.png'],
+                ['slug' => 'carbon',     'name' => 'Carbon',     'img' => 'carbon.png'],
+                ['slug' => 'flowers',    'name' => 'Flowers',    'img' => 'flowers.png'],
+                ['slug' => 'galaxia',    'name' => 'Galaxia',    'img' => 'galaxia.png'],
+                ['slug' => 'hojas',      'name' => 'Hojas',      'img' => 'hojas.png'],
+                ['slug' => 'olas',       'name' => 'Olas',       'img' => 'olas.png'],
+                ['slug' => 'payaso',     'name' => 'Payaso',     'img' => 'payaso.png'],
+            ];
+        @endphp
+        <section class="designs-section">
+            <div class="container">
+                <div class="section-head">
+                    <span class="section-eyebrow" data-i18n="home_designs_eyebrow">// DISEÑOS DESTACADOS</span>
+                    <h2 data-i18n="home_designs_title">Controles con diseños completos</h2>
+                    <p data-i18n="home_designs_desc">Elegí uno de nuestros diseños exclusivos o usalo como base para crear el tuyo.</p>
+                </div>
+            </div>
+            <div class="design-carousel-wrap">
+                <button type="button" class="dc-arrow dc-prev" aria-label="Anterior" onclick="scrollDesigns(-1)">&#8249;</button>
+                <div class="design-carousel" id="designCarousel">
+                    @for($copy = 0; $copy < 2; $copy++)
+                        @foreach($designs as $design)
+                            <div class="design-card" @if($copy === 1) aria-hidden="true" @endif>
+                                <div class="dc-img">
+                                    <img class="dc-base" src="{{ asset('ps5-base.png') }}" alt="" aria-hidden="true" loading="lazy">
+                                    <img class="dc-shell" src="{{ asset($design['img']) }}" alt="{{ $design['name'] }}" loading="lazy">
+                                </div>
+                                <h3>{{ $design['name'] }}</h3>
+                                <a href="/ps5?design={{ $design['slug'] }}" class="btn btn-primary dc-btn" tabindex="{{ $copy === 1 ? '-1' : '0' }}" data-i18n="home_designs_btn">Ver control</a>
+                            </div>
+                        @endforeach
+                    @endfor
+                </div>
+                <button type="button" class="dc-arrow dc-next" aria-label="Siguiente" onclick="scrollDesigns(1)">&#8250;</button>
+            </div>
+        </section>
+
         <!-- Support -->
         <section class='support-section' style='padding: 80px 0; background: #0b0d10; border-top: 1px solid #26282c;'>
             <div class='container'>
@@ -289,6 +331,10 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_platforms_eyebrow: '// ELEGÍ TU PLATAFORMA',
                 home_platforms_title: 'Creá un mando 100% personalizado',
                 home_platforms_desc: 'Personalizá cada pieza de tu control y mejorá tu experiencia de juego.',
+                home_designs_eyebrow: '// DISEÑOS DESTACADOS',
+                home_designs_title: 'Controles con diseños completos',
+                home_designs_desc: 'Elegí uno de nuestros diseños exclusivos o usalo como base para crear el tuyo.',
+                home_designs_btn: 'Ver control',
                 home_ps5_title: 'Mandos PS5',
                 home_ps5_desc: 'Diseñá tu DualSense con la combinación de colores y texturas que quieras.',
                 home_ps5_btn: 'PERSONALIZAR',
@@ -353,6 +399,10 @@ Tel: 0251-110421 / 0412-7141909</code>
                 home_platforms_eyebrow: '// CHOOSE YOUR PLATFORM',
                 home_platforms_title: 'Create a 100% custom controller',
                 home_platforms_desc: 'Personalize every piece of your controller and improve your gaming experience.',
+                home_designs_eyebrow: '// FEATURED DESIGNS',
+                home_designs_title: 'Controllers with full designs',
+                home_designs_desc: 'Pick one of our exclusive designs or use it as the base for your own.',
+                home_designs_btn: 'View controller',
                 home_ps5_title: 'PS5 Controllers',
                 home_ps5_desc: 'Design your DualSense with the colors and textures you want.',
                 home_ps5_btn: 'CUSTOMIZE',
@@ -460,6 +510,35 @@ Tel: 0251-110421 / 0412-7141909</code>
             setTimeout(() => btn.textContent = original, 2000);
         });
     }
+
+    function scrollDesigns(dir) {
+        const track = document.getElementById('designCarousel');
+        if (!track) return;
+        const card = track.querySelector('.design-card');
+        const step = card ? card.offsetWidth + 20 : 260;
+        track.scrollBy({ left: dir * step * 2, behavior: 'smooth' });
+    }
+
+    (function() {
+        const track = document.getElementById('designCarousel');
+        if (!track) return;
+        let paused = false;
+
+        track.addEventListener('mouseenter', () => paused = true);
+        track.addEventListener('mouseleave', () => paused = false);
+        track.addEventListener('touchstart', () => paused = true, { passive: true });
+        track.addEventListener('touchend', () => setTimeout(() => paused = false, 1500), { passive: true });
+
+        (function autoScroll() {
+            if (!paused && track.scrollWidth > track.clientWidth) {
+                track.scrollLeft += 0.6;
+                if (track.scrollLeft >= track.scrollWidth / 2) {
+                    track.scrollLeft -= track.scrollWidth / 2;
+                }
+            }
+            requestAnimationFrame(autoScroll);
+        })();
+    })();
 </script>
 
 <script>
